@@ -1,0 +1,31 @@
+# Build directory (CMake outputs, executables, object files)
+/build/
+
+# Compiled executables
+*.exe
+*.o
+*.a
+*.so
+transformer
+transformer_server
+
+# Large Datasets and Checkpoints
+*.bin
+data/*.bin
+
+# Output logs and temporary files
+out.txt
+*.log
+
+# Python cache
+__pycache__/
+*.pyc
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.swp
