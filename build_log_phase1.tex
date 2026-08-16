@@ -3592,14 +3592,208 @@ When discussing this deployment in a Software Engineering interview, emphasize t
 
 \subsection{Pipelined Asynchronous Pre-Fetching for Latency Masking}
 \textbf{The Root Cause (Problem):} While batching the generation solved the N+1 network latency, it introduced a severe UI freeze. Generating 64 tokens in a single request took Render's 0.1 vCPU over 20-30 seconds to compute. During this entire time, the UI was completely unresponsive, providing zero visual feedback to the user until the massive JSON payload finally arrived.
+  step=     0  phase=   MATH  loss=  5.6703  lr=1.00e-03  speed=    0.0 step/s
+  step=   100  phase=   MATH  loss=  2.4458  lr=1.00e-03  speed=    0.3 step/s
+  step=   200  phase=   MATH  loss=  2.4025  lr=1.00e-03  speed=    0.3 step/s
+  step=   300  phase=   MATH  loss=  2.2678  lr=1.00e-03  speed=    0.3 step/s
+
+
+  CURRICULUM TRANSITION: MATH  STORIES  (step 400)
+
+  [CKPT] Saved 1102 KB  checkpoint_phase0.bin
+  [INFO] Dataset swapped to data/stories.bin
+         Tokens available: 1904212181
+
+  step=   400  phase=STORIES  loss= 11.1010  lr=1.00e-03  speed=    0.3 step/s
+  step=   500  phase=STORIES  loss=  2.9067  lr=1.00e-03  speed=    0.3 step/s
+  step=   600  phase=STORIES  loss=  2.4937  lr=1.00e-03  speed=    0.3 step/s
+  step=   700  phase=STORIES  loss=  2.4287  lr=1.00e-03  speed=    0.3 step/s
+
+
+  CURRICULUM TRANSITION: STORIES  WIKI  (step 800)
+
+  [CKPT] Saved 1102 KB  checkpoint_phase1.bin
+  [INFO] Dataset swapped to data/wiki.bin
+         Tokens available: 273058991
+
+  step=   800  phase=   WIKI  loss=  3.7861  lr=1.00e-03  speed=    0.3 step/s
+  step=   900  phase=   WIKI  loss=  2.7364  lr=1.00e-03  speed=    0.3 step/s
+  step=  1000  phase=   WIKI  loss=  2.6644  lr=1.00e-03  speed=    0.3 step/s
+  step=  1100  phase=   WIKI  loss=  2.6388  lr=1.00e-03  speed=    0.3 step/s
+
+
+  TRAINING COMPLETE  (1200 steps)
+
+
+  [CKPT] Saved 1102 KB  checkpoint_final.bin
+
+[SUMMARY]
+  Total steps  : 1200
+  Total time   : 4217.3 s
+  Avg speed    : 0.28 step/s
+  Final ckpt   : checkpoint_final.bin
+\end{verbatim}
+
+%% ============================================================
+\section{Phase 6 - Cloud Deployment \& Large-Scale Training}
+%% ============================================================
+
+\begin{tcolorbox}[designbox, title={Phase 6 Goal}]
+  Deploy the C++ Deep Learning Engine to a high-performance Google Cloud Platform (GCP) Compute Engine instance to perform a 7-day continuous training run on a 3.1 million parameter model across a 50,000-step curriculum.
+\end{tcolorbox}
+
+\subsection{Cloud Hardware Selection}
+Due to local hardware constraints (8-core laptop without sustained thermal headroom), training was migrated to a Google Cloud \texttt{c2-standard-8} instance. The C2 instance family features Intel Cascade Lake processors with high memory bandwidth and AVX-512 vector instructions, ensuring maximal throughput for the C++ engine's matrix operations without thermal throttling during the 168-hour run.
+
+\subsection{Deployment Pipeline}
+The deployment process utilised the Google Cloud CLI (\texttt{gcloud}) directly from the local Windows Subsystem for Linux (WSL) environment:
+\begin{enumerate}
+    \item \textbf{Provisioning:} A 50 GB Ubuntu 22.04 LTS boot disk was selected to accommodate the 4.3 GB \texttt{.bin} dataset.
+    \item \textbf{Secure Transfer:} The entire \texttt{Project} directory was transferred using \texttt{gcloud compute scp --recurse}.
+    \item \textbf{Compilation:} To fully leverage the cloud architecture, the engine was recompiled directly on the VM using \texttt{cmake} and \texttt{make}.
+\end{enumerate}
+
+\subsection{The "Golden Ratio" Training Command}
+To fit a meaningful curriculum into exactly 7 days (168 hours) on 8 CPU cores, the model dimensions and step thresholds were mathematically balanced. A 3.1 million parameter architecture was selected:
+\begin{itemize}
+    \item \texttt{d\_model = 256}
+    \item \texttt{n\_heads = 4}
+    \item \texttt{n\_layers = 4}
+\end{itemize}
+
+The curriculum was scheduled for 50,000 total steps:
+\begin{itemize}
+    \item \textbf{Math Phase:} 5,000 steps
+    \item \textbf{Stories Phase:} 20,000 steps (Transition at 5,000)
+    \item \textbf{Wikipedia Phase:} 25,000 steps (Transition at 25,000; Total 50,000)
+\end{itemize}
+
+The training was launched asynchronously using \texttt{nohup} to ensure persistence across SSH session disconnects:
+\begin{lstlisting}[language=bash, caption={Cloud Training Command}, numbers=none]
+nohup ./build/transformer --d_model 256 --n_heads 4 --n_layers 4 \
+  --phase_steps 5000,25000,50000 > training.log 2>&1 &
+\end{lstlisting}
+
+%%  Final project summary 
+\section*{Project Complete --- Full Repository Summary}
+\addcontentsline{toc}{section}{Project Complete}
+
+\begin{table}[!ht]
+\centering
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{@{} l l r @{}}
+\toprule
+\textbf{Component} & \textbf{Key files} & \textbf{Lines} \\
+\midrule
+Math Engine     & tensor, node, ops, autograd           & $\approx 1{,}800$ \\
+Neural Modules  & linear, layernorm, attention, transformer & $\approx 2{,}200$ \\
+Data Pipeline   & dataloader, curriculum                & $\approx 600$ \\
+Optimizer       & AdamW                                 & $\approx 200$ \\
+Loss            & Fused cross-entropy                   & $\approx 150$ \\
+Training Loop   & main.cpp                              & $\approx 300$ \\
+Tests (GTest)   & 7 files, 52+ assertions               & $\approx 1{,}000$ \\
+Benchmarks      & matmul, attention, dataloader         & $\approx 450$ \\
+Server          & http\_server, inference\_handler      & $\approx 500$ \\
+Build           & CMakeLists.txt                        & $\approx 130$ \\
+\midrule
+\textbf{Total}  &                                       & $\approx 7{,}300$ \\
+\bottomrule
+\end{tabular}
+\caption{Complete repository inventory --- C++17, zero external runtime dependencies.}
+\end{table}
+
+
+%%  End of Document
+\vfill
+\begin{center}
+  \textcolor{accentgold}{\rule{8cm}{0.8pt}}\\[0.4em]
+  {\small\textcolor{gray}%
+    {C++ Deep Learning Engine --- Build Log \textbar{}
+     Steps 1.1--1.4, 2.1--2.4, 3.1--3.3, 4.1--4.2, 5.1--5.3 --- COMPLETE \textbar{}
+     \today}}MiKTeX
+\end{center}
+
+%% ============================================================
+\newpage
+\section{Phase 6 --- The Greedy Decoding Trap \& Temperature Sampling}
+%% ============================================================
+
+\begin{tcolorbox}[designbox, title={Phase 6 Problem Statement}]
+  During the initial integration of the C++ Inference Server with the modern web frontend, a critical issue arose: the AI generated infinitely looping text sequences (e.g., ``It is a big box with a big box with a big box...'').
+\end{tcolorbox}
+
+\subsection{Understanding the Loop (Argmax Greedy Decoding)}
+Initially, the \texttt{inference\_handler.cpp} utilised a mathematically pure ``Greedy Decoding'' strategy (i.e., \texttt{argmax} over the output logit array). While this correctly selected the single highest probability token at each step, it caused catastrophic failure in continuous generation. 
+
+Because there was absolutely zero stochasticity (randomness) in the output selection, the model was mathematically doomed to get stuck in an infinite loop if the optimal next word led back to the beginning of a phrase it had just generated. A base auto-regressive model requires temperature scaling and random sampling to mimic human creativity and break out of inescapable local maxima.
+
+\subsection{The Solution: Implementing Temperature Sampling in C++}
+Instead of relying on \texttt{greedy\_decode()}, we implemented a robust \texttt{sample\_with\_temperature()} function directly into the C++ inference handler. 
+
+The mathematics implemented involve converting the raw logits into a proper probability distribution using the Softmax function, divided by a $Temperature$ hyperparameter $T$:
+\[
+P(x_i) = \frac{\exp(\text{logit}_i / T)}{\sum_{j} \exp(\text{logit}_j / T)}
+\]
+By scaling the logits before exponentiation, we flatten the probability distribution. A temperature of $0.8$ introduces enough randomness to allow the 2nd or 3rd most probable words to occasionally be selected, thereby breaking any potential loops. 
+
+In C++, this was efficiently implemented using \texttt{std::discrete\_distribution} and a thread-local \texttt{std::mt19937} random number generator to mathematically ``roll a weighted dice'' across the scaled probability array. The \texttt{temperature} is now extracted dynamically from the frontend's JSON API request, allowing for real-time adjustment of model creativity!
+
+%% ============================================================
+\newpage
+\section{Phase 7 --- Full-Stack Cloud Deployment \& Systems Architecture}
+%% ============================================================
+
+\begin{tcolorbox}[designbox, title={Phase 7 Problem Statement}]
+  To showcase the C++ engine in a real-world portfolio, a React frontend was developed to communicate with the C++ backend. The goal was a robust, \textbf{zero-cost} cloud architecture. However, deploying a custom POSIX socket server and a React app introduced complex networking bugs and severe CPU constraints on free-tier infrastructure.
+\end{tcolorbox}
+
+\subsection{Architectural Decisions: Vercel \& Render}
+To achieve a highly available, zero-cost deployment, the architecture was split:
+\begin{itemize}
+    \item \textbf{Frontend (Vercel):} The React (Vite) frontend was deployed to Vercel. Vercel is highly optimised for static assets and CDN distribution, making it the perfect platform for the UI.
+    \item \textbf{Backend (Render):} The C++ Deep Learning Engine was containerised using Docker and deployed as a Web Service on Render. Render offers a generous Free Tier that natively supports Dockerfiles, avoiding the need for heavy, paid EC2 instances.
+\end{itemize}
+This separation of concerns allowed us to map the React frontend's API calls dynamically via \texttt{VITE\_API\_BASE\_URL} environment variables, ensuring local development and production environments function seamlessly.
+
+\subsection{Networking Bug: HTTP/2 Header Case-Sensitivity}
+Upon successful deployment, the Vercel frontend failed to communicate with the Render backend, returning empty responses. 
+\newline\newline
+\textbf{The Root Cause:} The custom C++ POSIX socket server extracted the JSON payload size by explicitly searching for the string \texttt{"Content-Length: "}. However, modern browsers and the Fetch API (utilising HTTP/2 or proxies) automatically convert HTTP headers to lowercase (\texttt{"content-length: "}).
+\newline\newline
+\textbf{The Solution:} The \texttt{http\_server.cpp} was patched with a case-insensitive string search function (using \texttt{std::tolower}) to accurately parse the \texttt{content-length} header regardless of the client's HTTP version or proxy modifications. This highlights a deep understanding of OSI Layer 7 protocols and custom socket programming.
+
+\subsection{Performance Trade-offs: The 0.1 vCPU Starvation Limit}
+After resolving the networking issue, inference requests to the Render deployment took over 20 seconds and often timed out, whereas the exact same model ran in milliseconds locally.
+\newline\newline
+\textbf{The Root Cause:} The engine was heavily optimised with \texttt{\#pragma omp parallel for} (OpenMP) to achieve maximum parallel throughput. Render's Free Tier provides exactly \textbf{0.1 vCPU}. When the C++ binary attempted to spawn threads for all available logical cores on the host machine, the OS kernel relentlessly paused and context-switched the threads to enforce the 0.1 vCPU quota. This catastrophic context-switching overhead completely starved the application.
+\newline\newline
+\textbf{The Solution \& Trade-off:} We injected \texttt{ENV OMP\_NUM\_THREADS=1} into the \texttt{Dockerfile}. 
+\newline
+By forcing single-threaded execution, we \textit{sacrificed maximum parallel throughput} in exchange for \textit{stable, predictable latency}. The C++ engine now executes requests in under a second on Render because the single thread runs uninterrupted without incurring kernel context-switching penalties.
+
+\subsection{Interview Presentation Tips}
+When discussing this deployment in a Software Engineering interview, emphasize the following points to demonstrate senior-level systems design knowledge:
+\begin{enumerate}
+    \item \textbf{Deep Protocol Knowledge:} Highlight the HTTP/2 lowercase header bug. It proves you understand the abstractions beneath standard frameworks (like Express.js or Flask) and can debug raw TCP/HTTP streams.
+    \item \textbf{OS/Kernel Awareness:} Discussing the OpenMP thread starvation issue demonstrates a profound understanding of how Docker CPU quotas (\texttt{cgroups}) interact with the Linux kernel scheduler. It shows you don't just write code, but you understand how it executes on bare metal.
+    \item \textbf{Engineering Trade-offs:} Clearly articulate the decision to disable multithreading. Interviewers look for candidates who understand that "faster" locally does not always mean "better" in constrained cloud environments. Emphasize the trade-off: sacrificing theoretical max throughput for guaranteed operational stability.
+\end{enumerate}
+
+\subsection{The N+1 Network Latency Problem}
+\textbf{The Root Cause (Problem):} The React frontend was originally designed to simulate a real-time streaming effect by making a new HTTP POST request for \textit{every single character} generated by the model. When generating a 64-character story, the browser made 64 separate requests to the C++ backend. With typical internet latency (~200ms round trip), this added over 12 seconds of pure network overhead. Furthermore, since the stateless HTTP C++ server lacks a Key-Value (KV) cache, it redundantly recomputed the entire forward pass from scratch for every additional character, drastically degrading performance.
+\newline\newline
+\textbf{The Solution (Batch Generation):} We architecturally shifted the autoregressive generation loop from the frontend into the C++ backend. The \texttt{/predict} API was upgraded to accept a \texttt{max\_tokens} parameter. The C++ \texttt{inference\_handler} now loops internally, appending characters to the prompt and running forward passes until the sequence is complete, returning the entire generated string in a \textit{single} HTTP response. The React frontend was updated to make just 1 API call, and the typing effect was simulated locally via JavaScript timeouts. This completely eliminated the N+1 network latency, reducing wait times by over 80\%.
+
+\subsection{Pipelined Asynchronous Pre-Fetching for Latency Masking}
+\textbf{The Root Cause (Problem):} While batching the generation solved the N+1 network latency, it introduced a severe UI freeze. Generating 64 tokens in a single request took Render's 0.1 vCPU over 20-30 seconds to compute. During this entire time, the UI was completely unresponsive, providing zero visual feedback to the user until the massive JSON payload finally arrived.
 \newline\newline
 \textbf{The Solution (Pipeline Streaming):} We implemented a mathematically precise asynchronous pre-fetching pipeline in React to perfectly mask the server's slow compute time. The architecture works as follows:
 \begin{enumerate}
     \item \textbf{Chunked Requests:} We split the 64-token request into smaller chunks of 5 tokens.
     \item \textbf{Parallel Execution:} As soon as the first 5-token chunk arrives, the React frontend immediately fires the \textit{next} asynchronous \texttt{fetch} request for the subsequent 5 tokens.
-    \item \textbf{Latency Masking via Animation:} While the next request travels over the network and the Render server computes the response (taking approximately 10 seconds total), the React frontend slowly types out the \textit{current} 5 tokens on the screen.
+    \item \textbf{Latency Masking via Animation:} While the next request travels over the network and the Render server computes the response (taking approximately 1.5 seconds compute + 0.4 seconds network delay = 1.9 seconds total), the React frontend slowly types out the \textit{current} 5 tokens on the screen.
 \end{enumerate}
-By precisely calculating the total delay (10s compute + 0.4s network = 10.4s) and dividing it by the chunk size (5 characters), we set the typing animation delay to exactly \textbf{2.08 seconds (2080ms) per character}. By the time the UI finishes typing the 5th character, the next chunk arrives seamlessly. To the user, the AI appears to be typing continuously with zero stuttering or freezing, completely masking the fact that the backend CPU is severely underpowered.
+By precisely calculating the total delay (1.9s) and dividing it by the chunk size (5 characters), we set the typing animation delay to exactly \textbf{380 milliseconds per character}. By the time the UI finishes typing the 5th character, the next chunk arrives seamlessly. To the user, the AI appears to be typing continuously with zero stuttering or freezing, completely masking the fact that the backend CPU is severely underpowered.
 \newline\newline
 \textbf{Interview Presentation Tip:} This is a classic example of using advanced frontend systems engineering (JavaScript Promises, asynchronous loops, and animation buffers) to solve backend hardware limitations. It proves you can identify compute bottlenecks and engineer creative architectural solutions that drastically improve UX without requiring more expensive cloud infrastructure.
 

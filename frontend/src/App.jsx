@@ -118,9 +118,9 @@ export default function App() {
 
         // 3. ANIMATION: Take our time typing out the CURRENT batch on screen 
         // while the server computes the next batch in the background.
-        // We calculate delay dynamically: 10 seconds compute time + 0.4s network delay
-        // 10.4s / 5 chars = 2080ms per char
-        const typingDelayMs = activeMode === 'math' ? 0 : 2080; 
+        // We calculate delay dynamically: 1.5 seconds compute time + 0.4s network delay
+        // 1.9s / 5 chars = 380ms per char
+        const typingDelayMs = activeMode === 'math' ? 0 : 380; 
         
         for (let i = 0; i < chunkText.length; i++) {
           if (controller.signal.aborted) break;
