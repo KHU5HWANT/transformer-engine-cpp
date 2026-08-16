@@ -19,6 +19,8 @@ COPY optim/ optim/
 COPY loss/ loss/
 COPY data_loader/ data_loader/
 COPY server/ server/
+COPY tests/ tests/
+COPY benchmarks/ benchmarks/
 
 # Build the project
 RUN mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Release .. && make
