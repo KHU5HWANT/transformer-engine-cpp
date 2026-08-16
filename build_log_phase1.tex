@@ -3544,4 +3544,45 @@ By scaling the logits before exponentiation, we flatten the probability distribu
 
 In C++, this was efficiently implemented using \texttt{std::discrete\_distribution} and a thread-local \texttt{std::mt19937} random number generator to mathematically ``roll a weighted dice'' across the scaled probability array. The \texttt{temperature} is now extracted dynamically from the frontend's JSON API request, allowing for real-time adjustment of model creativity!
 
+%% ============================================================
+\newpage
+\section{Phase 7 --- Full-Stack Cloud Deployment \& Systems Architecture}
+%% ============================================================
+
+\begin{tcolorbox}[designbox, title={Phase 7 Problem Statement}]
+  To showcase the C++ engine in a real-world portfolio, a React frontend was developed to communicate with the C++ backend. The goal was a robust, \textbf{zero-cost} cloud architecture. However, deploying a custom POSIX socket server and a React app introduced complex networking bugs and severe CPU constraints on free-tier infrastructure.
+\end{tcolorbox}
+
+\subsection{Architectural Decisions: Vercel \& Render}
+To achieve a highly available, zero-cost deployment, the architecture was split:
+\begin{itemize}
+    \item \textbf{Frontend (Vercel):} The React (Vite) frontend was deployed to Vercel. Vercel is highly optimised for static assets and CDN distribution, making it the perfect platform for the UI.
+    \item \textbf{Backend (Render):} The C++ Deep Learning Engine was containerised using Docker and deployed as a Web Service on Render. Render offers a generous Free Tier that natively supports Dockerfiles, avoiding the need for heavy, paid EC2 instances.
+\end{itemize}
+This separation of concerns allowed us to map the React frontend's API calls dynamically via \texttt{VITE\_API\_BASE\_URL} environment variables, ensuring local development and production environments function seamlessly.
+
+\subsection{Networking Bug: HTTP/2 Header Case-Sensitivity}
+Upon successful deployment, the Vercel frontend failed to communicate with the Render backend, returning empty responses. 
+\newline\newline
+\textbf{The Root Cause:} The custom C++ POSIX socket server extracted the JSON payload size by explicitly searching for the string \texttt{"Content-Length: "}. However, modern browsers and the Fetch API (utilising HTTP/2 or proxies) automatically convert HTTP headers to lowercase (\texttt{"content-length: "}).
+\newline\newline
+\textbf{The Solution:} The \texttt{http\_server.cpp} was patched with a case-insensitive string search function (using \texttt{std::tolower}) to accurately parse the \texttt{content-length} header regardless of the client's HTTP version or proxy modifications. This highlights a deep understanding of OSI Layer 7 protocols and custom socket programming.
+
+\subsection{Performance Trade-offs: The 0.1 vCPU Starvation Limit}
+After resolving the networking issue, inference requests to the Render deployment took over 20 seconds and often timed out, whereas the exact same model ran in milliseconds locally.
+\newline\newline
+\textbf{The Root Cause:} The engine was heavily optimised with \texttt{\#pragma omp parallel for} (OpenMP) to achieve maximum parallel throughput. Render's Free Tier provides exactly \textbf{0.1 vCPU}. When the C++ binary attempted to spawn threads for all available logical cores on the host machine, the OS kernel relentlessly paused and context-switched the threads to enforce the 0.1 vCPU quota. This catastrophic context-switching overhead completely starved the application.
+\newline\newline
+\textbf{The Solution \& Trade-off:} We injected \texttt{ENV OMP\_NUM\_THREADS=1} into the \texttt{Dockerfile}. 
+\newline
+By forcing single-threaded execution, we \textit{sacrificed maximum parallel throughput} in exchange for \textit{stable, predictable latency}. The C++ engine now executes requests in under a second on Render because the single thread runs uninterrupted without incurring kernel context-switching penalties.
+
+\subsection{Interview Presentation Tips}
+When discussing this deployment in a Software Engineering interview, emphasize the following points to demonstrate senior-level systems design knowledge:
+\begin{enumerate}
+    \item \textbf{Deep Protocol Knowledge:} Highlight the HTTP/2 lowercase header bug. It proves you understand the abstractions beneath standard frameworks (like Express.js or Flask) and can debug raw TCP/HTTP streams.
+    \item \textbf{OS/Kernel Awareness:} Discussing the OpenMP thread starvation issue demonstrates a profound understanding of how Docker CPU quotas (\texttt{cgroups}) interact with the Linux kernel scheduler. It shows you don't just write code, but you understand how it executes on bare metal.
+    \item \textbf{Engineering Trade-offs:} Clearly articulate the decision to disable multithreading. Interviewers look for candidates who understand that "faster" locally does not always mean "better" in constrained cloud environments. Emphasize the trade-off: sacrificing theoretical max throughput for guaranteed operational stability.
+\end{enumerate}
+
 \end{document}
