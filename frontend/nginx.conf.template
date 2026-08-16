@@ -1,0 +1,62 @@
+# ════════════════════════════════════════════════════════════════════════════
+# nginx.conf.template — served by the transformer-chat Docker image
+#
+# Variables substituted at container start by envsubst:
+#   ${CPP_SERVER_HOST}  — hostname/IP of the C++ inference server
+#   ${CPP_SERVER_PORT}  — port of the C++ inference server (default 8080)
+#   ${NGINX_PORT}       — port nginx listens on (default 80)
+#
+# Reverse-proxy design:
+#   Browser → GET/POST /api/...  → nginx → http://cpp-server/...
+#
+# This means the browser only ever talks to nginx (same origin).
+# No CORS headers are needed on the C++ server.
+# ════════════════════════════════════════════════════════════════════════════
+
+server {
+    listen       ${NGINX_PORT};
+    server_name  _;
+
+    root   /usr/share/nginx/html;
+    index  index.html;
+
+    # ── Security headers ──────────────────────────────────────────────────
+    add_header X-Frame-Options        "DENY"            always;
+    add_header X-Content-Type-Options "nosniff"         always;
+    add_header Referrer-Policy        "no-referrer"     always;
+    add_header X-XSS-Protection       "1; mode=block"   always;
+
+    # ── Gzip ─────────────────────────────────────────────────────────────
+    gzip on;
+    gzip_types text/plain text/css application/json application/javascript text/xml application/xml image/svg+xml;
+    gzip_min_length 1024;
+    gzip_vary on;
+
+    # ── Static assets: long cache TTL ────────────────────────────────────
+    location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff2?|ttf|eot)$ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+        try_files $uri =404;
+    }
+
+    # ── Reverse proxy: /api/* → C++ inference server ─────────────────────
+    # This is the key security+CORS bypass.
+    # The browser sends POST /api/predict → nginx rewrites to POST /predict
+    location /api/ {
+        proxy_pass         http://${CPP_SERVER_HOST}:${CPP_SERVER_PORT}/;
+        proxy_http_version 1.1;
+        proxy_set_header   Host              $host;
+        proxy_set_header   X-Real-IP         $remote_addr;
+        proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_read_timeout 30s;
+        proxy_connect_timeout 5s;
+
+        # Buffer settings for streaming-style responses
+        proxy_buffering    off;
+    }
+
+    # ── SPA fallback: all other routes → index.html ──────────────────────
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+}
