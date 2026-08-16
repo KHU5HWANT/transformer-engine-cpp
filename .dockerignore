@@ -1,0 +1,23 @@
+# Ignore frontend completely for backend Docker build
+frontend/
+
+# Ignore local build artifacts
+build/
+*.exe
+*.o
+*.a
+*.so
+
+# Ignore big data
+data/
+
+# Ignore Python caches
+__pycache__/
+*.pyc
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Only keep the checkpoint files we specifically COPY in Dockerfile
+# We don't ignore *.bin here because Dockerfile copies them.

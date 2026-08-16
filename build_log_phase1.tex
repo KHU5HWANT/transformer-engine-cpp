@@ -1,5 +1,5 @@
 %% ============================================================
-%%  C++ Deep Learning Engine — Build Log & Technical Report
+%%  C++ Deep Learning Engine - Build Log & Technical Report
 %%  Compile on Overleaf with: XeLaTeX or pdfLaTeX (any engine)
 %%  Packages used: geometry, listings, xcolor, titlesec,
 %%                 hyperref, fancyhdr, booktabs, tcolorbox,
@@ -8,22 +8,22 @@
 
 \documentclass[12pt, a4paper]{article}
 
-%% ── Encoding & Font ─────────────────────────────────────────
+%%  Encoding & Font 
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{lmodern}
 
-%% ── Page Layout ─────────────────────────────────────────────
+%%  Page Layout 
 \usepackage[
   top=2.5cm, bottom=2.5cm,
   left=2.8cm, right=2.8cm
 ]{geometry}
 
-%% ── Math ────────────────────────────────────────────────────
+%%  Math 
 \usepackage{amsmath}
 \usepackage{amssymb}
 
-%% ── Colours ─────────────────────────────────────────────────
+%%  Colours 
 \usepackage[dvipsnames, table]{xcolor}
 \definecolor{engineblue}{HTML}{1A3A5C}
 \definecolor{accentgold}{HTML}{C8A84B}
@@ -36,7 +36,7 @@
 \definecolor{type}{HTML}{00695C}
 \definecolor{rulecolor}{HTML}{CFD8DC}
 
-%% ── Code Listings ────────────────────────────────────────────
+%%  Code Listings 
 \usepackage{listings}
 
 \lstdefinestyle{cppstyle}{
@@ -75,13 +75,13 @@
 
 \lstset{style=cppstyle}
 
-%% ── Tables ──────────────────────────────────────────────────
+%%  Tables 
 \usepackage{booktabs}
 \usepackage{array}
 \usepackage{tabularx}
 \newcolumntype{L}{>{\raggedright\arraybackslash}X}
 
-%% ── Boxes ───────────────────────────────────────────────────
+%%  Boxes 
 \usepackage[most]{tcolorbox}
 
 \tcbset{
@@ -103,6 +103,15 @@
     left=6pt, right=6pt,
     top=4pt, bottom=4pt,
   },
+  codebox/.style={
+    colback=codebg,
+    colframe=codeframe,
+    fonttitle=\bfseries\small,
+    rounded corners,
+    boxrule=0.8pt,
+    left=6pt, right=6pt,
+    top=4pt, bottom=4pt,
+  },
   exitbox/.style={
     colback=green!6,
     colframe=green!60!black,
@@ -114,7 +123,7 @@
   }
 }
 
-%% ── Section Styling ─────────────────────────────────────────
+%%  Section Styling 
 \usepackage{titlesec}
 
 \titleformat{\section}
@@ -130,8 +139,10 @@
   {\normalsize\bfseries\color{engineblue!60}}
   {\thesubsubsection}{1em}{}
 
-%% ── Header / Footer ─────────────────────────────────────────
+%%  Header / Footer 
 \usepackage{fancyhdr}
+\setlength{\headheight}{24.02pt}
+\addtolength{\topmargin}{-12.02pt}
 \pagestyle{fancy}
 \fancyhf{}
 \renewcommand{\headrulewidth}{0.4pt}
@@ -140,18 +151,18 @@
 \fancyhead[R]{\small\textcolor{gray}{Build Log \& Technical Report}}
 \fancyfoot[C]{\small\textcolor{gray}{\thepage}}
 
-%% ── Hyperlinks ──────────────────────────────────────────────
+%%  Hyperlinks 
 \usepackage{hyperref}
 \hypersetup{
   colorlinks = true,
   linkcolor  = engineblue,
   citecolor  = engineblue,
   urlcolor   = accentgold,
-  pdftitle   = {C++ Deep Learning Engine — Build Log},
+  pdftitle   = {C++ Deep Learning Engine - Build Log},
   pdfauthor  = {Project Report}
 }
 
-%% ── Misc ────────────────────────────────────────────────────
+%%  Misc 
 \usepackage{graphicx}
 \usepackage{enumitem}
 \usepackage{parskip}
@@ -162,7 +173,7 @@
 %% ============================================================
 \begin{document}
 
-%% ── Title Page ──────────────────────────────────────────────
+%%  Title Page 
 \begin{titlepage}
   \centering
   \vspace*{2cm}
@@ -184,18 +195,18 @@
       \item Full GPT-style Transformer with Fused Causal Self-Attention
       \item Curriculum Learning: Synthetic Math \(\to\) TinyStories \(\to\) Wikipedia
       \item OS-level \texttt{mmap} DataLoader with O(1) RAM footprint
-      \item No Eigen, no LibTorch, no Boost — zero ML dependencies
+      \item No Eigen, no LibTorch, no Boost - zero ML dependencies
     \end{itemize}
   \end{tcolorbox}
 
   \vfill
 
-  {\large\textbf{Development Phase:} Phase 1 — Math Engine \& Autograd Core}\\[0.3em]
+  {\large\textbf{Development Phase:} Phase 1 - Math Engine \& Autograd Core}\\[0.3em]
   {\large\textbf{Micro-Steps Documented:} 1.1 (Tensor) \& 1.2 (Node)}\\[0.3em]
   {\large\today}
 \end{titlepage}
 
-%% ── Table of Contents ───────────────────────────────────────
+%%  Table of Contents 
 \tableofcontents
 \newpage
 
@@ -206,17 +217,17 @@
 \subsection{Mission Statement}
 
 This project implements a production-grade Deep Learning Engine entirely from
-scratch in C++17 — no Eigen, no LibTorch, no Boost. Every component, from the
+scratch in C++17 - no Eigen, no LibTorch, no Boost. Every component, from the
 N-dimensional Tensor container to the multi-head attention mechanism, is built
 using only the C++ Standard Template Library.
 
 \subsection{15-Step Development Roadmap}
 
 The full project is divided into 15 granular micro-steps.  Each step produces
-at most 2–3 files and is independently compilable and testable.  This document
+at most 2-3 files and is independently compilable and testable.  This document
 records the implementation of Steps \textbf{1.1} and \textbf{1.2}.
 
-\begin{table}[h!]
+\begin{table}[!ht]
 \centering
 \renewcommand{\arraystretch}{1.3}
 \begin{tabularx}{\textwidth}{@{} c l L @{}}
@@ -271,17 +282,17 @@ transformer/project/
 
 \newpage
 %% ============================================================
-\section{Step 1.1 — Tensor Foundation}
+\section{Step 1.1 - Tensor Foundation}
 %% ============================================================
 
 \begin{tcolorbox}[designbox, title={Step 1.1 Goal}]
   Define the core N-dimensional data container used by every component in the
-  engine.  No Node, no ops, no autograd — just raw tensor mathematics.
+  engine.  No Node, no ops, no autograd - just raw tensor mathematics.
 \end{tcolorbox}
 
 \subsection{Design Decisions}
 
-\begin{table}[h!]
+\begin{table}[!ht]
 \centering
 \renewcommand{\arraystretch}{1.35}
 \begin{tabularx}{\textwidth}{@{} l L @{}}
@@ -298,10 +309,10 @@ Pre-computed strides at construction
   & Eliminates repeated stride multiplication in the hot-path \texttt{at()} 
     indexing call. \\
 Bounds-checked \texttt{at()}
-  & Throws \texttt{std::out\_of\_range} on bad index — caught cleanly by GTest
+  & Throws \texttt{std::out\_of\_range} on bad index - caught cleanly by GTest
     \texttt{EXPECT\_THROW}. \\
 \texttt{reshape()} validates element count
-  & Guarantees no data copy and no reallocation — just metadata update + stride
+  & Guarantees no data copy and no reallocation - just metadata update + stride
     recomputation. \\
 \bottomrule
 \end{tabularx}
@@ -329,14 +340,14 @@ The flat 1-D index for a multi-dimensional index
 \begin{tcolorbox}[interviewbox, title={Interview Talking Point}]
   Row-major layout means the \emph{innermost} dimension is contiguous in
   memory.  For a \([B, T, d]\) tensor (batch, sequence, features), iterating
-  over the feature dimension \(d\) is cache-friendly — exactly the access
+  over the feature dimension \(d\) is cache-friendly - exactly the access
   pattern in the attention score computation \(Q \cdot K^{\top}\).
 \end{tcolorbox}
 
 \newpage
 \subsection{File: \texttt{engine/tensor.hpp}}
 
-\begin{lstlisting}[caption={\texttt{engine/tensor.hpp} — complete header}]
+\begin{lstlisting}[caption={\texttt{engine/tensor.hpp} - complete header}]
 /**
  * @file    engine/tensor.hpp
  * @brief   N-dimensional Tensor with flat contiguous storage
@@ -440,7 +451,7 @@ private:
 \newpage
 \subsection{File: \texttt{engine/tensor.cpp}}
 
-\begin{lstlisting}[caption={\texttt{engine/tensor.cpp} — key implementation sections}]
+\begin{lstlisting}[caption={\texttt{engine/tensor.cpp} - key implementation sections}]
 #include "tensor.hpp"
 #include <algorithm>
 #include <numeric>
@@ -525,7 +536,7 @@ void Tensor::reshape(std::vector<size_t> new_shape) {
 }  // namespace engine
 \end{lstlisting}
 
-\begin{tcolorbox}[exitbox, title={Step 1.1 — Exit Criterion (met)}]
+\begin{tcolorbox}[exitbox, title={Step 1.1 - Exit Criterion (met)}]
   \texttt{Tensor(\{2,3\})} constructs correctly.
   \texttt{at(\{1,2\})} returns the element at row~1, column~2.
   \texttt{reshape(\{6\})} succeeds; \texttt{reshape(\{7\})} throws
@@ -535,11 +546,11 @@ void Tensor::reshape(std::vector<size_t> new_shape) {
 
 \newpage
 %% ============================================================
-\section{Step 1.2 — Autograd Node \& Graph}
+\section{Step 1.2 - Autograd Node \& Graph}
 %% ============================================================
 
 \begin{tcolorbox}[designbox, title={Step 1.2 Goal}]
-  Implement the \texttt{Node} class — the atomic unit of the computation DAG.
+  Implement the \texttt{Node} class - the atomic unit of the computation DAG.
   A Node wraps a forward-pass \texttt{Tensor}, a gradient accumulator, and a
   backward closure.  It must NOT implement any operations (Step~1.3) or the
   topological sort (Step~1.4).
@@ -557,7 +568,7 @@ The central challenge in autograd is managing a \emph{dynamic} DAG where:
 
 The solution uses two smart pointer types with distinct roles:
 
-\begin{table}[h!]
+\begin{table}[!ht]
 \centering
 \renewcommand{\arraystretch}{1.35}
 \begin{tabularx}{\textwidth}{@{} l l L @{}}
@@ -566,10 +577,10 @@ The solution uses two smart pointer types with distinct roles:
 \midrule
 \texttt{shared\_ptr<Node>} (\texttt{NodePtr})
   & User variables, lambda captures in \texttt{\_backward}
-  & Strong ownership — keeps Node alive \\
+  & Strong ownership - keeps Node alive \\
 \texttt{weak\_ptr<Node>}
   & \texttt{Node::children} vector
-  & Graph traversal only — does NOT extend lifetime \\
+  & Graph traversal only - does NOT extend lifetime \\
 \bottomrule
 \end{tabularx}
 \caption{Smart pointer roles in the autograd DAG.}
@@ -626,7 +637,7 @@ of that tensor is the \emph{sum} of all upstream contributions:
 \newpage
 \subsection{File: \texttt{engine/node.hpp}}
 
-\begin{lstlisting}[caption={\texttt{engine/node.hpp} — complete header}]
+\begin{lstlisting}[caption={\texttt{engine/node.hpp} - complete header}]
 /**
  * @file    engine/node.hpp
  * @brief   Autograd Node -- atomic unit of the computation DAG.
@@ -734,7 +745,7 @@ public:
 \newpage
 \subsection{File: \texttt{engine/node.cpp}}
 
-\begin{lstlisting}[caption={\texttt{engine/node.cpp} — key implementation sections}]
+\begin{lstlisting}[caption={\texttt{engine/node.cpp} - key implementation sections}]
 #include "node.hpp"
 #include <cmath>        // std::sqrt (for grad L2 norm in print_info)
 #include <iostream>
@@ -817,10 +828,10 @@ void Node::print_info() const {
 }  // namespace engine
 \end{lstlisting}
 
-\begin{tcolorbox}[exitbox, title={Step 1.2 — Exit Criterion (met)}]
+\begin{tcolorbox}[exitbox, title={Step 1.2 - Exit Criterion (met)}]
   \texttt{Node::make(Tensor(\{4,8\}), true)} creates a heap-allocated parameter
   node. \texttt{grad} is zeroed and matches \texttt{data.shape()}.
-  Two nodes linked via \texttt{add\_child()} — parent's \texttt{children} holds
+  Two nodes linked via \texttt{add\_child()} - parent's \texttt{children} holds
   a \texttt{weak\_ptr} to the child.  Manually calling \texttt{\_backward()}
   executes the no-op without crash.  \texttt{accumulate\_grad()} correctly
   computes \texttt{grad += incoming} elementwise.
@@ -856,11 +867,11 @@ User variable \texttt{c}                      & \texttt{shared\_ptr} & Node C \\
 When the user drops \texttt{c}, all shared\_ptr references to C reach zero
 and C is freed.  The lambda is destroyed, releasing the shared\_ptr captures of
 A and B.  If the user also drops \texttt{a} and \texttt{b}, all nodes are freed
-— no leak, no dangling pointer.
+- no leak, no dangling pointer.
 
 \subsection{Gradient Accumulation vs.\ Assignment}
 
-\begin{table}[h!]
+\begin{table}[!ht]
 \centering
 \renewcommand{\arraystretch}{1.35}
 \begin{tabularx}{\textwidth}{@{} l L L @{}}
@@ -868,16 +879,16 @@ A and B.  If the user also drops \texttt{a} and \texttt{b}, all nodes are freed
 & \textbf{Assignment (\texttt{=})} & \textbf{Accumulation (\texttt{+=})} \\
 \midrule
 \textbf{Single use} & Correct & Correct \\
-\textbf{Fan-out (shared weight)} & \textcolor{red}{\textbf{WRONG}} — drops all but last gradient & \textcolor{green!60!black}{\textbf{Correct}} — sums all contributions \\
+\textbf{Fan-out (shared weight)} & \textcolor{red}{\textbf{WRONG}} - drops all but last gradient & \textcolor{green!60!black}{\textbf{Correct}} - sums all contributions \\
 \textbf{Usage} & Never correct in autograd & Always required \\
 \bottomrule
 \end{tabularx}
 \caption{Why gradient \emph{accumulation} is mandatory.}
 \end{table}
 
-\subsection{Memory Layout — Cache Locality Impact}
+\subsection{Memory Layout - Cache Locality Impact}
 
-\begin{table}[h!]
+\begin{table}[!ht]
 \centering
 \renewcommand{\arraystretch}{1.35}
 \begin{tabularx}{\textwidth}{@{} l L L @{}}
@@ -886,10 +897,10 @@ A and B.  If the user also drops \texttt{a} and \texttt{b}, all nodes are freed
 \midrule
 Flat 1-D \texttt{vector<double>} (ours)
   & \texttt{[a00, a01, a02, a10, a11, a12]}
-  & Sequential reads in all inner-loop ops — L1 hits \\
+  & Sequential reads in all inner-loop ops - L1 hits \\
 Nested \texttt{vector<vector<double>>}
   & Each row is a separate heap allocation
-  & Pointer chasing between rows — L1/L2 misses \\
+  & Pointer chasing between rows - L1/L2 misses \\
 \bottomrule
 \end{tabularx}
 \caption{Why flat 1-D storage is critical for performance.}
@@ -916,7 +927,7 @@ g++ -std=c++17 -O2 -Wall -Wextra -o smoke_test \
 
 \subsection{Minimal Smoke Test (\texttt{smoke\_test.cpp})}
 
-\begin{lstlisting}[caption={smoke\_test.cpp — verifies Steps 1.1 and 1.2}]
+\begin{lstlisting}[caption={smoke\_test.cpp - verifies Steps 1.1 and 1.2}]
 #include "engine/tensor.hpp"
 #include "engine/node.hpp"
 #include <cassert>
@@ -974,7 +985,7 @@ int main() {
 \section{What Comes Next}
 %% ============================================================
 
-\begin{table}[h!]
+\begin{table}[!ht]
 \centering
 \renewcommand{\arraystretch}{1.35}
 \begin{tabularx}{\textwidth}{@{} c L @{}}
@@ -982,19 +993,19 @@ int main() {
 \textbf{Step} & \textbf{What Will Be Built} \\
 \midrule
 \textbf{1.3}
-  & \texttt{ops.hpp / ops.cpp} — differentiable operations (\texttt{add},
+  & \texttt{ops.hpp / ops.cpp} - differentiable operations (\texttt{add},
     \texttt{mul}, \texttt{matmul}, \texttt{exp}, \texttt{log}, \texttt{sum},
     \texttt{transpose}).  Each op creates a new Node, sets \texttt{\_backward},
     and calls \texttt{add\_child()} on each input. \\
 \textbf{1.4}
-  & \texttt{autograd.hpp} — \texttt{backward(Node\& root)}: DFS post-order
+  & \texttt{autograd.hpp} - \texttt{backward(Node\& root)}: DFS post-order
     topological sort over the DAG; sets \texttt{root.grad = 1.0}; calls
     \texttt{\_backward()} in reverse topological order. \\
 \textbf{2.1}
-  & \texttt{nn/module.hpp}, \texttt{nn/linear.*}, \texttt{nn/layernorm.*} —
+  & \texttt{nn/module.hpp}, \texttt{nn/linear.*}, \texttt{nn/layernorm.*} -
     first neural network modules. \\
 \textbf{2.3}
-  & \textbf{\(\bigstar\) Fused Causal Self-Attention} —
+  & \textbf{\(\bigstar\) Fused Causal Self-Attention} -
     \texttt{CausalSelfAttention} with W\_Q, W\_K, W\_V, W\_O projections,
     scaled dot-product, and lower-triangular causal mask. \\
 \bottomrule
@@ -1003,7 +1014,7 @@ int main() {
 \end{table}
 
 %% ============================================================
-\section{Step 1.3 — Core Differentiable Tensor Operations}
+\section{Step 1.3 - Core Differentiable Tensor Operations}
 %% ============================================================
 
 \begin{tcolorbox}[designbox, title={Step 1.3 Goal}]
@@ -1056,7 +1067,7 @@ out->_backward = [a, b, wout = std::weak_ptr<Node>(out)]() {
 };
 \end{lstlisting}
 
-\begin{tcolorbox}[interviewbox, title={Interview Talking Point — Why is weak\_ptr safe here?}]
+\begin{tcolorbox}[interviewbox, title={Interview Talking Point - Why is weak\_ptr safe here?}]
   During \texttt{backward()} (Step~1.4), the topological sort holds a
   \texttt{std::vector<NodePtr>} of \emph{all} reachable nodes.  This vector
   keeps every intermediate node alive for the full duration of the backward
@@ -1070,7 +1081,7 @@ out->_backward = [a, b, wout = std::weak_ptr<Node>(out)]() {
 The \texttt{matmul} op is the most performance-critical function in the engine.
 It uses three cache-blocked kernels:
 
-\begin{table}[h!]
+\begin{table}[!ht]
 \centering
 \renewcommand{\arraystretch}{1.35}
 \begin{tabularx}{\textwidth}{@{} l l L @{}}
@@ -1107,7 +1118,7 @@ The loop nest orders iterations as \((ii, jj, kk, i, k, j)\):
         \texttt{C}.
 \end{itemize}
 
-\begin{lstlisting}[caption={\texttt{mm\_nn} — cache-blocked tiled GEMM kernel}]
+\begin{lstlisting}[caption={\texttt{mm\_nn} - cache-blocked tiled GEMM kernel}]
 static constexpr size_t BLOCK_SIZE = 64;
 
 void mm_nn(const double* A, const double* B, double* C,
@@ -1135,7 +1146,7 @@ void mm_nn(const double* A, const double* B, double* C,
 
 \subsection{Backward Derivations for All 7 Ops}
 
-\begin{table}[h!]
+\begin{table}[!ht]
 \centering
 \renewcommand{\arraystretch}{1.5}
 \begin{tabularx}{\textwidth}{@{} l l L @{}}
@@ -1180,10 +1191,10 @@ void mm_nn(const double* A, const double* B, double* C,
 
 \subsection{File: \texttt{engine/ops.hpp}}
 
-\begin{lstlisting}[caption={\texttt{engine/ops.hpp} — complete header}]
+\begin{lstlisting}[caption={\texttt{engine/ops.hpp} - complete header}]
 /**
  * @file  engine/ops.hpp
- * @brief Differentiable tensor operations — the DAG-building layer.
+ * @brief Differentiable tensor operations - the DAG-building layer.
  *
  * Every op follows the autograd contract:
  *  1. Compute forward result.
@@ -1215,9 +1226,9 @@ namespace engine::ops {
 }  // namespace engine::ops
 \end{lstlisting}
 
-\subsection{File: \texttt{engine/ops.cpp} — Selected Implementations}
+\subsection{File: \texttt{engine/ops.cpp} - Selected Implementations}
 
-\begin{lstlisting}[caption={\texttt{add} — simplest op, shows the full 4-step contract}]
+\begin{lstlisting}[caption={\texttt{add} - simplest op, shows the full 4-step contract}]
 NodePtr add(const NodePtr& a, const NodePtr& b) {
     // Step 1: Shape validation + forward computation
     if (a->data.shape() != b->data.shape())
@@ -1251,7 +1262,7 @@ NodePtr add(const NodePtr& a, const NodePtr& b) {
 }
 \end{lstlisting}
 
-\begin{lstlisting}[caption={\texttt{matmul} backward — tiled kernels for dA and dB}]
+\begin{lstlisting}[caption={\texttt{matmul} backward - tiled kernels for dA and dB}]
 // Backward: called by topological sort in Step 1.4
 out->_backward = [a, b, M, K, N, batch,
                   wout = std::weak_ptr<Node>(out)]() {
@@ -1279,7 +1290,7 @@ out->_backward = [a, b, M, K, N, batch,
 };
 \end{lstlisting}
 
-\begin{lstlisting}[caption={\texttt{exp} — reuses forward output in backward}]
+\begin{lstlisting}[caption={\texttt{exp} - reuses forward output in backward}]
 NodePtr exp(const NodePtr& a) {
     // Forward: out[i] = exp(a[i])
     std::vector<double> fwd(a->data.numel());
@@ -1308,21 +1319,21 @@ NodePtr exp(const NodePtr& a) {
 }
 \end{lstlisting}
 
-\begin{tcolorbox}[exitbox, title={Step 1.3 — Exit Criterion (met)}]
+\begin{tcolorbox}[exitbox, title={Step 1.3 - Exit Criterion (met)}]
   \texttt{c = ops::matmul(a, b)} produces correct shape.
   After \texttt{c->\_backward()}, \texttt{a->grad} and \texttt{b->grad} contain
   the correct gradients (verified numerically in Step~1.4's grad-check).
   After dropping all user-side \texttt{NodePtr} variables, Valgrind reports
-  zero memory leaks — the \texttt{weak\_ptr} self-capture eliminates the
+  zero memory leaks - the \texttt{weak\_ptr} self-capture eliminates the
   self-reference cycle.
 \end{tcolorbox}
 
 %% ============================================================
-\section{Step 1.4 — Topological Backward Pass}
+\section{Step 1.4 - Topological Backward Pass}
 %% ============================================================
 
 \begin{tcolorbox}[designbox, title={Step 1.4 Goal}]
-  Implement \texttt{backward(root)} — the final piece of the core autograd
+  Implement \texttt{backward(root)} - the final piece of the core autograd
   engine.  This function seeds the scalar loss gradient, runs a DFS
   post-order topological sort over the computation DAG, then calls every
   node's \texttt{\_backward()} in \textbf{reverse topological order},
@@ -1354,23 +1365,23 @@ For a graph \(a \to c \to \text{loss}\) and \(b \to c\):
 \begin{enumerate}
   \item Start at \texttt{loss}.  Visit child \texttt{c}.
   \item At \texttt{c}.  Visit child \texttt{a}.  At \texttt{a}: leaf, no
-        children → \textbf{append a}.
+        children  \textbf{append a}.
   \item Back at \texttt{c}.  Visit child \texttt{b}.  At \texttt{b}: leaf
-        → \textbf{append b}.
-  \item Back at \texttt{c}: all children done → \textbf{append c}.
-  \item Back at \texttt{loss}: child done → \textbf{append loss}.
+         \textbf{append b}.
+  \item Back at \texttt{c}: all children done  \textbf{append c}.
+  \item Back at \texttt{loss}: child done  \textbf{append loss}.
 \end{enumerate}
 
 Result:  \texttt{topo = [a, b, c, loss]}
 
-Reversed: \texttt{[loss, c, b, a]} — backward order. \checkmark
+Reversed: \texttt{[loss, c, b, a]} - backward order. \checkmark
 
 \subsection{Visited Set: \texttt{std::unordered\_set<const Node*>}}
 
 Using raw \texttt{Node*} (pointer identity) rather than
 \texttt{shared\_ptr<Node>} as the key:
 
-\begin{table}[h!]
+\begin{table}[!ht]
 \centering
 \renewcommand{\arraystretch}{1.35}
 \begin{tabularx}{\textwidth}{@{} l L @{}}
@@ -1419,10 +1430,10 @@ A null lock result is safe to skip because:
 
 \subsection{File: \texttt{engine/autograd.hpp}}
 
-\begin{lstlisting}[caption={\texttt{engine/autograd.hpp} — complete header}]
+\begin{lstlisting}[caption={\texttt{engine/autograd.hpp} - complete header}]
 /**
  * @file    engine/autograd.hpp
- * @brief   Reverse-mode automatic differentiation — backward pass.
+ * @brief   Reverse-mode automatic differentiation - backward pass.
  *
  * backward(root):
  *   1. Validate scalar root.
@@ -1457,7 +1468,7 @@ void zero_grad_all(const NodePtr& root);
 \newpage
 \subsection{File: \texttt{engine/autograd.cpp}}
 
-\begin{lstlisting}[caption={\texttt{dfs\_postorder} — the recursive sort helper}]
+\begin{lstlisting}[caption={\texttt{dfs\_postorder} - the recursive sort helper}]
 namespace {
 
 void dfs_postorder(const NodePtr&                  node,
@@ -1483,7 +1494,7 @@ void dfs_postorder(const NodePtr&                  node,
 }  // anonymous namespace
 \end{lstlisting}
 
-\begin{lstlisting}[caption={\texttt{backward()} — the complete implementation}]
+\begin{lstlisting}[caption={\texttt{backward()} - the complete implementation}]
 void backward(const NodePtr& root)
 {
     // -- Guard: null and non-scalar detection ----------------------------
@@ -1568,12 +1579,12 @@ int main() {
 }
 \end{lstlisting}
 
-\begin{tcolorbox}[exitbox, title={Step 1.4 — Exit Criterion (met) \& Phase 1 Complete}]
+\begin{tcolorbox}[exitbox, title={Step 1.4 - Exit Criterion (met) \& Phase 1 Complete}]
   \textbf{backward(loss)} correctly propagates gradients through a
   multi-node DAG.  Analytical vs.\ numerical gradient agreement is verified
   to \(<10^{-6}\) relative error.  The \texttt{unordered\_set} visited check
   correctly handles fan-out (shared weight nodes).  All intermediate nodes
-  are freed after \texttt{backward()} returns — Valgrind reports zero leaks.
+  are freed after \texttt{backward()} returns - Valgrind reports zero leaks.
 
   \vspace{0.5em}
   \textbf{Phase 1 (Steps 1.1--1.4) is now complete.}
@@ -1583,7 +1594,7 @@ int main() {
 \end{tcolorbox}
 
 %% ============================================================
-\section{Step 2.1 — Module Base, Linear, and LayerNorm}
+\section{Step 2.1 - Module Base, Linear, and LayerNorm}
 %% ============================================================
 
 \begin{tcolorbox}[designbox, title={Step 2.1 Goal}]
@@ -1596,7 +1607,7 @@ int main() {
 
 \subsection{Module Base Class (\texttt{nn/module.hpp})}
 
-\begin{lstlisting}[caption={\texttt{nn/module.hpp} — abstract base, header-only}]
+\begin{lstlisting}[caption={\texttt{nn/module.hpp} - abstract base, header-only}]
 namespace engine::nn {
 
 class Module {
@@ -1623,7 +1634,7 @@ public:
   that no weight matrix is accidentally omitted from the optimizer's update
   loop.  For composite modules (\texttt{TransformerBlock}, \texttt{GPT}), the
   implementation is simply: call each sub-module's \texttt{parameters()} and
-  concatenate the results — giving automatic recursive collection without any
+  concatenate the results - giving automatic recursive collection without any
   registration bookkeeping.
 \end{tcolorbox}
 
@@ -1635,7 +1646,7 @@ public:
   y = x W^{\top} + b
 \]
 
-\begin{table}[h!]
+\begin{table}[!ht]
 \centering
 \renewcommand{\arraystretch}{1.35}
 \begin{tabularx}{\textwidth}{@{} l l L @{}}
@@ -1658,7 +1669,7 @@ The forward pass decomposes into three fully-differentiable DAG nodes:
         \textit{Backward}: \(\partial W = \text{transpose}(\partial W^{\top})\)
   \item \texttt{xWt = ops::matmul(x, Wt)} \(\rightarrow [\ldots, F_{\text{out}}]\) \\
         \textit{Backward}: tiled \texttt{mm\_nt} / \texttt{mm\_tn} kernels (Step~1.3)
-  \item \texttt{out = bias\_add(xWt, bias)} — file-local broadcast-add op \\
+  \item \texttt{out = bias\_add(xWt, bias)} - file-local broadcast-add op \\
         \textit{Backward}: \(\partial(xW^{\top})\) = pass-through; \quad
         \(\partial b[j] = \sum_i \partial y[i,j]\)
 \end{enumerate}
@@ -1670,7 +1681,7 @@ but the matmul output has shape \([\ldots, F_{\text{out}}]\).  Rather than
 modifying the core ops layer, we implement a file-local differentiable op in
 \texttt{linear.cpp}:
 
-\begin{lstlisting}[caption={\texttt{bias\_add} — broadcast-add with correct gradient reduction}]
+\begin{lstlisting}[caption={\texttt{bias\_add} - broadcast-add with correct gradient reduction}]
 NodePtr bias_add(const NodePtr& x, const NodePtr& b) {
     // Forward: out[..., j] = x[..., j] + b[j]
     ...
@@ -1796,7 +1807,7 @@ out->_backward = [x, gamma, beta, M, N, inv_N,
 };
 \end{lstlisting}
 
-\begin{tcolorbox}[exitbox, title={Step 2.1 — Exit Criterion (met)}]
+\begin{tcolorbox}[exitbox, title={Step 2.1 - Exit Criterion (met)}]
   \texttt{Linear(4, 8).forward(x)} produces a node of shape \([B, 8]\).
   \texttt{LayerNorm(8).forward(y)} produces a node of the same shape.
   After \texttt{backward(loss)}: \texttt{weight.grad}, \texttt{bias.grad},
@@ -1806,7 +1817,7 @@ out->_backward = [x, gamma, beta, M, N, inv_N,
 \end{tcolorbox}
 
 %% ============================================================
-\section{Step 2.2 — Embedding, Activation Functions, and Softmax}
+\section{Step 2.2 - Embedding, Activation Functions, and Softmax}
 %% ============================================================
 
 \begin{tcolorbox}[designbox, title={Step 2.2 Goal}]
@@ -1826,7 +1837,7 @@ out->_backward = [x, gamma, beta, M, N, inv_N,
 \]
 
 Token IDs are passed as \texttt{std::vector\textless size\_t\textgreater}
-(plain integers, no \texttt{NodePtr}) — they have no gradient.  Only the
+(plain integers, no \texttt{NodePtr}) - they have no gradient.  Only the
 weight matrix $W \in \mathbb{R}^{V \times d}$ (initialised $\mathcal{N}(0,1)$)
 is a DAG child.
 
@@ -1849,7 +1860,7 @@ is a DAG child.
   If two threads process different positions \((b_1, t_1)\) and \((b_2, t_2)\)
   that share the same token ID, they will race on the same \texttt{dwp} row.
   Correct parallelism requires per-thread gradient buffers followed by a
-  reduction step — reserved as a future optimisation.
+  reduction step - reserved as a future optimisation.
 \end{tcolorbox}
 
 \subsection{Activation Functions}
@@ -1857,7 +1868,7 @@ is a DAG child.
 All three are implemented as \textbf{fused custom ops}: one forward loop,
 one backward loop, no intermediate Nodes.
 
-\begin{table}[h!]
+\begin{table}[!ht]
 \centering
 \renewcommand{\arraystretch}{1.45}
 \begin{tabularx}{\textwidth}{@{} l L L @{}}
@@ -1885,7 +1896,7 @@ Sigmoid
 
 \begin{tcolorbox}[interviewbox,
     title={Interview: Why does sigmoid's backward read \texttt{self->data} instead of capturing \(x\)?}]
-  The sigmoid derivative is \(\sigma'(x) = \sigma(x)(1-\sigma(x))\) —
+  The sigmoid derivative is \(\sigma'(x) = \sigma(x)(1-\sigma(x))\) -
   expressible entirely in terms of the OUTPUT \(\sigma(x)\), not the input.
   By reading \texttt{self->data} (the already-stored forward output) we avoid
   capturing the input \(x\) in the lambda and save recomputing \(e^{-x}\).
@@ -1911,7 +1922,7 @@ For row \(i\) (last dimension \(N\)):
   y_{ij} = e_{ij} / s_i
 \]
 
-All arguments to \(\exp\) are \(\leq 0\) → no overflow.  This identity holds
+All arguments to \(\exp\) are \(\leq 0\)  no overflow.  This identity holds
 because:
 \[
   \frac{e^{x_j - c}}{\sum_k e^{x_k - c}} = \frac{e^{x_j}}{\sum_k e^{x_k}}
@@ -1937,14 +1948,14 @@ The vector-Jacobian product (used in backward):
 \]
 
 \begin{tcolorbox}[interviewbox, title={Interview: Why doesn't the saved-activation approach need an extra buffer?}]
-  The backward reads \texttt{self\textrightarrow data.data\_ptr()} — the
+  The backward reads \texttt{self\textrightarrow data.data\_ptr()} - the
   softmax output \(Y\) is already stored on the output Node as part of normal
   Node construction.  Since \texttt{self = wout.lock()} guarantees the Node
   is alive and its \texttt{data} is immutable after construction, reading it
   is safe.  No separate \texttt{y\_saved} vector needs to be captured.
 \end{tcolorbox}
 
-\begin{tcolorbox}[exitbox, title={Step 2.2 — Exit Criterion (met)}]
+\begin{tcolorbox}[exitbox, title={Step 2.2 - Exit Criterion (met)}]
   \texttt{embedding.forward(ids, B, T)} produces shape \([B, T, d]\).
   After \texttt{backward(loss)}: \texttt{weight.grad} has non-zero values
   only in rows corresponding to tokens in \texttt{ids} (scatter-add verified).\\[0.4em]
@@ -1956,7 +1967,7 @@ The vector-Jacobian product (used in backward):
 \end{tcolorbox}
 
 %% ============================================================
-\section{Step 2.3 — Fused Causal Self-Attention}
+\section{Step 2.3 - Fused Causal Self-Attention}
 %% ============================================================
 
 \begin{tcolorbox}[designbox, title={Step 2.3 Goal}]
@@ -1985,7 +1996,7 @@ op infrastructure.
 
 \subsection{File-Local Custom Ops}
 
-\begin{table}[h!]
+\begin{table}[!ht]
 \centering
 \renewcommand{\arraystretch}{1.45}
 \begin{tabularx}{\textwidth}{@{} l l L @{}}
@@ -2022,7 +2033,7 @@ The \textbf{backward of split\_heads is merge\_heads} and vice versa.
 
 \subsection{Forward Algorithm (12 Steps)}
 
-\begin{table}[h!]
+\begin{table}[!ht]
 \centering
 \renewcommand{\arraystretch}{1.35}
 \begin{tabularx}{\textwidth}{@{} r l L @{}}
@@ -2046,7 +2057,7 @@ The \textbf{backward of split\_heads is merge\_heads} and vice versa.
 \caption{CausalSelfAttention forward pass.  \(D = d_{\text{model}},\; d_k = D/H\).}
 \end{table}
 
-\subsection{Scaled Causal Softmax — Fused Op}
+\subsection{Scaled Causal Softmax - Fused Op}
 
 \subsubsection{Forward}
 
@@ -2062,7 +2073,7 @@ For row \(i\) of head slice \(bh\):
 Scanning the max only over unmasked positions \((j \le i)\) prevents
 \(-\infty\) entries from influencing the numerical anchor.
 
-\subsubsection{Backward — Scale and Mask Chain Rule}
+\subsubsection{Backward - Scale and Mask Chain Rule}
 
 Let \(\text{scale} = 1/\sqrt{d_k}\) and \(Y_{ij} = \text{attn}_{ij}\).
 \[
@@ -2087,7 +2098,7 @@ multiplication applied before softmax.  Masked positions receive
   valid 3-D tensor that existing \texttt{mm\_nn} / \texttt{mm\_nt} /
   \texttt{mm\_tn} kernels process correctly.  The only overhead is two data
   rearrangements per forward pass (\texttt{split\_heads}, \texttt{merge\_heads}),
-  which are \(O(BTD)\) — the same asymptotic cost as the projections.
+  which are \(O(BTD)\) - the same asymptotic cost as the projections.
 \end{tcolorbox}
 
 \begin{tcolorbox}[interviewbox,
@@ -2100,7 +2111,7 @@ multiplication applied before softmax.  Masked positions receive
   softmax are two separate Nodes.
 \end{tcolorbox}
 
-\begin{tcolorbox}[exitbox, title={Step 2.3 — Exit Criterion (met)}]
+\begin{tcolorbox}[exitbox, title={Step 2.3 - Exit Criterion (met)}]
   \texttt{attn.forward(x)} with \(x \in \mathbb{R}^{B \times T \times d}\):
   \begin{itemize}
     \item Output shape is \([B, T, d]\). \checkmark
@@ -2113,12 +2124,12 @@ multiplication applied before softmax.  Masked positions receive
 \end{tcolorbox}
 
 %% ============================================================
-\section{Step 2.4 — FFN, TransformerBlock, and Full Transformer}
+\section{Step 2.4 - FFN, TransformerBlock, and Full Transformer}
 %% ============================================================
 
 \begin{tcolorbox}[designbox, title={Step 2.4 Goal}]
   Assemble the final neural network architecture from existing sub-modules:
-  \textbf{FeedForward} (fc1 → GELU → fc2),
+  \textbf{FeedForward} (fc1  GELU  fc2),
   \textbf{TransformerBlock} (Pre-LN, two residual connections via \texttt{ops::add}),
   and the full \textbf{Transformer} language model (token + position embeddings,
   N stacked blocks, final LayerNorm, logit projection head).
@@ -2140,7 +2151,7 @@ private:
     size_t d_model_, d_ff_;
 };
 \end{lstlisting}
-\textbf{Forward:}  \lstinline{fc2(gelu(fc1(x)))} — three chained differentiable ops.
+\textbf{Forward:}  \lstinline{fc2(gelu(fc1(x)))} - three chained differentiable ops.
 No custom ops needed; the autograd graph is assembled from Linear and gelu.
 
 \textbf{Constructor initialiser list:}  \lstinline{d_model_} and \lstinline{d_ff_}
@@ -2162,7 +2173,7 @@ The \textbf{Pre-LN} variant normalises BEFORE each sub-layer:
 
 Pre-LN is used in GPT-2 and most modern LLMs because it eliminates gradient
 vanishing at depth: the skip connection \(x\) is always a unit-Jacobian identity
-path — gradients travel backwards without passing through any normalisation
+path - gradients travel backwards without passing through any normalisation
 Jacobian.
 
 \subsubsection{Forward pass of TransformerBlock}
@@ -2185,7 +2196,7 @@ direct residual path, then \emph{accumulates} (\texttt{+=}) at shared input Node
 
 \subsubsection{Parameter count per block}
 
-\begin{table}[h!]
+\begin{table}[!ht]
 \centering
 \renewcommand{\arraystretch}{1.3}
 \begin{tabular}{@{} l r @{}}
@@ -2207,7 +2218,7 @@ Sub-module & NodePtrs \\
 
 \subsubsection{Architecture}
 
-\begin{table}[h!]
+\begin{table}[!ht]
 \centering
 \renewcommand{\arraystretch}{1.3}
 \begin{tabularx}{\textwidth}{@{} l l L @{}}
@@ -2216,7 +2227,7 @@ Module & Shape & Role \\
 \midrule
 \texttt{tok\_emb}  & \([V, D]\)    & Token embedding lookup (\(V\!=\!\text{vocab\_size}\)) \\
 \texttt{pos\_emb}  & \([C, D]\)    & Learned absolute position embeddings (\(C\!=\!\text{context\_len}\)) \\
-\texttt{blocks[i]} & — & \(N\) stacked Pre-LN TransformerBlocks \\
+\texttt{blocks[i]} & - & \(N\) stacked Pre-LN TransformerBlocks \\
 \texttt{ln\_f}     & \([D]\)       & Final layer normalisation \\
 \texttt{lm\_head}  & \([D, V]\)    & Logit projection, \textbf{no bias} \\
 \bottomrule
@@ -2261,14 +2272,14 @@ For a GPT-2 small configuration (\(N=12\)): \(4 + 192 = 196\) NodePtrs.
     title={Interview: Why does lm\_head have no bias?}]
   Three reasons: (1) GPT-2 and modern decoders omit the lm\_head bias without
   any perplexity regression.  (2) Weight tying (\texttt{lm\_head.weight =
-  tok\_emb.weight}) — which halves the embedding parameter count — is clean
+  tok\_emb.weight}) - which halves the embedding parameter count - is clean
   only when there is no bias (otherwise the shared weight would receive
   contributions from two different gradient paths through different bias terms).
   (3) The bias is strictly redundant: the final LayerNorm already adds a
   learned per-feature shift (\(\beta\)) before the head.
 \end{tcolorbox}
 
-\begin{tcolorbox}[exitbox, title={Step 2.4 — Exit Criterion (met)}]
+\begin{tcolorbox}[exitbox, title={Step 2.4 - Exit Criterion (met)}]
   \begin{itemize}
     \item \texttt{FeedForward.forward(x)} returns \([B,T,d\_\text{model}]\). \checkmark
     \item \texttt{TransformerBlock.forward(x)} returns \([B,T,d\_\text{model}]\). \checkmark
@@ -2280,8 +2291,8 @@ For a GPT-2 small configuration (\(N=12\)): \(4 + 192 = 196\) NodePtrs.
   \end{itemize}
 \end{tcolorbox}
 
-%% ── End of Phase 2 summary ───────────────────────────────────
-\begin{tcolorbox}[designbox, title={Phase 2 Complete — All NN Layers Implemented}]
+%%  End of Phase 2 summary 
+\begin{tcolorbox}[designbox, title={Phase 2 Complete - All NN Layers Implemented}]
   \begin{tabular}{@{} l l @{}}
     \textbf{Step 2.1} & Module, Linear, LayerNorm \\
     \textbf{Step 2.2} & Embedding, GELU/ReLU/Sigmoid, Softmax \\
@@ -2290,12 +2301,12 @@ For a GPT-2 small configuration (\(N=12\)): \(4 + 192 = 196\) NodePtrs.
   \end{tabular}
 
   \medskip
-  \textbf{Next}: Phase 3 — Python Preprocessor and C++ DataLoader
+  \textbf{Next}: Phase 3 - Python Preprocessor and C++ DataLoader
   (BPE tokenisation, binary dataset streaming, mini-batch sampling).
 \end{tcolorbox}
 
 %% ============================================================
-\section{Step 3.1 — Python Preprocessor (\texttt{scripts/preprocess.py})}
+\section{Step 3.1 - Python Preprocessor (\texttt{scripts/preprocess.py})}
 %% ============================================================
 
 \begin{tcolorbox}[designbox, title={Step 3.1 Goal}]
@@ -2310,16 +2321,16 @@ For a GPT-2 small configuration (\(N=12\)): \(4 + 192 = 196\) NodePtrs.
 The format is deliberately minimal: a fixed-size header followed by a flat
 \texttt{uint16} array.  No variable-length fields, no escaping.
 
-\begin{table}[h!]
+\begin{table}[!ht]
 \centering
 \renewcommand{\arraystretch}{1.3}
-\begin{tabular}{@{} r r l L @{}}
+\begin{tabular}{@{} r r l p{8cm} @{}}
 \toprule
 \textbf{Offset} & \textbf{Bytes} & \textbf{C type} & \textbf{Value / Description} \\
 \midrule
-0  &  4 & \texttt{uint32} & Magic: \texttt{0xDEADBEEF} — sanity check on load \\
+0  &  4 & \texttt{uint32} & Magic: \texttt{0xDEADBEEF} - sanity check on load \\
 4  &  4 & \texttt{uint32} & \texttt{vocab\_size} = 256 (char-level) \\
-8  &  8 & \texttt{uint64} & \texttt{num\_tokens} — length of the payload array \\
+8  &  8 & \texttt{uint64} & \texttt{num\_tokens} - length of the payload array \\
 16 & 2N & \texttt{uint16[]} & Token-ID payload (little-endian) \\
 \bottomrule
 \end{tabular}
@@ -2328,7 +2339,7 @@ The format is deliberately minimal: a fixed-size header followed by a flat
 
 All multi-byte integers are \textbf{little-endian} (struct format \texttt{<IIQ}).
 The Python serialiser swaps bytes on big-endian machines before calling
-\texttt{array.tofile()} — making the output format platform-independent.
+\texttt{array.tofile()} - making the output format platform-independent.
 
 \subsection{Character-Level Tokeniser}
 
@@ -2343,17 +2354,17 @@ def tokenize_text(text: str) -> array.array:
 \end{lstlisting}
 Vocabulary: 256 character ordinals (Latin-1 / ASCII).
 Out-of-range characters (e.g.\ accented Unicode) map to \texttt{'?'} (63).
-No characters are skipped — position integrity is preserved.
+No characters are skipped - position integrity is preserved.
 \end{tcolorbox}
 
 \subsection{Dataset Modes}
 
-\subsubsection{Math Mode — Synthetic Addition Equations}
+\subsubsection{Math Mode - Synthetic Addition Equations}
 
 Equations have the form \texttt{"\{a\}+\{b\}=\{a+b\}{\textbackslash}n"}, generated entirely offline.
 To support curriculum learning, they are written in difficulty order:
 
-\begin{table}[h!]
+\begin{table}[!ht]
 \centering
 \renewcommand{\arraystretch}{1.25}
 \begin{tabular}{@{} l l r @{}}
@@ -2365,19 +2376,19 @@ Tier & Operand range & Share \\
 3-digit  & \(a, b \in [100,\, 999]\) & 40\% \\
 \bottomrule
 \end{tabular}
-\caption{Math equation tiers (written easy → hard for curriculum scheduling).}
+\caption{Math equation tiers (written easy  hard for curriculum scheduling).}
 \end{table}
 
 Writing the tiers sequentially means the C++ curriculum scheduler (Step 3.3)
 can advance through the file without random-access indexing.
 
-\subsubsection{Stories Mode — roneneldan/TinyStories}
+\subsubsection{Stories Mode - roneneldan/TinyStories}
 
 Downloads via \texttt{load\_dataset("roneneldan/TinyStories", split="train")}.
 Each story is yielded as \texttt{<text>\textbackslash n\textbackslash n} (double newline = document separator).
 HuggingFace caches the download automatically on subsequent runs.
 
-\subsubsection{Wiki Mode — Simple English Wikipedia}
+\subsubsection{Wiki Mode - Simple English Wikipedia}
 
 Downloads via \texttt{load\_dataset("wikipedia", "20220301.simple", split="train")}.
 $\approx$200,000 articles, $\approx$130 MB text.  Each article is formatted as:
@@ -2392,7 +2403,7 @@ For full English Wikipedia, change the config to \texttt{"20220301.en"}.
   \item If the output \texttt{.bin} already exists, the script logs a notice
         and exits immediately.  Pass \texttt{--force} to overwrite.
   \item After writing, the script reads back \texttt{os.path.getsize()} and
-        asserts it equals $16 + 2N$ bytes — catching partial writes.
+        asserts it equals $16 + 2N$ bytes - catching partial writes.
   \item If zero tokens are produced (e.g.\ empty dataset), the script aborts
         before creating a corrupt file.
 \end{itemize}
@@ -2426,9 +2437,9 @@ python scripts/preprocess.py --dataset math \
 \begin{tcolorbox}[interviewbox,
     title={Interview: Why \texttt{array.tofile()} instead of \texttt{struct.pack()} for the payload?}]
   \texttt{struct.pack(f"<\{N\}H", *ids)} for 500,000+ tokens requires building a
-  tuple of all IDs in memory and then Python-packing them one by one — O(N)
+  tuple of all IDs in memory and then Python-packing them one by one - O(N)
   Python function calls.  \texttt{array.array('H').tofile()} calls
-  \texttt{fwrite()} on the contiguous backing buffer in a single C call — O(1)
+  \texttt{fwrite()} on the contiguous backing buffer in a single C call - O(1)
   Python overhead and memory-bandwidth limited throughput.  On a modern SSD,
   writing 500 K tokens takes $<$10 ms with \texttt{tofile()}.
 \end{tcolorbox}
@@ -2442,19 +2453,19 @@ python scripts/preprocess.py --dataset math \
   cost is negligible compared to the flexibility gained.
 \end{tcolorbox}
 
-\begin{tcolorbox}[exitbox, title={Step 3.1 — Exit Criterion (met)}]
+\begin{tcolorbox}[exitbox, title={Step 3.1 - Exit Criterion (met)}]
   \begin{itemize}
     \item \texttt{python preprocess.py -{}-dataset math -{}-output out.bin} writes a
           valid binary file with header \texttt{0xDEADBEEF}. \checkmark
     \item File size equals $16 + 2 \times N$ bytes (post-write sanity check). \checkmark
     \item Running the command a second time exits early with a cache-hit message. \checkmark
-    \item Math equations are ordered tier-1 → tier-2 → tier-3. \checkmark
+    \item Math equations are ordered tier-1  tier-2  tier-3. \checkmark
     \item No internet access required for math mode. \checkmark
   \end{itemize}
 \end{tcolorbox}
 
 %% ============================================================
-\section{Steps 3.2 \& 3.3 — POSIX mmap DataLoader and Curriculum Scheduler}
+\section{Steps 3.2 \& 3.3 - POSIX mmap DataLoader and Curriculum Scheduler}
 %% ============================================================
 
 \begin{tcolorbox}[designbox, title={Steps 3.2 \& 3.3 Goal}]
@@ -2463,18 +2474,18 @@ python scripts/preprocess.py --dataset math \
   restarting the training loop.
 \end{tcolorbox}
 
-\subsection{Step 3.2 — POSIX mmap DataLoader}
+\subsection{Step 3.2 - POSIX mmap DataLoader}
 
 \subsubsection{Why mmap instead of read()}
 
-\begin{table}[h!]
+\begin{table}[!ht]
 \centering
 \renewcommand{\arraystretch}{1.3}
 \begin{tabularx}{\textwidth}{@{} l L L @{}}
 \toprule
 \textbf{Property} & \textbf{read() / fread()} & \textbf{mmap()} \\
 \midrule
-Per-token cost   & syscall + kernel→user copy & pointer dereference \\
+Per-token cost   & syscall + kerneluser copy & pointer dereference \\
 Buffer mgmt      & malloc/free per batch & OS page cache \\
 Random access    & lseek + read per sample & direct pointer arithmetic \\
 Multiple readers & each has its own buffer & shared page cache \\
@@ -2484,15 +2495,15 @@ Startup cost     & none & \texttt{MAP\_POPULATE} faults all pages once \\
 \caption{mmap vs read() for random token sampling.}
 \end{table}
 
-\subsubsection{open\_and\_mmap — step by step}
+\subsubsection{open\_and\_mmap - step by step}
 
 \begin{enumerate}
-  \item \texttt{open(path, O\_RDONLY)} — get file descriptor.
-  \item \texttt{fstat(fd, \&st)} — get file size to pass to mmap.
+  \item \texttt{open(path, O\_RDONLY)} - get file descriptor.
+  \item \texttt{fstat(fd, \&st)} - get file size to pass to mmap.
   \item \texttt{mmap(nullptr, st.st\_size, PROT\_READ, MAP\_SHARED\,|\,MAP\_POPULATE, fd, 0)}
-        — map the entire file.
-  \item Cast \texttt{mapped\_} → \texttt{const FileHeader*}; validate magic and vocab\_size.
-  \item Validate: \texttt{st.st\_size == 16 + 2 × num\_tokens}.
+        - map the entire file.
+  \item Cast \texttt{mapped\_}  \texttt{const FileHeader*}; validate magic and vocab\_size.
+  \item Validate: \texttt{st.st\_size == 16 + 2  num\_tokens}.
   \item Set \texttt{tokens\_ = reinterpret\_cast<uint16\_t*>(mapped\_ + 16)}.
 \end{enumerate}
 
@@ -2509,10 +2520,10 @@ struct FileHeader {
 #pragma pack(pop)
 static_assert(sizeof(FileHeader) == 16, "..."); // compile-time guarantee
 \end{lstlisting}
-The header is validated directly from the mmap'd memory — no \texttt{read()} call.
+The header is validated directly from the mmap'd memory - no \texttt{read()} call.
 \end{tcolorbox}
 
-\subsubsection{Batch sampling — causal language modelling}
+\subsubsection{Batch sampling - causal language modelling}
 
 For each of the \(B\) samples in a batch, a start position \(s\) is drawn
 uniformly from \([0,\, N - T - 1]\) where \(N\) = num\_tokens and \(T\) = seq\_len:
@@ -2526,14 +2537,14 @@ uniformly from \([0,\, N - T - 1]\) where \(N\) = num\_tokens and \(T\) = seq\_l
 The upper bound \(N - T - 1\) ensures \(\text{tokens}[s + T]\) is always valid.
 Implemented with \texttt{std::uniform\_int\_distribution\textless size\_t\textgreater}.
 
-\subsubsection{switch\_dataset — hot-swap}
+\subsubsection{switch\_dataset - hot-swap}
 
 \begin{tcolorbox}[codebox, title={Zero-downtime dataset transition}]
 \begin{lstlisting}[language=C++]
 void DataLoader::switch_dataset(const std::string& path) {
     close_mmap();       // munmap + close old fd  (noexcept)
     open_and_mmap(path); // validate + mmap new file
-    // rng_ NOT reset — batch sequence continues seamlessly
+    // rng_ NOT reset - batch sequence continues seamlessly
 }
 \end{lstlisting}
 The RNG is preserved so the random-offset sequence is continuous across
@@ -2541,14 +2552,14 @@ curriculum phase transitions.  If \texttt{open\_and\_mmap()} throws, the
 DataLoader is in a null state; the caller must handle the exception.
 \end{tcolorbox}
 
-\subsection{Step 3.3 — Curriculum Scheduler}
+\subsection{Step 3.3 - Curriculum Scheduler}
 
 \subsubsection{Phase mapping}
 
-\begin{table}[h!]
+\begin{table}[!ht]
 \centering
 \renewcommand{\arraystretch}{1.3}
-\begin{tabular}{@{} l l L @{}}
+\begin{tabular}{@{} l l p{10cm} @{}}
 \toprule
 \textbf{Step range} & \textbf{Phase} & \textbf{Rationale} \\
 \midrule
@@ -2580,7 +2591,7 @@ for (size_t step = 0; step < sched.total_steps(); ++step) {
 
 \begin{tcolorbox}[interviewbox,
     title={Interview: Why use mmap(MAP\_SHARED) for a read-only file?}]
-  \texttt{MAP\_PRIVATE} creates a copy-on-write mapping — unnecessary when we
+  \texttt{MAP\_PRIVATE} creates a copy-on-write mapping - unnecessary when we
   never write.  \texttt{MAP\_SHARED} lets multiple processes (e.g., a data
   prefetcher and the trainer) share the same physical page-cache pages for the
   same file, halving resident memory usage in multi-process setups.  Since we
@@ -2598,7 +2609,7 @@ for (size_t step = 0; step < sched.total_steps(); ++step) {
   reproducibility to curriculum structure.
 \end{tcolorbox}
 
-\begin{tcolorbox}[exitbox, title={Steps 3.2 \& 3.3 — Exit Criterion (met)}]
+\begin{tcolorbox}[exitbox, title={Steps 3.2 \& 3.3 - Exit Criterion (met)}]
   \begin{itemize}
     \item \texttt{DataLoader("data/math.bin")} opens and mmaps without errors. \checkmark
     \item Magic number mismatch throws \texttt{std::runtime\_error} immediately. \checkmark
@@ -2612,7 +2623,7 @@ for (size_t step = 0; step < sched.total_steps(); ++step) {
 \end{tcolorbox}
 
 %% ============================================================
-\section{Step 4.1 — Cross-Entropy Loss \& AdamW Optimizer}
+\section{Step 4.1 - Cross-Entropy Loss \& AdamW Optimizer}
 %% ============================================================
 
 \begin{tcolorbox}[designbox, title={Step 4.1 Goal}]
@@ -2623,7 +2634,7 @@ for (size_t step = 0; step < sched.total_steps(); ++step) {
 
 \subsection{Cross-Entropy Loss}
 
-\subsubsection{Log-sum-exp trick — derivation}
+\subsubsection{Log-sum-exp trick - derivation}
 
 \[
   \log\mathrm{softmax}(x)[c]
@@ -2638,7 +2649,7 @@ standard formula.
 
 \subsubsection{Single-pass forward}
 
-\begin{tcolorbox}[codebox, title={Forward — fused log-sum-exp NLL}]
+\begin{tcolorbox}[codebox, title={Forward - fused log-sum-exp NLL}]
 \begin{lstlisting}[language=C++]
 for each position bt in [0, B*T):
     row = logits_data + bt * V
@@ -2663,17 +2674,17 @@ The gradient of the per-position NLL through softmax is the well-known identity:
 where \(g\) is the upstream scalar gradient and \(p[bt,v]\) is the softmax
 probability saved from the forward pass.
 
-\textbf{Why fuse?}  The naïve approach chains four nodes:
-\texttt{softmax} → \texttt{log} → \texttt{negate} → \texttt{mean}.
+\textbf{Why fuse?}  The nave approach chains four nodes:
+\texttt{softmax}  \texttt{log}  \texttt{negate}  \texttt{mean}.
 The full backward requires the Jacobian of softmax: \(V \times V\) per position,
 costing \(O(B \cdot T \cdot V^2)\).  The fused gradient is \(O(B \cdot T \cdot V)\)
-— a factor of \(V = 256\) speedup.
+- a factor of \(V = 256\) speedup.
 
 \subsection{AdamW Optimizer}
 
 \subsubsection{AdamW vs Adam + L2}
 
-\begin{table}[h!]
+\begin{table}[!ht]
 \centering
 \renewcommand{\arraystretch}{1.3}
 \begin{tabularx}{\textwidth}{@{} l L L @{}}
@@ -2681,7 +2692,7 @@ costing \(O(B \cdot T \cdot V^2)\).  The fused gradient is \(O(B \cdot T \cdot V
 \textbf{Property} & \textbf{Adam + L2} & \textbf{AdamW (decoupled)} \\
 \midrule
 Weight decay entry point & Added to gradient: \(\tilde{g} = g + \lambda\theta\) & Applied to parameter: \(\theta \leftarrow \theta(1 - \eta\lambda)\) \\
-Effective decay strength & \(\eta\lambda / (\sqrt{\hat{v}} + \varepsilon)\) — shrinks for high-variance params & \(\eta\lambda\) — constant for all params \\
+Effective decay strength & \(\eta\lambda / (\sqrt{\hat{v}} + \varepsilon)\) - shrinks for high-variance params & \(\eta\lambda\) - constant for all params \\
 Regularisation uniformity & Non-uniform (depends on \(\hat{v}\)) & Uniform across all parameters \\
 \bottomrule
 \end{tabularx}
@@ -2704,11 +2715,11 @@ Regularisation uniformity & Non-uniform (depends on \(\hat{v}\)) & Uniform acros
 Default hyperparameters:
 \(\beta_1 = 0.9\), \(\beta_2 = 0.999\), \(\varepsilon = 10^{-8}\), \(\lambda = 0.01\).
 
-\subsubsection{Bias correction — why the first steps are stable}
+\subsubsection{Bias correction - why the first steps are stable}
 
 Without correction, \(m_1 = (1-\beta_1)g_1 \approx 0.1 g_1\) and
 \(v_1 \approx 0.001 g_1^2\).  The first step size would be
-\(\eta \cdot 0.1g_1 / (0.032|g_1|) \approx 3.16\eta\) — a \(3.16\times\)
+\(\eta \cdot 0.1g_1 / (0.032|g_1|) \approx 3.16\eta\) - a \(3.16\times\)
 amplification.  Bias correction restores it to \(\eta \cdot \text{sign}(g_1)\)
 regardless of step number.
 
@@ -2717,12 +2728,12 @@ regardless of step number.
   \texttt{std::pow(beta1\_, t)} is called once per step regardless of how
   many parameters exist.  Inside the inner loop (which iterates over up to
   \(\sim\)millions of elements for a large embedding table), computing
-  \texttt{pow()} per element would add \(\sim\)20 ns per element — a 2--5×
+  \texttt{pow()} per element would add \(\sim\)20 ns per element - a 2--5
   slowdown on the entire optimizer step.  Precomputing bc1 and bc2 reduces
   this to a single division per element.
 \end{tcolorbox}
 
-\begin{tcolorbox}[exitbox, title={Step 4.1 — Exit Criterion (met)}]
+\begin{tcolorbox}[exitbox, title={Step 4.1 - Exit Criterion (met)}]
   \begin{itemize}
     \item \texttt{cross\_entropy(logits, targets)} output matches PyTorch reference
           to \(< 10^{-10}\) absolute error. \checkmark
@@ -2737,7 +2748,7 @@ regardless of step number.
 
 
 %% ============================================================
-\section{Step 4.2 — Main Curriculum Training Loop (\texttt{main.cpp})}
+\section{Step 4.2 - Main Curriculum Training Loop (\texttt{main.cpp})}
 %% ============================================================
 
 \begin{tcolorbox}[designbox, title={Step 4.2 Goal}]
@@ -2748,10 +2759,10 @@ regardless of step number.
 
 \subsection{CLI Interface}
 
-\begin{table}[h!]
+\begin{table}[!ht]
 \centering
 \renewcommand{\arraystretch}{1.3}
-\begin{tabular}{@{} l l L @{}}
+\begin{tabular}{@{} l l p{10cm} @{}}
 \toprule
 \textbf{Flag} & \textbf{Default} & \textbf{Description} \\
 \midrule
@@ -2770,7 +2781,7 @@ regardless of step number.
 \textbf{Comma-separated phase steps} are parsed via
 \texttt{std::istringstream} + \texttt{std::getline(ss, tok, ',')}.
 The three values override \texttt{CurriculumScheduler::step\_thresholds} at
-runtime — no recompilation needed for hyperparameter sweeps.
+runtime - no recompilation needed for hyperparameter sweeps.
 
 \subsection{Six-Step Training Inner Loop}
 
@@ -2808,7 +2819,7 @@ if (step > 0 && scheduler.phase_changed(step - 1, step)) {
 }
 \end{lstlisting}
 \texttt{phase\_changed(step-1, step)} fires \emph{exactly once} per boundary.
-The model weights are never reset — knowledge transfers across phases.
+The model weights are never reset - knowledge transfers across phases.
 The RNG inside the DataLoader is also preserved, giving stationary sampling
 distribution across the transition.
 \end{tcolorbox}
@@ -2822,7 +2833,7 @@ for (const NodePtr& p : model.parameters())
     out.write(reinterpret_cast<const char*>(p->data.data_ptr()),
               p->data.numel() * sizeof(double));
 \end{lstlisting}
-Raw little-endian \texttt{double} array — no header, minimal overhead.
+Raw little-endian \texttt{double} array - no header, minimal overhead.
 Three checkpoints are written: one per completed phase plus a final
 \texttt{checkpoint\_final.bin}.
 \end{tcolorbox}
@@ -2844,14 +2855,14 @@ could silently produce an all-NaN model.
 \begin{tcolorbox}[interviewbox,
     title={Interview: Why call zero\_grad() BEFORE forward(), not after backward()?}]
   Calling \texttt{zero\_grad()} after backward would wipe out the gradients
-  just accumulated — making the subsequent \texttt{optimizer.step()} operate on
+  just accumulated - making the subsequent \texttt{optimizer.step()} operate on
   all-zero gradients.  The correct order is:
-  \textbf{zero} → \textbf{forward} → \textbf{backward} → \textbf{step}.
+  \textbf{zero}  \textbf{forward}  \textbf{backward}  \textbf{step}.
   Zeroing before forward ensures that any leftover gradient from the previous
   step is cleared before new data enters the computation graph.
 \end{tcolorbox}
 
-\begin{tcolorbox}[exitbox, title={Step 4.2 — Exit Criterion (met)}]
+\begin{tcolorbox}[exitbox, title={Step 4.2 - Exit Criterion (met)}]
   \begin{itemize}
     \item \texttt{./transformer -{}-phase\_steps 100,200,400} runs all three
           phases without segfault. \checkmark
@@ -2864,7 +2875,7 @@ could silently produce an all-NaN model.
 \end{tcolorbox}
 
 %% ============================================================
-\section{Step 5.1 — GTest Unit Tests: Math Engine \& NN Modules}
+\section{Step 5.1 - GTest Unit Tests: Math Engine \& NN Modules}
 %% ============================================================
 
 \begin{tcolorbox}[designbox, title={Step 5.1 Goal}]
@@ -2876,10 +2887,10 @@ could silently produce an all-NaN model.
 
 \subsection{Test Files Overview}
 
-\begin{table}[h!]
+\begin{table}[!ht]
 \centering
 \renewcommand{\arraystretch}{1.3}
-\begin{tabular}{@{} l l L @{}}
+\begin{tabular}{@{} l l p{10cm} @{}}
 \toprule
 \textbf{File} & \textbf{Tests} & \textbf{Key assertions} \\
 \midrule
@@ -2903,10 +2914,10 @@ The central finite difference formula:
 \]
 achieves $O(\varepsilon^2)$ truncation error ($\approx 10^{-8}$), safely within the
 $10^{-6}$ tolerance.  The forward difference $[f(x+\varepsilon)-f(x)]/\varepsilon$
-achieves only $O(\varepsilon)$, requiring a 100$\times$ smaller $\varepsilon$ — which
+achieves only $O(\varepsilon)$, requiring a 100$\times$ smaller $\varepsilon$ - which
 amplifies floating-point cancellation errors.
 
-\begin{tcolorbox}[codebox, title={check\_gradients — implementation sketch}]
+\begin{tcolorbox}[codebox, title={check\_gradients - implementation sketch}]
 \begin{lstlisting}[language=C++]
 for each param p, for each element j:
     orig = p->data[j]
@@ -2949,7 +2960,7 @@ Then:
     title={Interview: Why central difference instead of forward difference?}]
   Forward difference error is $O(\varepsilon)$: for $\varepsilon = 10^{-4}$ the
   truncation error is $\approx 10^{-4}$, which is larger than our tolerance
-  $10^{-6}$ — the test would fail even for a correct implementation.
+  $10^{-6}$ - the test would fail even for a correct implementation.
   Central difference error is $O(\varepsilon^2) \approx 10^{-8}$, safely below
   tolerance.  The cost is one extra function evaluation per parameter element,
   which is acceptable since gradient checks run only in the test suite,
@@ -2961,7 +2972,7 @@ Then:
   After perturbing $\theta_i$, calling \texttt{build\_graph()} creates a brand-new
   DAG from the modified parameter values.  If we reused the old DAG, the forward
   values would be stale (the DAG stores the un-perturbed outputs in node\texttt{->data}).
-  Rebuilding is correct but expensive — acceptable only in tests.
+  Rebuilding is correct but expensive - acceptable only in tests.
 \end{tcolorbox}
 
 \begin{tcolorbox}[interviewbox,
@@ -2971,12 +2982,12 @@ Then:
   where $j > i$.  Since $\exp(-10^9) \approx 0$ to machine precision, those
   attention weights are exactly $0$ after normalisation.  The gradient in
   backward is also set to zero for masked entries, so no gradient flows through
-  the mask — future positions receive no learning signal from past positions.
+  the mask - future positions receive no learning signal from past positions.
 \end{tcolorbox}
 
-\begin{tcolorbox}[exitbox, title={Step 5.1 — Exit Criterion (met)}]
+\begin{tcolorbox}[exitbox, title={Step 5.1 - Exit Criterion (met)}]
   \begin{itemize}
-    \item \texttt{ctest -{}-output-on-failure} — all 52 assertions pass with 0
+    \item \texttt{ctest -{}-output-on-failure} - all 52 assertions pass with 0
           failures. \checkmark
     \item Numerical gradient check: all ops within $10^{-6}$ relative tolerance. \checkmark
     \item \texttt{CausalSelfAttention}: position 0 output $=$ $x[0,0,:]$ (causal mask). \checkmark
@@ -2986,7 +2997,7 @@ Then:
 \end{tcolorbox}
 
 %% ============================================================
-\section{Step 5.2 — GTest Tests: DataLoader \& Curriculum + Benchmarks}
+\section{Step 5.2 - GTest Tests: DataLoader \& Curriculum + Benchmarks}
 %% ============================================================
 
 \begin{tcolorbox}[designbox, title={Step 5.2 Goal}]
@@ -2997,12 +3008,12 @@ Then:
 
 \subsection{Test Files}
 
-\subsubsection{\texttt{test\_dataloader.cpp} — 12 tests}
+\subsubsection{\texttt{test\_dataloader.cpp} - 12 tests}
 
-\begin{table}[h!]
+\begin{table}[!ht]
 \centering
 \renewcommand{\arraystretch}{1.3}
-\begin{tabular}{@{} l L @{}}
+\begin{tabular}{@{} l p{12cm} @{}}
 \toprule
 \textbf{Test} & \textbf{Assertion} \\
 \midrule
@@ -3023,7 +3034,7 @@ vocab\_size, reserved) followed by a deterministic \texttt{uint16\_t} payload
 where \texttt{token[i] = i \% 256}.  This makes exact token values predictable
 without requiring a real dataset.
 
-\subsubsection{\texttt{test\_curriculum.cpp} — 21 tests}
+\subsubsection{\texttt{test\_curriculum.cpp} - 21 tests}
 
 Tests cover every boundary condition: \texttt{advance()} at steps $-1+T_0$,
 $T_0$, $T_1$, $+\infty$; \texttt{phase\_changed()} fires exactly once at each
@@ -3033,7 +3044,7 @@ is detected.  Invalid threshold ordering ($T_0 \geq T_1$) throws
 
 \subsection{Benchmark Files}
 
-\subsubsection{\texttt{bench\_matmul.cpp} — GFLOPS comparison}
+\subsubsection{\texttt{bench\_matmul.cpp} - GFLOPS comparison}
 
 \[
   \text{GFLOPS} = \frac{2N^3}{t_{\text{seconds}} \times 10^9}
@@ -3041,7 +3052,7 @@ is detected.  Invalid threshold ordering ($T_0 \geq T_1$) throws
 
 Three matrix sizes expose the cache hierarchy:
 
-\begin{table}[h!]
+\begin{table}[!ht]
 \centering
 \renewcommand{\arraystretch}{1.3}
 \begin{tabular}{@{} l r r r @{}}
@@ -3060,7 +3071,7 @@ cache miss every $\text{cache\_line\_size}/\text{sizeof}(\text{double}) = 8$
 elements.  Cache blocking fetches $\texttt{BLOCK}^2 \times 3$ elements once per
 tile and reuses them $\texttt{BLOCK}$ times.
 
-\subsubsection{\texttt{bench\_attention.cpp} — tokens/sec}
+\subsubsection{\texttt{bench\_attention.cpp} - tokens/sec}
 
 \[
   \text{tok/s} = \frac{B \times T \times \text{reps}}{t_{\text{seconds}}}
@@ -3071,7 +3082,7 @@ The $O(T^2 d_k)$ attention cost is directly observable: doubling $T$ from 128
 to 512 ($4\times$) should reduce tokens/sec by more than $4\times$ due to the
 quadratic attention matrix computation.
 
-\subsubsection{\texttt{bench\_dataloader.cpp} — GB/s}
+\subsubsection{\texttt{bench\_dataloader.cpp} - GB/s}
 
 \[
   \text{GB/s} =
@@ -3118,23 +3129,23 @@ bandwidth (target $\geq 5$ GB/s, easily $>20$ GB/s on DRAM).
   which is the defining property of next-token prediction.
 \end{tcolorbox}
 
-\begin{tcolorbox}[exitbox, title={Step 5.2 — Exit Criterion (met)}]
+\begin{tcolorbox}[exitbox, title={Step 5.2 - Exit Criterion (met)}]
   \begin{itemize}
-    \item \texttt{test\_dataloader} — all 12 assertions pass, including
+    \item \texttt{test\_dataloader} - all 12 assertions pass, including
           RNG-state preservation across \texttt{switch\_dataset()}. \checkmark
-    \item \texttt{test\_curriculum} — 21 tests pass; boundaries detected
+    \item \texttt{test\_curriculum} - 21 tests pass; boundaries detected
           at exact steps; invalid threshold throws. \checkmark
-    \item \texttt{bench\_matmul} — cache-blocked matmul $\geq 2\times$ faster
+    \item \texttt{bench\_matmul} - cache-blocked matmul $\geq 2\times$ faster
           than naive at $N=512$ (typically $3$--$5\times$). \checkmark
-    \item \texttt{bench\_attention} — $\geq 10{,}000$ tok/s at $d=64$, $T=128$;
+    \item \texttt{bench\_attention} - $\geq 10{,}000$ tok/s at $d=64$, $T=128$;
           $T^2$ scaling clearly visible across configs. \checkmark
-    \item \texttt{bench\_dataloader} — $\geq 5$ GB/s on warm page cache
+    \item \texttt{bench\_dataloader} - $\geq 5$ GB/s on warm page cache
           (typically $>20$ GB/s). \checkmark
   \end{itemize}
 \end{tcolorbox}
 
 %% ============================================================
-\section{Step 5.3 — CMake Build System \& REST Inference Server}
+\section{Step 5.3 - CMake Build System \& REST Inference Server}
 %% ============================================================
 
 \begin{tcolorbox}[designbox, title={Step 5.3 Goal --- The Final Assembly}]
@@ -3146,10 +3157,10 @@ bandwidth (target $\geq 5$ GB/s, easily $>20$ GB/s on DRAM).
 
 \subsection{CMakeLists.txt Design}
 
-\begin{table}[h!]
+\begin{table}[!ht]
 \centering
 \renewcommand{\arraystretch}{1.3}
-\begin{tabular}{@{} l L @{}}
+\begin{tabular}{@{} l p{12cm} @{}}
 \toprule
 \textbf{CMake Feature} & \textbf{Rationale} \\
 \midrule
@@ -3202,7 +3213,7 @@ header block from the body, then reads exactly \texttt{Content-Length} bytes.
 Two-phase \texttt{recv()} guarantees the full POST body arrives even if the TCP
 stack splits it across multiple packets.
 
-\subsection{/predict Handler — Data Flow}
+\subsection{/predict Handler - Data Flow}
 
 \[
 \underbrace{\texttt{\{"prompt": "1+1="\}}}_{\text{JSON body}}
@@ -3269,7 +3280,7 @@ Correct for all well-formed JSON produced by \texttt{curl} or any standard seria
   GTest API change between nightly snapshots.
 \end{tcolorbox}
 
-\begin{tcolorbox}[exitbox, title={Step 5.3 — Exit Criterion (met) --- PROJECT COMPLETE}]
+\begin{tcolorbox}[exitbox, title={Step 5.3 - Exit Criterion (met) --- PROJECT COMPLETE}]
   \begin{itemize}
     \item \texttt{cmake .. \&\& make -j\$(nproc)} builds all targets with zero
           warnings (\texttt{-Wall -Wextra -Wpedantic}). \checkmark
@@ -3353,79 +3364,127 @@ While BLAS optimizations maximize CPU throughput, scaling this architecture to l
     \item \textbf{Implementation Pathway}: To scale this engine, the core \texttt{engine::ops::matmul} function would be rewritten in CUDA C++ or linked against \texttt{cuBLAS}. The autograd DAG logic and structure would remain entirely on the CPU, but the actual tensor buffers would be allocated in GPU VRAM (\texttt{cudaMalloc}), data would be transferred over the PCIe bus (\texttt{cudaMemcpy}), and calculations would be offloaded to thousands of parallel GPU threads via CUDA kernels.
 \end{itemize}
 
-\subsection{Smoke Test Execution Log (400 Steps Curriculum)}
+\subsection{1-Hour Curriculum Test Execution Log (1200 Steps)}
 
-To definitively prove the engine's memory safety, dataloader multi-file transitioning, and end-to-end autograd stability, a 400-step smoke test was executed without a single segmentation fault or memory leak. The engine successfully transitioned across three datasets (\texttt{math.bin}, \texttt{stories.bin}, \texttt{wiki.bin}) and saved model checkpoints.
+To definitively prove the engine's memory safety, dataloader multi-file transitioning, and end-to-end autograd stability, a comprehensive 1200-step test (approximately 1 hour locally) was executed. The engine successfully transitioned across the synthetic math dataset (now supporting subtraction), TinyStories, and Wikipedia without memory leaks. Crucially, the mathematical loss smoothly dropped during all three phases, demonstrating active learning.
 
 \begin{verbatim}
-╔══════════════════════════════════════════════╗
-║   C++ Transformer — Curriculum Training      ║
-╠══════════════════════════════════════════════╣
-║  d_model     =       64    n_heads  =   4 ║
-║  n_layers    =        2    seq_len  = 128 ║
-║  batch_size  =       32    lr       = 0.001 ║
-║  ~params     ≈   173696                 ║
-╠══════════════════════════════════════════════╣
-║  Phase 0 MATH    steps [0,        100)      ║
-║  Phase 1 STORIES steps [   100,    200)      ║
-║  Phase 2 WIKI    steps [   200,    400)      ║
-╚══════════════════════════════════════════════╝
+
+   C++ Transformer - Curriculum Training      
+
+  d_model     =       64    n_heads  =   4 
+  n_layers    =        2    seq_len  = 128 
+  batch_size  =       32    lr       = 0.001 
+  ~params        173696                 
+
+  Phase 0 MATH    steps [0,        400)      
+  Phase 1 STORIES steps [   400,    800)      
+  Phase 2 WIKI    steps [   800,   1200)      
+
 
 [INFO] Curriculum initialized.
-       Total training steps: 400
+       Total training steps: 1200
 
 [INFO] DataLoader opened: data/math.bin
-       Tokens mapped: 5085774
+       Tokens mapped: 4900039
 
 [INFO] Transformer initialized.
        Parameters: 37 tensors
 
 [INFO] AdamW optimizer initialized.
-       lr=0.001  β₁=0.9  β₂=0.999  ε=1e-8  λ=0.01
+       lr=0.001  =0.9  =0.999  =1e-8  =0.01
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
   TRAINING START
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-  step=     0  phase=   MATH  loss=  5.6744  lr=1.00e-03  speed=    0.0 step/s
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  CURRICULUM TRANSITION: MATH → STORIES  (step 100)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  [CKPT] Saved 1102 KB → checkpoint_phase0.bin
+  step=     0  phase=   MATH  loss=  5.6703  lr=1.00e-03  speed=    0.0 step/s
+  step=   100  phase=   MATH  loss=  2.4458  lr=1.00e-03  speed=    0.3 step/s
+  step=   200  phase=   MATH  loss=  2.4025  lr=1.00e-03  speed=    0.3 step/s
+  step=   300  phase=   MATH  loss=  2.2678  lr=1.00e-03  speed=    0.3 step/s
+
+
+  CURRICULUM TRANSITION: MATH  STORIES  (step 400)
+
+  [CKPT] Saved 1102 KB  checkpoint_phase0.bin
   [INFO] Dataset swapped to data/stories.bin
          Tokens available: 1904212181
 
-  step=   100  phase=STORIES  loss=  9.0678  lr=1.00e-03  speed=    0.3 step/s
+  step=   400  phase=STORIES  loss= 11.1010  lr=1.00e-03  speed=    0.3 step/s
+  step=   500  phase=STORIES  loss=  2.9067  lr=1.00e-03  speed=    0.3 step/s
+  step=   600  phase=STORIES  loss=  2.4937  lr=1.00e-03  speed=    0.3 step/s
+  step=   700  phase=STORIES  loss=  2.4287  lr=1.00e-03  speed=    0.3 step/s
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  CURRICULUM TRANSITION: STORIES → WIKI  (step 200)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  [CKPT] Saved 1102 KB → checkpoint_phase1.bin
+
+  CURRICULUM TRANSITION: STORIES  WIKI  (step 800)
+
+  [CKPT] Saved 1102 KB  checkpoint_phase1.bin
   [INFO] Dataset swapped to data/wiki.bin
          Tokens available: 273058991
 
-  step=   200  phase=   WIKI  loss=  3.4399  lr=1.00e-03  speed=    0.3 step/s
-  step=   300  phase=   WIKI  loss=  2.8562  lr=1.00e-03  speed=    0.3 step/s
+  step=   800  phase=   WIKI  loss=  3.7861  lr=1.00e-03  speed=    0.3 step/s
+  step=   900  phase=   WIKI  loss=  2.7364  lr=1.00e-03  speed=    0.3 step/s
+  step=  1000  phase=   WIKI  loss=  2.6644  lr=1.00e-03  speed=    0.3 step/s
+  step=  1100  phase=   WIKI  loss=  2.6388  lr=1.00e-03  speed=    0.3 step/s
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  TRAINING COMPLETE  (400 steps)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-  [CKPT] Saved 1102 KB → checkpoint_final.bin
+  TRAINING COMPLETE  (1200 steps)
+
+
+  [CKPT] Saved 1102 KB  checkpoint_final.bin
 
 [SUMMARY]
-  Total steps  : 400
-  Total time   : 1412.2 s
+  Total steps  : 1200
+  Total time   : 4217.3 s
   Avg speed    : 0.28 step/s
   Final ckpt   : checkpoint_final.bin
 \end{verbatim}
 
-%% ── Final project summary ─────────────────────────────────────────
+%% ============================================================
+\section{Phase 6 - Cloud Deployment \& Large-Scale Training}
+%% ============================================================
+
+\begin{tcolorbox}[designbox, title={Phase 6 Goal}]
+  Deploy the C++ Deep Learning Engine to a high-performance Google Cloud Platform (GCP) Compute Engine instance to perform a 7-day continuous training run on a 3.1 million parameter model across a 50,000-step curriculum.
+\end{tcolorbox}
+
+\subsection{Cloud Hardware Selection}
+Due to local hardware constraints (8-core laptop without sustained thermal headroom), training was migrated to a Google Cloud \texttt{c2-standard-8} instance. The C2 instance family features Intel Cascade Lake processors with high memory bandwidth and AVX-512 vector instructions, ensuring maximal throughput for the C++ engine's matrix operations without thermal throttling during the 168-hour run.
+
+\subsection{Deployment Pipeline}
+The deployment process utilised the Google Cloud CLI (\texttt{gcloud}) directly from the local Windows Subsystem for Linux (WSL) environment:
+\begin{enumerate}
+    \item \textbf{Provisioning:} A 50 GB Ubuntu 22.04 LTS boot disk was selected to accommodate the 4.3 GB \texttt{.bin} dataset.
+    \item \textbf{Secure Transfer:} The entire \texttt{Project} directory was transferred using \texttt{gcloud compute scp --recurse}.
+    \item \textbf{Compilation:} To fully leverage the cloud architecture, the engine was recompiled directly on the VM using \texttt{cmake} and \texttt{make}.
+\end{enumerate}
+
+\subsection{The "Golden Ratio" Training Command}
+To fit a meaningful curriculum into exactly 7 days (168 hours) on 8 CPU cores, the model dimensions and step thresholds were mathematically balanced. A 3.1 million parameter architecture was selected:
+\begin{itemize}
+    \item \texttt{d\_model = 256}
+    \item \texttt{n\_heads = 4}
+    \item \texttt{n\_layers = 4}
+\end{itemize}
+
+The curriculum was scheduled for 50,000 total steps:
+\begin{itemize}
+    \item \textbf{Math Phase:} 5,000 steps
+    \item \textbf{Stories Phase:} 20,000 steps (Transition at 5,000)
+    \item \textbf{Wikipedia Phase:} 25,000 steps (Transition at 25,000; Total 50,000)
+\end{itemize}
+
+The training was launched asynchronously using \texttt{nohup} to ensure persistence across SSH session disconnects:
+\begin{lstlisting}[language=bash, caption={Cloud Training Command}, numbers=none]
+nohup ./build/transformer --d_model 256 --n_heads 4 --n_layers 4 \
+  --phase_steps 5000,25000,50000 > training.log 2>&1 &
+\end{lstlisting}
+
+%%  Final project summary 
 \section*{Project Complete --- Full Repository Summary}
 \addcontentsline{toc}{section}{Project Complete}
 
-\begin{table}[h!]
+\begin{table}[!ht]
 \centering
 \renewcommand{\arraystretch}{1.4}
 \begin{tabular}{@{} l l r @{}}
@@ -3449,14 +3508,40 @@ Build           & CMakeLists.txt                        & $\approx 130$ \\
 \caption{Complete repository inventory --- C++17, zero external runtime dependencies.}
 \end{table}
 
-%% ── End of Document ─────────────────────────────────────────
+
+%%  End of Document
 \vfill
 \begin{center}
   \textcolor{accentgold}{\rule{8cm}{0.8pt}}\\[0.4em]
   {\small\textcolor{gray}%
     {C++ Deep Learning Engine --- Build Log \textbar{}
      Steps 1.1--1.4, 2.1--2.4, 3.1--3.3, 4.1--4.2, 5.1--5.3 --- COMPLETE \textbar{}
-     \today}}
+     \today}}MiKTeX
 \end{center}
+
+%% ============================================================
+\newpage
+\section{Phase 6 --- The Greedy Decoding Trap \& Temperature Sampling}
+%% ============================================================
+
+\begin{tcolorbox}[designbox, title={Phase 6 Problem Statement}]
+  During the initial integration of the C++ Inference Server with the modern web frontend, a critical issue arose: the AI generated infinitely looping text sequences (e.g., ``It is a big box with a big box with a big box...'').
+\end{tcolorbox}
+
+\subsection{Understanding the Loop (Argmax Greedy Decoding)}
+Initially, the \texttt{inference\_handler.cpp} utilised a mathematically pure ``Greedy Decoding'' strategy (i.e., \texttt{argmax} over the output logit array). While this correctly selected the single highest probability token at each step, it caused catastrophic failure in continuous generation. 
+
+Because there was absolutely zero stochasticity (randomness) in the output selection, the model was mathematically doomed to get stuck in an infinite loop if the optimal next word led back to the beginning of a phrase it had just generated. A base auto-regressive model requires temperature scaling and random sampling to mimic human creativity and break out of inescapable local maxima.
+
+\subsection{The Solution: Implementing Temperature Sampling in C++}
+Instead of relying on \texttt{greedy\_decode()}, we implemented a robust \texttt{sample\_with\_temperature()} function directly into the C++ inference handler. 
+
+The mathematics implemented involve converting the raw logits into a proper probability distribution using the Softmax function, divided by a $Temperature$ hyperparameter $T$:
+\[
+P(x_i) = \frac{\exp(\text{logit}_i / T)}{\sum_{j} \exp(\text{logit}_j / T)}
+\]
+By scaling the logits before exponentiation, we flatten the probability distribution. A temperature of $0.8$ introduces enough randomness to allow the 2nd or 3rd most probable words to occasionally be selected, thereby breaking any potential loops. 
+
+In C++, this was efficiently implemented using \texttt{std::discrete\_distribution} and a thread-local \texttt{std::mt19937} random number generator to mathematically ``roll a weighted dice'' across the scaled probability array. The \texttt{temperature} is now extracted dynamically from the frontend's JSON API request, allowing for real-time adjustment of model creativity!
 
 \end{document}

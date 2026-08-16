@@ -519,7 +519,7 @@ int main(int argc, char** argv)
                       << optimizer.lr
                       << std::fixed    << std::setprecision(1)
                       << "  speed=" << std::setw(7) << steps_per_sec << " step/s"
-                      << "\n";
+                      << std::endl;
         }
 
     }  // ── end training loop ──────────────────────────────────────────────────

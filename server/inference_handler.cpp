@@ -60,12 +60,15 @@
 #include "server/inference_handler.hpp"
 
 #include <algorithm> // std::max_element
+#include <cmath>
 #include <cstdint>
 #include <iostream>
+#include <random>
 #include <sstream>
 #include <stdexcept>
 #include <string>
 #include <vector>
+#include <cctype>
 
 namespace server {
 using engine::NodePtr;
@@ -186,6 +189,53 @@ static size_t greedy_decode(const double *logit_ptr, size_t vocab_size) {
   return best;
 }
 
+static double extract_temperature(const std::string &body) {
+  const std::string KEY = "\"temperature\"";
+  const auto key_pos = body.find(KEY);
+  if (key_pos == std::string::npos) {
+    return 0.8; // default
+  }
+  const auto colon_pos = body.find(':', key_pos + KEY.size());
+  if (colon_pos == std::string::npos) {
+    return 0.8;
+  }
+  size_t start = colon_pos + 1;
+  while (start < body.size() && std::isspace(body[start])) start++;
+  size_t end = start;
+  while (end < body.size() && (std::isdigit(body[end]) || body[end] == '.')) end++;
+  
+  if (start == end) return 0.8;
+  try {
+    return std::stod(body.substr(start, end - start));
+  } catch (...) {
+    return 0.8;
+  }
+}
+
+/**
+ * @brief Sample with temperature from logit vector.
+ */
+static size_t sample_with_temperature(const double *logit_ptr, size_t vocab_size, double temperature) {
+  if (temperature <= 0.0) {
+    return greedy_decode(logit_ptr, vocab_size);
+  }
+  
+  std::vector<double> probs(vocab_size);
+  double max_logit = logit_ptr[0];
+  for (size_t v = 1; v < vocab_size; ++v) {
+    if (logit_ptr[v] > max_logit) max_logit = logit_ptr[v];
+  }
+  
+  for (size_t v = 0; v < vocab_size; ++v) {
+    probs[v] = std::exp((logit_ptr[v] - max_logit) / temperature);
+  }
+  
+  std::discrete_distribution<size_t> dist(probs.begin(), probs.end());
+  static thread_local std::mt19937 gen(std::random_device{}());
+  
+  return dist(gen);
+}
+
 /**
  * @brief Build a safe JSON string: escape backslashes and double-quotes.
  *
@@ -277,7 +327,8 @@ RouteHandler make_predict_handler(engine::nn::Transformer &model,
     const double *logit_base = logits->data.data_ptr();
     const double *last_logits = logit_base + (T - 1) * V; // shape [V]
 
-    const size_t predicted_id = greedy_decode(last_logits, V);
+    const double temp = extract_temperature(req.body);
+    const size_t predicted_id = sample_with_temperature(last_logits, V, temp);
 
     // ── 6. Decode token back to character ─────────────────────────────────
     const char predicted_char =

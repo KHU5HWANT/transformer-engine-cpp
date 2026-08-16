@@ -9,8 +9,8 @@
 transformer
 transformer_server
 
-# Large Datasets and Checkpoints
-*.bin
+# Large Datasets
+# Note: Checkpoint weights (.bin) are kept tracked since they are small (~12MB)
 data/*.bin
 
 # Output logs and temporary files
