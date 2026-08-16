@@ -216,12 +216,15 @@ void HttpServer::handle_connection(int client_fd) const
         // ── 2. If POST, read remaining body bytes ─────────────────────────────
         // Scan for Content-Length in the headers block
         size_t content_length = 0;
-        const std::string cl_key = "Content-Length: ";
-        const auto cl_pos = raw.find(cl_key);
+        size_t cl_pos = raw.find("Content-Length: ");
+        size_t key_len = 16;
+        if (cl_pos == std::string::npos) {
+            cl_pos = raw.find("content-length: ");
+        }
         if (cl_pos != std::string::npos && cl_pos < sep) {
             const auto eol = raw.find("\r\n", cl_pos);
-            const std::string cl_val = raw.substr(cl_pos + cl_key.size(),
-                                                   eol - cl_pos - cl_key.size());
+            const std::string cl_val = raw.substr(cl_pos + key_len,
+                                                   eol - cl_pos - key_len);
             content_length = std::stoul(cl_val);
         }
 

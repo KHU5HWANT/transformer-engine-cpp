@@ -43,5 +43,8 @@ COPY checkpoint_phase1.bin .
 # Expose the port that the cloud provider will route traffic to
 EXPOSE 8080
 
+# Limit OpenMP to 1 thread to avoid catastrophic context-switching overhead on Render Free Tier (0.1 vCPU)
+ENV OMP_NUM_THREADS=1
+
 # Default command to run the server (Starts the Alice/Story model by default)
 CMD ["./transformer_server", "--port", "8080", "--checkpoint", "checkpoint_phase1.bin", "--d_model", "256", "--n_heads", "4", "--n_layers", "4"]
