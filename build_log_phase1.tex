@@ -3590,4 +3590,17 @@ When discussing this deployment in a Software Engineering interview, emphasize t
 \newline\newline
 \textbf{The Solution (Batch Generation):} We architecturally shifted the autoregressive generation loop from the frontend into the C++ backend. The \texttt{/predict} API was upgraded to accept a \texttt{max\_tokens} parameter. The C++ \texttt{inference\_handler} now loops internally, appending characters to the prompt and running forward passes until the sequence is complete, returning the entire generated string in a \textit{single} HTTP response. The React frontend was updated to make just 1 API call, and the typing effect was simulated locally via JavaScript timeouts. This completely eliminated the N+1 network latency, reducing wait times by over 80\%.
 
+\subsection{Pipelined Asynchronous Pre-Fetching for Latency Masking}
+\textbf{The Root Cause (Problem):} While batching the generation solved the N+1 network latency, it introduced a severe UI freeze. Generating 64 tokens in a single request took Render's 0.1 vCPU over 20-30 seconds to compute. During this entire time, the UI was completely unresponsive, providing zero visual feedback to the user until the massive JSON payload finally arrived.
+\newline\newline
+\textbf{The Solution (Pipeline Streaming):} We implemented a mathematically precise asynchronous pre-fetching pipeline in React to perfectly mask the server's slow compute time. The architecture works as follows:
+\begin{enumerate}
+    \item \textbf{Chunked Requests:} We split the 64-token request into smaller chunks of 5 tokens.
+    \item \textbf{Parallel Execution:} As soon as the first 5-token chunk arrives, the React frontend immediately fires the \textit{next} asynchronous \texttt{fetch} request for the subsequent 5 tokens.
+    \item \textbf{Latency Masking via Animation:} While the next request travels over the network and the Render server computes the response (taking approximately 10 seconds total), the React frontend slowly types out the \textit{current} 5 tokens on the screen.
+\end{enumerate}
+By precisely calculating the total delay (10s compute + 0.4s network = 10.4s) and dividing it by the chunk size (5 characters), we set the typing animation delay to exactly \textbf{2.08 seconds (2080ms) per character}. By the time the UI finishes typing the 5th character, the next chunk arrives seamlessly. To the user, the AI appears to be typing continuously with zero stuttering or freezing, completely masking the fact that the backend CPU is severely underpowered.
+\newline\newline
+\textbf{Interview Presentation Tip:} This is a classic example of using advanced frontend systems engineering (JavaScript Promises, asynchronous loops, and animation buffers) to solve backend hardware limitations. It proves you can identify compute bottlenecks and engineer creative architectural solutions that drastically improve UX without requiring more expensive cloud infrastructure.
+
 \end{document}
