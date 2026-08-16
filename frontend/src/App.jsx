@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { predictNextToken } from './api/predict.js';
+import { predictSequence } from './api/predict.js';
 import { 
   Settings2, 
   TerminalSquare, 
@@ -86,17 +86,21 @@ export default function App() {
       abortRef.current = controller;
       const maxTokens = activeMode === 'math' ? 5 : 64;
       
-      for (let i = 0; i < maxTokens; i++) {
-        let contextWindow = currentText;
-        if (contextWindow.length > 120) {
-          contextWindow = contextWindow.slice(-120);
-        }
+      let contextWindow = currentText;
+      if (contextWindow.length > 120) {
+        contextWindow = contextWindow.slice(-120);
+      }
 
-        const char = await predictNextToken(contextWindow, controller.signal, temperature);
-        if (!char) break;
-        currentText += char;
+      // 1 API call to get the entire sequence
+      const generatedText = await predictSequence(contextWindow, maxTokens, controller.signal, temperature);
+      
+      // Simulate typing effect locally for good UX
+      for (let i = 0; i < generatedText.length; i++) {
+        if (controller.signal.aborted) break;
+        currentText += generatedText[i];
         setOutput(currentText);
-        if (currentText.endsWith(stopSequence)) break;
+        // Small delay for typing effect
+        await new Promise(r => setTimeout(r, 20));
       }
 
     } catch (error) {

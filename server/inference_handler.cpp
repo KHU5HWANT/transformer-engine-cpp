@@ -212,6 +212,29 @@ static double extract_temperature(const std::string &body) {
   }
 }
 
+static size_t extract_max_tokens(const std::string &body) {
+  const std::string KEY = "\"max_tokens\"";
+  const auto key_pos = body.find(KEY);
+  if (key_pos == std::string::npos) {
+    return 1; // default to 1 for backward compatibility
+  }
+  const auto colon_pos = body.find(':', key_pos + KEY.size());
+  if (colon_pos == std::string::npos) {
+    return 1;
+  }
+  size_t start = colon_pos + 1;
+  while (start < body.size() && std::isspace(body[start])) start++;
+  size_t end = start;
+  while (end < body.size() && std::isdigit(body[end])) end++;
+  
+  if (start == end) return 1;
+  try {
+    return std::stoul(body.substr(start, end - start));
+  } catch (...) {
+    return 1;
+  }
+}
+
 /**
  * @brief Sample with temperature from logit vector.
  */
@@ -289,58 +312,60 @@ RouteHandler make_predict_handler(engine::nn::Transformer &model,
                               std::to_string(context_len) + " chars)\"}"};
     }
 
-    // ── 3. Char-level tokenisation ────────────────────────────────────────
-    std::vector<size_t> token_ids;
-    try {
-      token_ids = char_tokenise(prompt);
-    } catch (const std::invalid_argument &ex) {
-      return HttpResponse{400, "Bad Request", "application/json",
-                          std::string(R"({"error": ")") + ex.what() + "\"}"};
-    }
-
-    const size_t T = token_ids.size();
-
-    std::cout << "  [inference] prompt=\"" << prompt << "\"  T=" << T << "\n";
-
-    // ── 4. Transformer forward pass ───────────────────────────────────────
-    // model.forward(token_ids, batch_size=1, seq_len=T)
-    // Returns NodePtr with data shape [1, T, vocab_size]
-    NodePtr logits;
-    try {
-      logits = model.forward(token_ids, /*batch_size=*/1, T);
-    } catch (const std::exception &ex) {
-      std::cerr << "  [inference] forward() threw: " << ex.what() << "\n";
-      return HttpResponse{500, "Internal Server Error", "application/json",
-                          std::string(R"({"error": "model forward failed: ")") +
-                              ex.what() + "\"}"};
-    }
-
-    // ── 5. Greedy decode — argmax at last position ────────────────────────
-    // logits->data shape: [1, T, V]
-    // Stride: [T*V, V, 1]  → last position slice starts at offset (T-1)*V
-    if (logits->data.ndim() != 3) {
-      return HttpResponse{500, "Internal Server Error", "application/json",
-                          R"({"error": "unexpected logit shape"})"};
-    }
-
-    const size_t V = logits->data.shape()[2];
-    const double *logit_base = logits->data.data_ptr();
-    const double *last_logits = logit_base + (T - 1) * V; // shape [V]
-
+    // ── 3. Initialize prediction loop variables ───────────────────────────
+    std::string current_prompt = prompt;
+    std::string total_completion = "";
     const double temp = extract_temperature(req.body);
-    const size_t predicted_id = sample_with_temperature(last_logits, V, temp);
+    const size_t max_tokens = extract_max_tokens(req.body);
 
-    // ── 6. Decode token back to character ─────────────────────────────────
-    const char predicted_char =
-        static_cast<char>(static_cast<unsigned char>(predicted_id));
-    const std::string completion(1, predicted_char);
+    for (size_t step = 0; step < max_tokens; ++step) {
+      if (current_prompt.size() > context_len) {
+        current_prompt = current_prompt.substr(current_prompt.size() - context_len);
+      }
+      
+      std::vector<size_t> token_ids;
+      try {
+        token_ids = char_tokenise(current_prompt);
+      } catch (const std::invalid_argument &ex) {
+        return HttpResponse{400, "Bad Request", "application/json",
+                            std::string(R"({"error": ")") + ex.what() + "\"}"};
+      }
+      
+      const size_t T = token_ids.size();
+      NodePtr logits;
+      try {
+        logits = model.forward(token_ids, /*batch_size=*/1, T);
+      } catch (const std::exception &ex) {
+        return HttpResponse{500, "Internal Server Error", "application/json",
+                            std::string(R"({"error": "model forward failed: ")") + ex.what() + "\"}"};
+      }
+      
+      if (logits->data.ndim() != 3) {
+        return HttpResponse{500, "Internal Server Error", "application/json", R"({"error": "unexpected logit shape"})"};
+      }
+      
+      const size_t V = logits->data.shape()[2];
+      const double *logit_base = logits->data.data_ptr();
+      const double *last_logits = logit_base + (T - 1) * V;
+      
+      const size_t predicted_id = sample_with_temperature(last_logits, V, temp);
+      const char predicted_char = static_cast<char>(static_cast<unsigned char>(predicted_id));
+      
+      total_completion += predicted_char;
+      current_prompt += predicted_char;
+      
+      // Stop sequence for math
+      if (temp == 0.0 && predicted_char == ' ') break;
+      // Stop sequence for text
+      if (total_completion.size() >= 2 && 
+          total_completion.substr(total_completion.size() - 2) == "\n\n") break;
+    }
 
-    std::cout << "  [inference] predicted='" << completion
-              << "'  (token=" << predicted_id << ")\n";
+    std::cout << "  [inference] predicted full completion of length " << total_completion.size() << "\n";
 
     // ── 7. Build JSON response ─────────────────────────────────────────────
     const std::string resp_body =
-        "{\"completion\": \"" + json_escape(completion) + "\"}";
+        "{\"completion\": \"" + json_escape(total_completion) + "\"}";
 
     return HttpResponse{200, "OK", "application/json", resp_body};
   };

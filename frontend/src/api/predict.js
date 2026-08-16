@@ -48,19 +48,22 @@ export class ApiError extends Error {
  * @returns {Promise<string>}   One character from the model.
  * @throws {ApiError}
  */
-export async function predictNextToken(prompt, signal, temperature = 0.8) {
+export async function predictSequence(prompt, maxTokens, signal, temperature = 0.8) {
   // Internal abort controller for per-token timeout.
   // We merge it with the caller's signal via a shared listener.
   const controller = new AbortController()
 
+  // Increased timeout to 20 seconds since it's generating the whole sequence at once
   const timeoutId = setTimeout(
     () => controller.abort(new DOMException('timeout', 'AbortError')),
-    TOKEN_TIMEOUT_MS,
+    20000, 
   )
 
   // Forward caller cancellation → our controller
   const forwardAbort = () => controller.abort(signal?.reason instanceof Error ? signal.reason : new DOMException('cancelled', 'AbortError'))
-  signal?.addEventListener('abort', forwardAbort, { once: true })
+  if (signal) {
+    signal.addEventListener('abort', forwardAbort, { once: true })
+  }
 
   try {
     let res
@@ -68,7 +71,7 @@ export async function predictNextToken(prompt, signal, temperature = 0.8) {
       res = await fetch(`${API_BASE}/predict`, {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({ prompt, temperature }),
+        body:    JSON.stringify({ prompt, temperature, max_tokens: maxTokens }),
         signal:  controller.signal,
       })
     } catch (err) {
@@ -102,12 +105,13 @@ export async function predictNextToken(prompt, signal, temperature = 0.8) {
     }
 
     const data = await res.json()
-    // Defensive: C++ server returns {"completion": "X"}
     return typeof data.completion === 'string' ? data.completion : ''
 
   } finally {
     clearTimeout(timeoutId)
-    signal?.removeEventListener('abort', forwardAbort)
+    if (signal) {
+      signal.removeEventListener('abort', forwardAbort)
+    }
   }
 }
 
