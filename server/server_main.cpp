@@ -178,6 +178,12 @@ int main(int argc, char** argv)
     srv.add_route("POST", "/predict",
                   server::make_predict_handler(model, cfg.context_len));
 
+    // /predict — OPTIONS — CORS preflight for the browser
+    srv.add_route("OPTIONS", "/predict",
+                  [](const server::HttpRequest&) -> server::HttpResponse {
+                      return {200, "OK", "text/plain", ""};
+                  });
+
     // /health  — GET   — returns a simple status JSON for load-balancer probes
     srv.add_route("GET", "/health",
                   [](const server::HttpRequest&) -> server::HttpResponse {

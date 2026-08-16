@@ -350,6 +350,8 @@ std::string HttpServer::build_response(const HttpResponse& resp)
     oss << "Content-Length: " << resp.body.size()   << "\r\n";
     oss << "Connection: close\r\n";    // no persistent connections
     oss << "Access-Control-Allow-Origin: *\r\n";   // allow browser fetch()
+    oss << "Access-Control-Allow-Methods: POST, GET, OPTIONS\r\n";
+    oss << "Access-Control-Allow-Headers: Content-Type\r\n";
     oss << "\r\n";                     // end of headers
     oss << resp.body;
     return oss.str();
