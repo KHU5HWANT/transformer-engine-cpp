@@ -53,10 +53,10 @@ export async function predictSequence(prompt, maxTokens, signal, temperature = 0
   // We merge it with the caller's signal via a shared listener.
   const controller = new AbortController()
 
-  // Increased timeout to 20 seconds since it's generating the whole sequence at once
+  // Increased timeout to 120 seconds to allow for full sequence generation
   const timeoutId = setTimeout(
     () => controller.abort(new DOMException('timeout', 'AbortError')),
-    20000, 
+    120000, 
   )
 
   // Forward caller cancellation → our controller
