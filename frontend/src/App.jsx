@@ -24,7 +24,7 @@ const PRESETS = {
     { id: 's1', title: 'Alice in the Woods', prompt: 'Once upon a time, Alice walked into the dark woods and found a' },
     { id: 's2', title: 'Timmy\'s Box', prompt: 'Timmy opened the big box and inside he saw a' },
     { id: 's3', title: 'The Little Kitten', prompt: 'A little kitten named Lily was very hungry, so she' },
-    { id: 's4', title: 'Brave Knight', prompt: 'The brave knight raised his sword and said to the dragon,' }
+    { id: 's4', title: 'Wikipedia: Python', prompt: 'Python is a high-level, general-purpose programming language. Its design philosophy emphasizes code' }
   ]
 };
 
@@ -202,7 +202,7 @@ export default function App() {
               }`}
             >
               <BookOpen className="w-4 h-4 mr-2" />
-              Story Mode
+              Text Mode (Story & Wiki)
             </button>
           </div>
         </header>
@@ -216,7 +216,7 @@ export default function App() {
               <h2 className="text-xl font-semibold text-slate-100 flex items-center">
                 Select a Preset
                 <span className="ml-3 text-xs px-2 py-1 bg-slate-800 text-slate-400 rounded-md font-normal border border-slate-700">
-                  {activeMode === 'math' ? 'Trained on 2-Digit Addition' : 'Trained on TinyStories'}
+                  {activeMode === 'math' ? 'Trained on 2-Digit Addition' : 'Trained on TinyStories & Simple Wikipedia'}
                 </span>
               </h2>
               <p className="text-sm text-slate-400 mt-1">Click a card below to send the prompt to the C++ inference engine.</p>
