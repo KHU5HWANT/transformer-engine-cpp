@@ -86,34 +86,52 @@ export default function App() {
       abortRef.current = controller;
       const maxTokens = activeMode === 'math' ? 5 : 64;
       
+      const chunkSize = 5;
       let remainingTokens = maxTokens;
-      const chunkSize = 10;
+      
+      let contextWindow = currentText;
+      if (contextWindow.length > 120) contextWindow = contextWindow.slice(-120);
+      
+      // 1. Fire the FIRST request
+      let requestTokens = Math.min(chunkSize, remainingTokens);
+      let fetchPromise = predictSequence(contextWindow, requestTokens, controller.signal, temperature);
       
       while (remainingTokens > 0) {
         if (controller.signal.aborted) break;
         
-        let contextWindow = currentText;
-        if (contextWindow.length > 120) {
-          contextWindow = contextWindow.slice(-120);
-        }
-
-        // Fetch in batches to provide faster visual feedback
-        const requestTokens = Math.min(chunkSize, remainingTokens);
-        const chunkText = await predictSequence(contextWindow, requestTokens, controller.signal, temperature);
-        
+        // Wait for the CURRENT batch to finish computing
+        const chunkText = await fetchPromise;
         if (!chunkText) break;
         
-        // Simulate typing effect locally for good UX
+        remainingTokens -= requestTokens;
+        let nextFetchStarted = false;
+
+        // 2. IN PARALLEL: If we need more tokens, fire the NEXT request IMMEDIATELY
+        if (remainingTokens > 0 && !chunkText.includes(stopSequence)) {
+           let nextContext = currentText + chunkText;
+           if (nextContext.length > 120) nextContext = nextContext.slice(-120);
+           
+           requestTokens = Math.min(chunkSize, remainingTokens);
+           fetchPromise = predictSequence(nextContext, requestTokens, controller.signal, temperature);
+           nextFetchStarted = true;
+        }
+
+        // 3. ANIMATION: Take our time typing out the CURRENT batch on screen 
+        // while the server computes the next batch in the background.
+        // We calculate delay dynamically: 1250ms compute time / 5 chars = 250ms per char
+        const typingDelayMs = activeMode === 'math' ? 0 : 250; 
+        
         for (let i = 0; i < chunkText.length; i++) {
           if (controller.signal.aborted) break;
           currentText += chunkText[i];
           setOutput(currentText);
-          await new Promise(r => setTimeout(r, 20));
+          if (typingDelayMs > 0) {
+            await new Promise(r => setTimeout(r, typingDelayMs));
+          }
         }
         
-        if (currentText.endsWith(stopSequence)) break;
-        
-        remainingTokens -= requestTokens;
+        if (currentText.endsWith(stopSequence) || chunkText.includes(stopSequence)) break;
+        if (!nextFetchStarted) break;
       }
 
     } catch (error) {
