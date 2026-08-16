@@ -28,6 +28,9 @@ RUN mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Release .. && make
 # Final stage (Runtime)
 FROM ubuntu:22.04
 
+# Install OpenMP runtime library needed by our C++ binary
+RUN apt-get update && apt-get install -y libgomp1 && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app
 
 # Copy the built binary from the builder stage
