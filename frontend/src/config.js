@@ -38,7 +38,7 @@
 // The API_BASE exported here is therefore always '/api' — a relative path.
 // You only need VITE_API_BASE_URL for the proxy/nginx target, not for fetch() calls.
 //
-export const API_BASE = '/api'
+export const API_BASE = import.meta.env.VITE_API_BASE_URL || '/api'
 
 // ── Generation ────────────────────────────────────────────────────────────────
 export const MAX_GEN_TOKENS   = Number(import.meta.env.VITE_MAX_GEN_TOKENS   ?? 300)

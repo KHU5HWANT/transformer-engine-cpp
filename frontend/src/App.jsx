@@ -321,7 +321,7 @@ export default function App() {
                   <div className="w-3 h-3 rounded-full bg-slate-700"></div>
                 </div>
                 <div className="mx-auto text-xs font-mono text-slate-500">
-                  localhost:8080/predict
+                  transformer-engine-cpp.onrender.com/predict
                 </div>
               </div>
               
