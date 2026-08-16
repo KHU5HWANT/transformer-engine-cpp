@@ -86,21 +86,34 @@ export default function App() {
       abortRef.current = controller;
       const maxTokens = activeMode === 'math' ? 5 : 64;
       
-      let contextWindow = currentText;
-      if (contextWindow.length > 120) {
-        contextWindow = contextWindow.slice(-120);
-      }
-
-      // 1 API call to get the entire sequence
-      const generatedText = await predictSequence(contextWindow, maxTokens, controller.signal, temperature);
+      let remainingTokens = maxTokens;
+      const chunkSize = 10;
       
-      // Simulate typing effect locally for good UX
-      for (let i = 0; i < generatedText.length; i++) {
+      while (remainingTokens > 0) {
         if (controller.signal.aborted) break;
-        currentText += generatedText[i];
-        setOutput(currentText);
-        // Small delay for typing effect
-        await new Promise(r => setTimeout(r, 20));
+        
+        let contextWindow = currentText;
+        if (contextWindow.length > 120) {
+          contextWindow = contextWindow.slice(-120);
+        }
+
+        // Fetch in batches to provide faster visual feedback
+        const requestTokens = Math.min(chunkSize, remainingTokens);
+        const chunkText = await predictSequence(contextWindow, requestTokens, controller.signal, temperature);
+        
+        if (!chunkText) break;
+        
+        // Simulate typing effect locally for good UX
+        for (let i = 0; i < chunkText.length; i++) {
+          if (controller.signal.aborted) break;
+          currentText += chunkText[i];
+          setOutput(currentText);
+          await new Promise(r => setTimeout(r, 20));
+        }
+        
+        if (currentText.endsWith(stopSequence)) break;
+        
+        remainingTokens -= requestTokens;
       }
 
     } catch (error) {
