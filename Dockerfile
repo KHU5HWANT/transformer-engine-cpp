@@ -5,7 +5,7 @@ FROM ubuntu:22.04 AS builder
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Install build dependencies
-RUN apt-get update && apt-get install -y cmake g++ make
+RUN apt-get update && apt-get install -y cmake g++ make git
 
 # Set working directory
 WORKDIR /app
