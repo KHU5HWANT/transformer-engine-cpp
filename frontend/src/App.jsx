@@ -14,12 +14,6 @@ import {
 } from 'lucide-react';
 
 const PRESETS = {
-  math: [
-    { id: 'm1', title: 'Simple Addition', prompt: '14+23=', expected: '37' },
-    { id: 'm2', title: 'Single Carry', prompt: '45+27=', expected: '72' },
-    { id: 'm3', title: 'Double Carry', prompt: '89+94=', expected: '183' },
-    { id: 'm4', title: 'Three Digits', prompt: '120+345=', expected: '465' }
-  ],
   story: [
     { id: 's1', title: 'Alice in the Woods', prompt: 'Once upon a time, Alice walked into the dark woods and found a' },
     { id: 's2', title: 'Timmy\'s Box', prompt: 'Timmy opened the big box and inside he saw a' },
@@ -29,7 +23,7 @@ const PRESETS = {
 };
 
 export default function App() {
-  const [activeMode, setActiveMode] = useState('math'); // 'math' or 'story'
+  const [activeMode, setActiveMode] = useState('story'); // Only 'story' mode now
   const [output, setOutput] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [showCustomInput, setShowCustomInput] = useState(false);
@@ -74,17 +68,13 @@ export default function App() {
       const completion = data.completion;
       */
 
-            let currentText = promptText;
-      const temperature = activeMode === 'math' ? 0.0 : 0.8;
-      let stopSequence = activeMode === 'math' ? ' ' : '\n\n';
-      
-      if (activeMode === 'math') {
-         currentText = currentText.replace(/\s+/g, '');
-      }
+      let currentText = promptText;
+      const temperature = 0.8;
+      let stopSequence = '\n\n';
 
       const controller = new AbortController();
       abortRef.current = controller;
-      const maxTokens = activeMode === 'math' ? 5 : 64;
+      const maxTokens = 64;
       
       const chunkSize = 5;
       let remainingTokens = maxTokens;
@@ -120,7 +110,7 @@ export default function App() {
         // while the server computes the next batch in the background.
         // We calculate delay dynamically: 1.5 seconds compute time + 0.4s network delay
         // 1.9s / 5 chars = 380ms per char
-        const typingDelayMs = activeMode === 'math' ? 0 : 380; 
+        const typingDelayMs = 380; 
         
         for (let i = 0; i < chunkText.length; i++) {
           if (controller.signal.aborted) break;
@@ -182,24 +172,24 @@ export default function App() {
               <div>
                 <div className="flex justify-between text-xs mb-1 text-slate-400">
                   <span>Temperature</span>
-                  <span>{activeMode === 'math' ? '0.0 (Greedy)' : '0.8'}</span>
+                  <span>0.8</span>
                 </div>
                 <div className="h-1.5 w-full bg-slate-800 rounded-full overflow-hidden">
                   <div 
                     className="h-full bg-emerald-500 transition-all duration-300" 
-                    style={{ width: activeMode === 'math' ? '0%' : '80%' }}
+                    style={{ width: '80%' }}
                   />
                 </div>
               </div>
               <div>
                 <div className="flex justify-between text-xs mb-1 text-slate-400">
                   <span>Max Tokens</span>
-                  <span>{activeMode === 'math' ? '5' : '64'}</span>
+                  <span>64</span>
                 </div>
                 <div className="h-1.5 w-full bg-slate-800 rounded-full overflow-hidden">
                   <div 
                     className="h-full bg-emerald-500 transition-all duration-300" 
-                    style={{ width: activeMode === 'math' ? '10%' : '50%' }}
+                    style={{ width: '50%' }}
                   />
                 </div>
               </div>
@@ -218,28 +208,10 @@ export default function App() {
         {/* Header / Mode Switcher */}
         <header className="h-20 border-b border-slate-800 bg-slate-900/50 backdrop-blur flex items-center justify-center px-6 shrink-0">
           <div className="bg-slate-950 p-1 rounded-xl border border-slate-800 flex space-x-1 shadow-inner">
-            <button
-              onClick={() => { setActiveMode('math'); setOutput(''); setShowCustomInput(false); }}
-              className={`flex items-center px-6 py-2.5 rounded-lg text-sm font-medium transition-all ${
-                activeMode === 'math' 
-                  ? 'bg-emerald-600 text-white shadow-md' 
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
-              }`}
-            >
-              <Calculator className="w-4 h-4 mr-2" />
-              Math Mode
-            </button>
-            <button
-              onClick={() => { setActiveMode('story'); setOutput(''); setShowCustomInput(false); }}
-              className={`flex items-center px-6 py-2.5 rounded-lg text-sm font-medium transition-all ${
-                activeMode === 'story' 
-                  ? 'bg-emerald-600 text-white shadow-md' 
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
-              }`}
-            >
+            <div className="flex items-center px-6 py-2.5 rounded-lg text-sm font-medium transition-all bg-emerald-600 text-white shadow-md">
               <BookOpen className="w-4 h-4 mr-2" />
               Text Mode (Story & Wiki)
-            </button>
+            </div>
           </div>
         </header>
 
@@ -252,7 +224,7 @@ export default function App() {
               <h2 className="text-xl font-semibold text-slate-100 flex items-center">
                 Select a Preset
                 <span className="ml-3 text-xs px-2 py-1 bg-slate-800 text-slate-400 rounded-md font-normal border border-slate-700">
-                  {activeMode === 'math' ? 'Trained on 2-Digit Addition' : 'Trained on TinyStories & Simple Wikipedia'}
+                  Trained on TinyStories & Simple Wikipedia
                 </span>
               </h2>
               <p className="text-sm text-slate-400 mt-1">Click a card below to send the prompt to the C++ inference engine.</p>
@@ -302,7 +274,7 @@ export default function App() {
                     type="text"
                     value={customPrompt}
                     onChange={(e) => setCustomPrompt(e.target.value)}
-                    placeholder={activeMode === 'math' ? "e.g., 55+12=" : "Start a story..."}
+                    placeholder="Start a story or Wikipedia topic..."
                     className="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 text-slate-200 font-mono"
                     onKeyDown={(e) => {
                       if (e.key === 'Enter' && customPrompt.trim()) {
@@ -318,11 +290,6 @@ export default function App() {
                     Run <ChevronRight className="w-4 h-4 ml-1" />
                   </button>
                 </div>
-                {activeMode === 'math' && (
-                  <p className="text-xs text-yellow-500/70 mt-2">
-                    Note: The model is only trained on 2-digit addition. Queries like "1000+2000=" will produce hallucinations.
-                  </p>
-                )}
               </div>
             )}
           </section>
