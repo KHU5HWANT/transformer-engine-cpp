@@ -38,7 +38,7 @@ COPY --from=builder /app/build/transformer_server .
 
 # Copy the model checkpoints
 COPY checkpoint_phase0.bin .
-COPY checkpoint_phase1.bin .
+COPY checkpoint_final.bin .
 
 # Expose the port that the cloud provider will route traffic to
 EXPOSE 8080
@@ -47,4 +47,4 @@ EXPOSE 8080
 ENV OMP_NUM_THREADS=1
 
 # Default command to run the server (Starts the Alice/Story model by default)
-CMD ["./transformer_server", "--port", "8080", "--checkpoint", "checkpoint_phase1.bin", "--d_model", "256", "--n_heads", "4", "--n_layers", "4"]
+CMD ["./transformer_server", "--port", "8080", "--checkpoint", "checkpoint_final.bin", "--d_model", "256", "--n_heads", "4", "--n_layers", "4"]

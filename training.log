@@ -1,0 +1,559 @@
+nohup: ignoring input
+╔══════════════════════════════════════════════╗
+║   C++ Transformer — Curriculum Training      ║
+╠══════════════════════════════════════════════╣
+║  d_model     =      256    n_heads  =   4 ║
+║  n_layers    =        4    seq_len  = 128 ║
+║  batch_size  =       32    lr       = 0.001 ║
+║  ~params     ≈  4370944                 ║
+╠══════════════════════════════════════════════╣
+║  Phase 0 MATH    steps [0,       5000)      ║
+║  Phase 1 STORIES steps [  5000,  25000)      ║
+║  Phase 2 WIKI    steps [ 25000,  50000)      ║
+╚══════════════════════════════════════════════╝
+
+[INFO] Curriculum initialized.
+       Total training steps: 50000
+
+[INFO] DataLoader opened: data/math.bin
+       Tokens mapped: 4900039
+
+[INFO] Transformer initialized.
+       Parameters: 69 tensors
+
+[INFO] AdamW optimizer initialized.
+       lr=0.001  β₁=0.9  β₂=0.999  ε=1e-8  λ=0.01
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  TRAINING START
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  step=     0  phase=   MATH  loss=  6.1515  lr=1.00e-03  speed=    0.0 step/s
+  step=   100  phase=   MATH  loss=  2.1532  lr=1.00e-03  speed=    0.0 step/s
+  step=   200  phase=   MATH  loss=  1.7203  lr=1.00e-03  speed=    0.0 step/s
+  step=   300  phase=   MATH  loss=  1.6224  lr=1.00e-03  speed=    0.0 step/s
+  step=   400  phase=   MATH  loss=  1.6236  lr=1.00e-03  speed=    0.0 step/s
+  step=   500  phase=   MATH  loss=  1.5911  lr=1.00e-03  speed=    0.0 step/s
+  step=   600  phase=   MATH  loss=  1.5708  lr=1.00e-03  speed=    0.0 step/s
+  step=   700  phase=   MATH  loss=  1.4400  lr=1.00e-03  speed=    0.0 step/s
+  step=   800  phase=   MATH  loss=  1.4376  lr=1.00e-03  speed=    0.0 step/s
+  step=   900  phase=   MATH  loss=  1.4745  lr=1.00e-03  speed=    0.0 step/s
+  step=  1000  phase=   MATH  loss=  1.4211  lr=1.00e-03  speed=    0.0 step/s
+  step=  1100  phase=   MATH  loss=  1.4391  lr=1.00e-03  speed=    0.0 step/s
+  step=  1200  phase=   MATH  loss=  1.3926  lr=1.00e-03  speed=    0.0 step/s
+  step=  1300  phase=   MATH  loss=  1.3267  lr=1.00e-03  speed=    0.0 step/s
+  step=  1400  phase=   MATH  loss=  1.2880  lr=1.00e-03  speed=    0.0 step/s
+  step=  1500  phase=   MATH  loss=  1.2280  lr=1.00e-03  speed=    0.0 step/s
+  step=  1600  phase=   MATH  loss=  1.2252  lr=1.00e-03  speed=    0.0 step/s
+  step=  1700  phase=   MATH  loss=  1.1693  lr=1.00e-03  speed=    0.0 step/s
+  step=  1800  phase=   MATH  loss=  1.2045  lr=1.00e-03  speed=    0.0 step/s
+  step=  1900  phase=   MATH  loss=  1.1893  lr=1.00e-03  speed=    0.0 step/s
+  step=  2000  phase=   MATH  loss=  1.1734  lr=1.00e-03  speed=    0.0 step/s
+  step=  2100  phase=   MATH  loss=  1.1560  lr=1.00e-03  speed=    0.0 step/s
+  step=  2200  phase=   MATH  loss=  1.1891  lr=1.00e-03  speed=    0.0 step/s
+  step=  2300  phase=   MATH  loss=  1.1279  lr=1.00e-03  speed=    0.0 step/s
+  step=  2400  phase=   MATH  loss=  1.1162  lr=1.00e-03  speed=    0.0 step/s
+  step=  2500  phase=   MATH  loss=  1.1271  lr=1.00e-03  speed=    0.0 step/s
+  step=  2600  phase=   MATH  loss=  1.1770  lr=1.00e-03  speed=    0.0 step/s
+  step=  2700  phase=   MATH  loss=  1.1717  lr=1.00e-03  speed=    0.0 step/s
+  step=  2800  phase=   MATH  loss=  1.1200  lr=1.00e-03  speed=    0.0 step/s
+  step=  2900  phase=   MATH  loss=  1.1265  lr=1.00e-03  speed=    0.0 step/s
+  step=  3000  phase=   MATH  loss=  1.1531  lr=1.00e-03  speed=    0.0 step/s
+  step=  3100  phase=   MATH  loss=  1.1288  lr=1.00e-03  speed=    0.0 step/s
+  step=  3200  phase=   MATH  loss=  1.1397  lr=1.00e-03  speed=    0.0 step/s
+  step=  3300  phase=   MATH  loss=  1.1113  lr=1.00e-03  speed=    0.0 step/s
+  step=  3400  phase=   MATH  loss=  1.1541  lr=1.00e-03  speed=    0.0 step/s
+  step=  3500  phase=   MATH  loss=  1.1610  lr=1.00e-03  speed=    0.0 step/s
+  step=  3600  phase=   MATH  loss=  1.1280  lr=1.00e-03  speed=    0.0 step/s
+  step=  3700  phase=   MATH  loss=  1.1469  lr=1.00e-03  speed=    0.0 step/s
+  step=  3800  phase=   MATH  loss=  1.0924  lr=1.00e-03  speed=    0.0 step/s
+  step=  3900  phase=   MATH  loss=  1.1069  lr=1.00e-03  speed=    0.0 step/s
+  step=  4000  phase=   MATH  loss=  1.1362  lr=1.00e-03  speed=    0.0 step/s
+  step=  4100  phase=   MATH  loss=  1.1196  lr=1.00e-03  speed=    0.0 step/s
+  step=  4200  phase=   MATH  loss=  1.1105  lr=1.00e-03  speed=    0.0 step/s
+  step=  4300  phase=   MATH  loss=  1.1203  lr=1.00e-03  speed=    0.0 step/s
+  step=  4400  phase=   MATH  loss=  1.1120  lr=1.00e-03  speed=    0.0 step/s
+  step=  4500  phase=   MATH  loss=  1.0924  lr=1.00e-03  speed=    0.0 step/s
+  step=  4600  phase=   MATH  loss=  1.1334  lr=1.00e-03  speed=    0.0 step/s
+  step=  4700  phase=   MATH  loss=  1.1011  lr=1.00e-03  speed=    0.0 step/s
+  step=  4800  phase=   MATH  loss=  1.0984  lr=1.00e-03  speed=    0.0 step/s
+  step=  4900  phase=   MATH  loss=  1.0742  lr=1.00e-03  speed=    0.0 step/s
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  CURRICULUM TRANSITION: MATH → STORIES  (step 5000)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [CKPT] Saved 25964 KB → checkpoint_phase0.bin
+  [INFO] Dataset swapped to data/stories.bin
+         Tokens available: 1904212181
+
+  step=  5000  phase=STORIES  loss= 15.9975  lr=1.00e-03  speed=    0.0 step/s
+  step=  5100  phase=STORIES  loss=  2.4944  lr=1.00e-03  speed=    0.0 step/s
+  step=  5200  phase=STORIES  loss=  1.9696  lr=1.00e-03  speed=    0.0 step/s
+  step=  5300  phase=STORIES  loss=  1.7667  lr=1.00e-03  speed=    0.0 step/s
+  step=  5400  phase=STORIES  loss=  1.6227  lr=1.00e-03  speed=    0.0 step/s
+  step=  5500  phase=STORIES  loss=  1.4545  lr=1.00e-03  speed=    0.0 step/s
+  step=  5600  phase=STORIES  loss=  1.2901  lr=1.00e-03  speed=    0.0 step/s
+  step=  5700  phase=STORIES  loss=  1.2636  lr=1.00e-03  speed=    0.0 step/s
+  step=  5800  phase=STORIES  loss=  1.2312  lr=1.00e-03  speed=    0.0 step/s
+  step=  5900  phase=STORIES  loss=  1.1858  lr=1.00e-03  speed=    0.0 step/s
+  step=  6000  phase=STORIES  loss=  1.1827  lr=1.00e-03  speed=    0.0 step/s
+  step=  6100  phase=STORIES  loss=  1.1152  lr=1.00e-03  speed=    0.0 step/s
+  step=  6200  phase=STORIES  loss=  1.1079  lr=1.00e-03  speed=    0.0 step/s
+  step=  6300  phase=STORIES  loss=  1.0742  lr=1.00e-03  speed=    0.0 step/s
+  step=  6400  phase=STORIES  loss=  1.0305  lr=1.00e-03  speed=    0.0 step/s
+  step=  6500  phase=STORIES  loss=  1.0795  lr=1.00e-03  speed=    0.0 step/s
+  step=  6600  phase=STORIES  loss=  1.1001  lr=1.00e-03  speed=    0.0 step/s
+  step=  6700  phase=STORIES  loss=  1.0484  lr=1.00e-03  speed=    0.0 step/s
+  step=  6800  phase=STORIES  loss=  1.0369  lr=1.00e-03  speed=    0.0 step/s
+  step=  6900  phase=STORIES  loss=  0.9328  lr=1.00e-03  speed=    0.0 step/s
+  step=  7000  phase=STORIES  loss=  0.9722  lr=1.00e-03  speed=    0.0 step/s
+  step=  7100  phase=STORIES  loss=  0.9945  lr=1.00e-03  speed=    0.0 step/s
+  step=  7200  phase=STORIES  loss=  1.0104  lr=1.00e-03  speed=    0.0 step/s
+  step=  7300  phase=STORIES  loss=  0.9877  lr=1.00e-03  speed=    0.0 step/s
+  step=  7400  phase=STORIES  loss=  0.9507  lr=1.00e-03  speed=    0.0 step/s
+  step=  7500  phase=STORIES  loss=  0.9457  lr=1.00e-03  speed=    0.0 step/s
+  step=  7600  phase=STORIES  loss=  0.9895  lr=1.00e-03  speed=    0.0 step/s
+  step=  7700  phase=STORIES  loss=  0.9170  lr=1.00e-03  speed=    0.0 step/s
+  step=  7800  phase=STORIES  loss=  0.9538  lr=1.00e-03  speed=    0.0 step/s
+  step=  7900  phase=STORIES  loss=  0.9476  lr=1.00e-03  speed=    0.0 step/s
+  step=  8000  phase=STORIES  loss=  0.9071  lr=1.00e-03  speed=    0.0 step/s
+  step=  8100  phase=STORIES  loss=  0.9173  lr=1.00e-03  speed=    0.0 step/s
+  step=  8200  phase=STORIES  loss=  0.9093  lr=1.00e-03  speed=    0.0 step/s
+  step=  8300  phase=STORIES  loss=  0.9460  lr=1.00e-03  speed=    0.0 step/s
+  step=  8400  phase=STORIES  loss=  0.9252  lr=1.00e-03  speed=    0.0 step/s
+  step=  8500  phase=STORIES  loss=  0.9635  lr=1.00e-03  speed=    0.0 step/s
+  step=  8600  phase=STORIES  loss=  0.9280  lr=1.00e-03  speed=    0.0 step/s
+  step=  8700  phase=STORIES  loss=  0.8692  lr=1.00e-03  speed=    0.0 step/s
+  step=  8800  phase=STORIES  loss=  0.9448  lr=1.00e-03  speed=    0.0 step/s
+  step=  8900  phase=STORIES  loss=  0.8571  lr=1.00e-03  speed=    0.0 step/s
+  step=  9000  phase=STORIES  loss=  0.9600  lr=1.00e-03  speed=    0.0 step/s
+  step=  9100  phase=STORIES  loss=  0.9442  lr=1.00e-03  speed=    0.0 step/s
+  step=  9200  phase=STORIES  loss=  0.9015  lr=1.00e-03  speed=    0.0 step/s
+  step=  9300  phase=STORIES  loss=  0.8300  lr=1.00e-03  speed=    0.0 step/s
+  step=  9400  phase=STORIES  loss=  0.8801  lr=1.00e-03  speed=    0.0 step/s
+  step=  9500  phase=STORIES  loss=  0.9515  lr=1.00e-03  speed=    0.0 step/s
+  step=  9600  phase=STORIES  loss=  0.8493  lr=1.00e-03  speed=    0.0 step/s
+  step=  9700  phase=STORIES  loss=  0.8838  lr=1.00e-03  speed=    0.0 step/s
+  step=  9800  phase=STORIES  loss=  0.8697  lr=1.00e-03  speed=    0.0 step/s
+  step=  9900  phase=STORIES  loss=  0.9045  lr=1.00e-03  speed=    0.0 step/s
+  step= 10000  phase=STORIES  loss=  0.9065  lr=1.00e-03  speed=    0.0 step/s
+  step= 10100  phase=STORIES  loss=  0.8528  lr=1.00e-03  speed=    0.0 step/s
+  step= 10200  phase=STORIES  loss=  0.8820  lr=1.00e-03  speed=    0.0 step/s
+  step= 10300  phase=STORIES  loss=  0.9298  lr=1.00e-03  speed=    0.0 step/s
+  step= 10400  phase=STORIES  loss=  0.8876  lr=1.00e-03  speed=    0.0 step/s
+  step= 10500  phase=STORIES  loss=  0.8511  lr=1.00e-03  speed=    0.0 step/s
+  step= 10600  phase=STORIES  loss=  0.8836  lr=1.00e-03  speed=    0.0 step/s
+  step= 10700  phase=STORIES  loss=  0.8363  lr=1.00e-03  speed=    0.0 step/s
+  step= 10800  phase=STORIES  loss=  0.8305  lr=1.00e-03  speed=    0.0 step/s
+  step= 10900  phase=STORIES  loss=  0.8519  lr=1.00e-03  speed=    0.0 step/s
+  step= 11000  phase=STORIES  loss=  0.8831  lr=1.00e-03  speed=    0.0 step/s
+  step= 11100  phase=STORIES  loss=  0.8863  lr=1.00e-03  speed=    0.0 step/s
+  step= 11200  phase=STORIES  loss=  0.8751  lr=1.00e-03  speed=    0.0 step/s
+  step= 11300  phase=STORIES  loss=  0.8559  lr=1.00e-03  speed=    0.0 step/s
+  step= 11400  phase=STORIES  loss=  0.8560  lr=1.00e-03  speed=    0.0 step/s
+  step= 11500  phase=STORIES  loss=  0.7906  lr=1.00e-03  speed=    0.0 step/s
+  step= 11600  phase=STORIES  loss=  0.8129  lr=1.00e-03  speed=    0.0 step/s
+  step= 11700  phase=STORIES  loss=  0.8766  lr=1.00e-03  speed=    0.0 step/s
+  step= 11800  phase=STORIES  loss=  0.8419  lr=1.00e-03  speed=    0.0 step/s
+  step= 11900  phase=STORIES  loss=  0.8658  lr=1.00e-03  speed=    0.0 step/s
+  step= 12000  phase=STORIES  loss=  0.9032  lr=1.00e-03  speed=    0.0 step/s
+  step= 12100  phase=STORIES  loss=  0.8411  lr=1.00e-03  speed=    0.0 step/s
+  step= 12200  phase=STORIES  loss=  0.8005  lr=1.00e-03  speed=    0.0 step/s
+  step= 12300  phase=STORIES  loss=  0.8798  lr=1.00e-03  speed=    0.0 step/s
+  step= 12400  phase=STORIES  loss=  0.8029  lr=1.00e-03  speed=    0.0 step/s
+  step= 12500  phase=STORIES  loss=  0.8592  lr=1.00e-03  speed=    0.0 step/s
+  step= 12600  phase=STORIES  loss=  0.8338  lr=1.00e-03  speed=    0.0 step/s
+  step= 12700  phase=STORIES  loss=  0.8603  lr=1.00e-03  speed=    0.0 step/s
+  step= 12800  phase=STORIES  loss=  0.8890  lr=1.00e-03  speed=    0.0 step/s
+  step= 12900  phase=STORIES  loss=  0.8718  lr=1.00e-03  speed=    0.0 step/s
+  step= 13000  phase=STORIES  loss=  0.8083  lr=1.00e-03  speed=    0.0 step/s
+  step= 13100  phase=STORIES  loss=  0.8394  lr=1.00e-03  speed=    0.0 step/s
+  step= 13200  phase=STORIES  loss=  0.8482  lr=1.00e-03  speed=    0.0 step/s
+  step= 13300  phase=STORIES  loss=  0.8119  lr=1.00e-03  speed=    0.0 step/s
+  step= 13400  phase=STORIES  loss=  0.7841  lr=1.00e-03  speed=    0.0 step/s
+  step= 13500  phase=STORIES  loss=  0.8151  lr=1.00e-03  speed=    0.0 step/s
+  step= 13600  phase=STORIES  loss=  0.8378  lr=1.00e-03  speed=    0.0 step/s
+  step= 13700  phase=STORIES  loss=  0.8844  lr=1.00e-03  speed=    0.0 step/s
+  step= 13800  phase=STORIES  loss=  0.8680  lr=1.00e-03  speed=    0.0 step/s
+  step= 13900  phase=STORIES  loss=  0.8504  lr=1.00e-03  speed=    0.0 step/s
+  step= 14000  phase=STORIES  loss=  0.8213  lr=1.00e-03  speed=    0.0 step/s
+  step= 14100  phase=STORIES  loss=  0.7650  lr=1.00e-03  speed=    0.0 step/s
+  step= 14200  phase=STORIES  loss=  0.8092  lr=1.00e-03  speed=    0.0 step/s
+  step= 14300  phase=STORIES  loss=  0.7976  lr=1.00e-03  speed=    0.0 step/s
+  step= 14400  phase=STORIES  loss=  0.7663  lr=1.00e-03  speed=    0.0 step/s
+  step= 14500  phase=STORIES  loss=  0.9281  lr=1.00e-03  speed=    0.0 step/s
+  step= 14600  phase=STORIES  loss=  0.8441  lr=1.00e-03  speed=    0.0 step/s
+  step= 14700  phase=STORIES  loss=  0.8261  lr=1.00e-03  speed=    0.0 step/s
+  step= 14800  phase=STORIES  loss=  0.8282  lr=1.00e-03  speed=    0.0 step/s
+  step= 14900  phase=STORIES  loss=  0.7820  lr=1.00e-03  speed=    0.0 step/s
+  step= 15000  phase=STORIES  loss=  0.8567  lr=1.00e-03  speed=    0.0 step/s
+  step= 15100  phase=STORIES  loss=  0.7858  lr=1.00e-03  speed=    0.0 step/s
+  step= 15200  phase=STORIES  loss=  0.8626  lr=1.00e-03  speed=    0.0 step/s
+  step= 15300  phase=STORIES  loss=  0.7829  lr=1.00e-03  speed=    0.0 step/s
+  step= 15400  phase=STORIES  loss=  0.7690  lr=1.00e-03  speed=    0.0 step/s
+  step= 15500  phase=STORIES  loss=  0.8170  lr=1.00e-03  speed=    0.0 step/s
+  step= 15600  phase=STORIES  loss=  0.8072  lr=1.00e-03  speed=    0.0 step/s
+  step= 15700  phase=STORIES  loss=  0.7714  lr=1.00e-03  speed=    0.0 step/s
+  step= 15800  phase=STORIES  loss=  0.7902  lr=1.00e-03  speed=    0.0 step/s
+  step= 15900  phase=STORIES  loss=  0.7960  lr=1.00e-03  speed=    0.0 step/s
+  step= 16000  phase=STORIES  loss=  0.8199  lr=1.00e-03  speed=    0.0 step/s
+  step= 16100  phase=STORIES  loss=  0.8309  lr=1.00e-03  speed=    0.0 step/s
+  step= 16200  phase=STORIES  loss=  0.7517  lr=1.00e-03  speed=    0.0 step/s
+  step= 16300  phase=STORIES  loss=  0.8425  lr=1.00e-03  speed=    0.0 step/s
+  step= 16400  phase=STORIES  loss=  0.8118  lr=1.00e-03  speed=    0.0 step/s
+  step= 16500  phase=STORIES  loss=  0.8446  lr=1.00e-03  speed=    0.0 step/s
+  step= 16600  phase=STORIES  loss=  0.7898  lr=1.00e-03  speed=    0.0 step/s
+  step= 16700  phase=STORIES  loss=  0.7918  lr=1.00e-03  speed=    0.0 step/s
+  step= 16800  phase=STORIES  loss=  0.8107  lr=1.00e-03  speed=    0.0 step/s
+  step= 16900  phase=STORIES  loss=  0.8052  lr=1.00e-03  speed=    0.0 step/s
+  step= 17000  phase=STORIES  loss=  0.7892  lr=1.00e-03  speed=    0.0 step/s
+  step= 17100  phase=STORIES  loss=  0.8334  lr=1.00e-03  speed=    0.0 step/s
+  step= 17200  phase=STORIES  loss=  0.8659  lr=1.00e-03  speed=    0.0 step/s
+  step= 17300  phase=STORIES  loss=  0.8149  lr=1.00e-03  speed=    0.0 step/s
+  step= 17400  phase=STORIES  loss=  0.7790  lr=1.00e-03  speed=    0.0 step/s
+  step= 17500  phase=STORIES  loss=  0.7620  lr=1.00e-03  speed=    0.0 step/s
+  step= 17600  phase=STORIES  loss=  0.8066  lr=1.00e-03  speed=    0.0 step/s
+  step= 17700  phase=STORIES  loss=  0.8032  lr=1.00e-03  speed=    0.0 step/s
+  step= 17800  phase=STORIES  loss=  0.8123  lr=1.00e-03  speed=    0.0 step/s
+  step= 17900  phase=STORIES  loss=  0.7525  lr=1.00e-03  speed=    0.0 step/s
+  step= 18000  phase=STORIES  loss=  0.7761  lr=1.00e-03  speed=    0.0 step/s
+  step= 18100  phase=STORIES  loss=  0.8061  lr=1.00e-03  speed=    0.0 step/s
+  step= 18200  phase=STORIES  loss=  0.7715  lr=1.00e-03  speed=    0.0 step/s
+  step= 18300  phase=STORIES  loss=  0.7862  lr=1.00e-03  speed=    0.0 step/s
+  step= 18400  phase=STORIES  loss=  0.7829  lr=1.00e-03  speed=    0.0 step/s
+  step= 18500  phase=STORIES  loss=  0.7116  lr=1.00e-03  speed=    0.0 step/s
+  step= 18600  phase=STORIES  loss=  0.8205  lr=1.00e-03  speed=    0.0 step/s
+  step= 18700  phase=STORIES  loss=  0.7923  lr=1.00e-03  speed=    0.0 step/s
+  step= 18800  phase=STORIES  loss=  0.8433  lr=1.00e-03  speed=    0.0 step/s
+  step= 18900  phase=STORIES  loss=  0.7723  lr=1.00e-03  speed=    0.0 step/s
+  step= 19000  phase=STORIES  loss=  0.7787  lr=1.00e-03  speed=    0.0 step/s
+  step= 19100  phase=STORIES  loss=  0.7755  lr=1.00e-03  speed=    0.0 step/s
+  step= 19200  phase=STORIES  loss=  0.7774  lr=1.00e-03  speed=    0.0 step/s
+  step= 19300  phase=STORIES  loss=  0.7574  lr=1.00e-03  speed=    0.0 step/s
+  step= 19400  phase=STORIES  loss=  0.8231  lr=1.00e-03  speed=    0.0 step/s
+  step= 19500  phase=STORIES  loss=  0.8068  lr=1.00e-03  speed=    0.0 step/s
+  step= 19600  phase=STORIES  loss=  0.7295  lr=1.00e-03  speed=    0.0 step/s
+  step= 19700  phase=STORIES  loss=  0.7915  lr=1.00e-03  speed=    0.0 step/s
+  step= 19800  phase=STORIES  loss=  0.7754  lr=1.00e-03  speed=    0.0 step/s
+  step= 19900  phase=STORIES  loss=  0.7543  lr=1.00e-03  speed=    0.0 step/s
+  step= 20000  phase=STORIES  loss=  0.8000  lr=1.00e-03  speed=    0.0 step/s
+  step= 20100  phase=STORIES  loss=  0.7975  lr=1.00e-03  speed=    0.0 step/s
+  step= 20200  phase=STORIES  loss=  0.7258  lr=1.00e-03  speed=    0.0 step/s
+  step= 20300  phase=STORIES  loss=  0.7669  lr=1.00e-03  speed=    0.0 step/s
+  step= 20400  phase=STORIES  loss=  0.7632  lr=1.00e-03  speed=    0.0 step/s
+  step= 20500  phase=STORIES  loss=  0.8276  lr=1.00e-03  speed=    0.0 step/s
+  step= 20600  phase=STORIES  loss=  0.7004  lr=1.00e-03  speed=    0.0 step/s
+  step= 20700  phase=STORIES  loss=  0.7732  lr=1.00e-03  speed=    0.0 step/s
+  step= 20800  phase=STORIES  loss=  0.8267  lr=1.00e-03  speed=    0.0 step/s
+  step= 20900  phase=STORIES  loss=  0.8080  lr=1.00e-03  speed=    0.0 step/s
+  step= 21000  phase=STORIES  loss=  0.8077  lr=1.00e-03  speed=    0.0 step/s
+  step= 21100  phase=STORIES  loss=  0.7576  lr=1.00e-03  speed=    0.0 step/s
+  step= 21200  phase=STORIES  loss=  0.7759  lr=1.00e-03  speed=    0.0 step/s
+  step= 21300  phase=STORIES  loss=  0.7856  lr=1.00e-03  speed=    0.0 step/s
+  step= 21400  phase=STORIES  loss=  0.8263  lr=1.00e-03  speed=    0.0 step/s
+  step= 21500  phase=STORIES  loss=  0.7511  lr=1.00e-03  speed=    0.0 step/s
+  step= 21600  phase=STORIES  loss=  0.7557  lr=1.00e-03  speed=    0.0 step/s
+  step= 21700  phase=STORIES  loss=  0.7497  lr=1.00e-03  speed=    0.0 step/s
+  step= 21800  phase=STORIES  loss=  0.7480  lr=1.00e-03  speed=    0.0 step/s
+  step= 21900  phase=STORIES  loss=  0.7980  lr=1.00e-03  speed=    0.0 step/s
+  step= 22000  phase=STORIES  loss=  0.7863  lr=1.00e-03  speed=    0.0 step/s
+  step= 22100  phase=STORIES  loss=  0.7264  lr=1.00e-03  speed=    0.0 step/s
+  step= 22200  phase=STORIES  loss=  0.8229  lr=1.00e-03  speed=    0.0 step/s
+  step= 22300  phase=STORIES  loss=  0.7873  lr=1.00e-03  speed=    0.0 step/s
+  step= 22400  phase=STORIES  loss=  0.7535  lr=1.00e-03  speed=    0.0 step/s
+  step= 22500  phase=STORIES  loss=  0.7878  lr=1.00e-03  speed=    0.0 step/s
+  step= 22600  phase=STORIES  loss=  0.8300  lr=1.00e-03  speed=    0.0 step/s
+  step= 22700  phase=STORIES  loss=  0.7755  lr=1.00e-03  speed=    0.0 step/s
+  step= 22800  phase=STORIES  loss=  0.7596  lr=1.00e-03  speed=    0.0 step/s
+  step= 22900  phase=STORIES  loss=  0.7884  lr=1.00e-03  speed=    0.0 step/s
+  step= 23000  phase=STORIES  loss=  0.7905  lr=1.00e-03  speed=    0.0 step/s
+  step= 23100  phase=STORIES  loss=  0.7620  lr=1.00e-03  speed=    0.0 step/s
+  step= 23200  phase=STORIES  loss=  0.7186  lr=1.00e-03  speed=    0.0 step/s
+  step= 23300  phase=STORIES  loss=  0.7891  lr=1.00e-03  speed=    0.0 step/s
+  step= 23400  phase=STORIES  loss=  0.7563  lr=1.00e-03  speed=    0.0 step/s
+  step= 23500  phase=STORIES  loss=  0.7364  lr=1.00e-03  speed=    0.0 step/s
+  step= 23600  phase=STORIES  loss=  0.7683  lr=1.00e-03  speed=    0.0 step/s
+  step= 23700  phase=STORIES  loss=  0.8490  lr=1.00e-03  speed=    0.0 step/s
+  step= 23800  phase=STORIES  loss=  0.8116  lr=1.00e-03  speed=    0.0 step/s
+  step= 23900  phase=STORIES  loss=  0.7866  lr=1.00e-03  speed=    0.0 step/s
+  step= 24000  phase=STORIES  loss=  0.7834  lr=1.00e-03  speed=    0.0 step/s
+  step= 24100  phase=STORIES  loss=  0.7299  lr=1.00e-03  speed=    0.0 step/s
+  step= 24200  phase=STORIES  loss=  0.7529  lr=1.00e-03  speed=    0.0 step/s
+  step= 24300  phase=STORIES  loss=  0.7863  lr=1.00e-03  speed=    0.0 step/s
+  step= 24400  phase=STORIES  loss=  0.7582  lr=1.00e-03  speed=    0.0 step/s
+  step= 24500  phase=STORIES  loss=  0.7333  lr=1.00e-03  speed=    0.0 step/s
+  step= 24600  phase=STORIES  loss=  0.7834  lr=1.00e-03  speed=    0.0 step/s
+  step= 24700  phase=STORIES  loss=  0.8195  lr=1.00e-03  speed=    0.0 step/s
+  step= 24800  phase=STORIES  loss=  0.7621  lr=1.00e-03  speed=    0.0 step/s
+  step= 24900  phase=STORIES  loss=  0.7729  lr=1.00e-03  speed=    0.0 step/s
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  CURRICULUM TRANSITION: STORIES → WIKI  (step 25000)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [CKPT] Saved 25964 KB → checkpoint_phase1.bin
+  [INFO] Dataset swapped to data/wiki.bin
+         Tokens available: 273058991
+
+  step= 25000  phase=   WIKI  loss=  3.9123  lr=1.00e-03  speed=    0.0 step/s
+  step= 25100  phase=   WIKI  loss=  1.5056  lr=1.00e-03  speed=    0.0 step/s
+  step= 25200  phase=   WIKI  loss=  1.4102  lr=1.00e-03  speed=    0.0 step/s
+  step= 25300  phase=   WIKI  loss=  1.5228  lr=1.00e-03  speed=    0.0 step/s
+  step= 25400  phase=   WIKI  loss=  1.4028  lr=1.00e-03  speed=    0.0 step/s
+  step= 25500  phase=   WIKI  loss=  1.4554  lr=1.00e-03  speed=    0.0 step/s
+  step= 25600  phase=   WIKI  loss=  1.4362  lr=1.00e-03  speed=    0.0 step/s
+  step= 25700  phase=   WIKI  loss=  1.3923  lr=1.00e-03  speed=    0.0 step/s
+  step= 25800  phase=   WIKI  loss=  1.3361  lr=1.00e-03  speed=    0.0 step/s
+  step= 25900  phase=   WIKI  loss=  1.4020  lr=1.00e-03  speed=    0.0 step/s
+  step= 26000  phase=   WIKI  loss=  1.4259  lr=1.00e-03  speed=    0.0 step/s
+  step= 26100  phase=   WIKI  loss=  1.3531  lr=1.00e-03  speed=    0.0 step/s
+  step= 26200  phase=   WIKI  loss=  1.3913  lr=1.00e-03  speed=    0.0 step/s
+  step= 26300  phase=   WIKI  loss=  1.3664  lr=1.00e-03  speed=    0.0 step/s
+  step= 26400  phase=   WIKI  loss=  1.3298  lr=1.00e-03  speed=    0.0 step/s
+  step= 26500  phase=   WIKI  loss=  1.3875  lr=1.00e-03  speed=    0.0 step/s
+  step= 26600  phase=   WIKI  loss=  1.2754  lr=1.00e-03  speed=    0.0 step/s
+  step= 26700  phase=   WIKI  loss=  1.2153  lr=1.00e-03  speed=    0.0 step/s
+  step= 26800  phase=   WIKI  loss=  1.3176  lr=1.00e-03  speed=    0.0 step/s
+  step= 26900  phase=   WIKI  loss=  1.3055  lr=1.00e-03  speed=    0.0 step/s
+  step= 27000  phase=   WIKI  loss=  1.2448  lr=1.00e-03  speed=    0.0 step/s
+  step= 27100  phase=   WIKI  loss=  1.2896  lr=1.00e-03  speed=    0.0 step/s
+  step= 27200  phase=   WIKI  loss=  1.2305  lr=1.00e-03  speed=    0.0 step/s
+  step= 27300  phase=   WIKI  loss=  1.3085  lr=1.00e-03  speed=    0.0 step/s
+  step= 27400  phase=   WIKI  loss=  1.3217  lr=1.00e-03  speed=    0.0 step/s
+  step= 27500  phase=   WIKI  loss=  1.2604  lr=1.00e-03  speed=    0.0 step/s
+  step= 27600  phase=   WIKI  loss=  1.2601  lr=1.00e-03  speed=    0.0 step/s
+  step= 27700  phase=   WIKI  loss=  1.2401  lr=1.00e-03  speed=    0.0 step/s
+  step= 27800  phase=   WIKI  loss=  1.2371  lr=1.00e-03  speed=    0.0 step/s
+  step= 27900  phase=   WIKI  loss=  1.2296  lr=1.00e-03  speed=    0.0 step/s
+  step= 28000  phase=   WIKI  loss=  1.2324  lr=1.00e-03  speed=    0.0 step/s
+  step= 28100  phase=   WIKI  loss=  1.3022  lr=1.00e-03  speed=    0.0 step/s
+  step= 28200  phase=   WIKI  loss=  1.2406  lr=1.00e-03  speed=    0.0 step/s
+  step= 28300  phase=   WIKI  loss=  1.2588  lr=1.00e-03  speed=    0.0 step/s
+  step= 28400  phase=   WIKI  loss=  1.2889  lr=1.00e-03  speed=    0.0 step/s
+  step= 28500  phase=   WIKI  loss=  1.1362  lr=1.00e-03  speed=    0.0 step/s
+  step= 28600  phase=   WIKI  loss=  1.2054  lr=1.00e-03  speed=    0.0 step/s
+  step= 28700  phase=   WIKI  loss=  1.1838  lr=1.00e-03  speed=    0.0 step/s
+  step= 28800  phase=   WIKI  loss=  1.2665  lr=1.00e-03  speed=    0.0 step/s
+  step= 28900  phase=   WIKI  loss=  1.2498  lr=1.00e-03  speed=    0.0 step/s
+  step= 29000  phase=   WIKI  loss=  1.1652  lr=1.00e-03  speed=    0.0 step/s
+  step= 29100  phase=   WIKI  loss=  1.3406  lr=1.00e-03  speed=    0.0 step/s
+  step= 29200  phase=   WIKI  loss=  1.1792  lr=1.00e-03  speed=    0.0 step/s
+  step= 29300  phase=   WIKI  loss=  1.1808  lr=1.00e-03  speed=    0.0 step/s
+  step= 29400  phase=   WIKI  loss=  1.2212  lr=1.00e-03  speed=    0.0 step/s
+  step= 29500  phase=   WIKI  loss=  1.2794  lr=1.00e-03  speed=    0.0 step/s
+  step= 29600  phase=   WIKI  loss=  1.0931  lr=1.00e-03  speed=    0.0 step/s
+  step= 29700  phase=   WIKI  loss=  1.1639  lr=1.00e-03  speed=    0.0 step/s
+  step= 29800  phase=   WIKI  loss=  1.1493  lr=1.00e-03  speed=    0.0 step/s
+  step= 29900  phase=   WIKI  loss=  1.2186  lr=1.00e-03  speed=    0.0 step/s
+  step= 30000  phase=   WIKI  loss=  1.1071  lr=1.00e-03  speed=    0.0 step/s
+  step= 30100  phase=   WIKI  loss=  1.2713  lr=1.00e-03  speed=    0.0 step/s
+  step= 30200  phase=   WIKI  loss=  1.0819  lr=1.00e-03  speed=    0.0 step/s
+  step= 30300  phase=   WIKI  loss=  1.2571  lr=1.00e-03  speed=    0.0 step/s
+  step= 30400  phase=   WIKI  loss=  1.1301  lr=1.00e-03  speed=    0.0 step/s
+  step= 30500  phase=   WIKI  loss=  1.0896  lr=1.00e-03  speed=    0.0 step/s
+  step= 30600  phase=   WIKI  loss=  1.1706  lr=1.00e-03  speed=    0.0 step/s
+  step= 30700  phase=   WIKI  loss=  1.2786  lr=1.00e-03  speed=    0.0 step/s
+  step= 30800  phase=   WIKI  loss=  1.2347  lr=1.00e-03  speed=    0.0 step/s
+  step= 30900  phase=   WIKI  loss=  1.1959  lr=1.00e-03  speed=    0.0 step/s
+  step= 31000  phase=   WIKI  loss=  1.2320  lr=1.00e-03  speed=    0.0 step/s
+  step= 31100  phase=   WIKI  loss=  1.1744  lr=1.00e-03  speed=    0.0 step/s
+  step= 31200  phase=   WIKI  loss=  1.2329  lr=1.00e-03  speed=    0.0 step/s
+  step= 31300  phase=   WIKI  loss=  1.0898  lr=1.00e-03  speed=    0.0 step/s
+  step= 31400  phase=   WIKI  loss=  1.1759  lr=1.00e-03  speed=    0.0 step/s
+  step= 31500  phase=   WIKI  loss=  1.1597  lr=1.00e-03  speed=    0.0 step/s
+  step= 31600  phase=   WIKI  loss=  1.2020  lr=1.00e-03  speed=    0.0 step/s
+  step= 31700  phase=   WIKI  loss=  1.1953  lr=1.00e-03  speed=    0.0 step/s
+  step= 31800  phase=   WIKI  loss=  1.1535  lr=1.00e-03  speed=    0.0 step/s
+  step= 31900  phase=   WIKI  loss=  1.1807  lr=1.00e-03  speed=    0.0 step/s
+  step= 32000  phase=   WIKI  loss=  1.2371  lr=1.00e-03  speed=    0.0 step/s
+  step= 32100  phase=   WIKI  loss=  1.0770  lr=1.00e-03  speed=    0.0 step/s
+  step= 32200  phase=   WIKI  loss=  1.2507  lr=1.00e-03  speed=    0.0 step/s
+  step= 32300  phase=   WIKI  loss=  1.1558  lr=1.00e-03  speed=    0.0 step/s
+  step= 32400  phase=   WIKI  loss=  1.1343  lr=1.00e-03  speed=    0.0 step/s
+  step= 32500  phase=   WIKI  loss=  1.2087  lr=1.00e-03  speed=    0.0 step/s
+  step= 32600  phase=   WIKI  loss=  1.1275  lr=1.00e-03  speed=    0.0 step/s
+  step= 32700  phase=   WIKI  loss=  1.3092  lr=1.00e-03  speed=    0.0 step/s
+  step= 32800  phase=   WIKI  loss=  1.2099  lr=1.00e-03  speed=    0.0 step/s
+  step= 32900  phase=   WIKI  loss=  1.1152  lr=1.00e-03  speed=    0.0 step/s
+  step= 33000  phase=   WIKI  loss=  1.1690  lr=1.00e-03  speed=    0.0 step/s
+  step= 33100  phase=   WIKI  loss=  1.1960  lr=1.00e-03  speed=    0.0 step/s
+  step= 33200  phase=   WIKI  loss=  1.1557  lr=1.00e-03  speed=    0.0 step/s
+  step= 33300  phase=   WIKI  loss=  1.0703  lr=1.00e-03  speed=    0.0 step/s
+  step= 33400  phase=   WIKI  loss=  1.1780  lr=1.00e-03  speed=    0.0 step/s
+  step= 33500  phase=   WIKI  loss=  1.0747  lr=1.00e-03  speed=    0.0 step/s
+  step= 33600  phase=   WIKI  loss=  1.2131  lr=1.00e-03  speed=    0.0 step/s
+  step= 33700  phase=   WIKI  loss=  1.2000  lr=1.00e-03  speed=    0.0 step/s
+  step= 33800  phase=   WIKI  loss=  1.2718  lr=1.00e-03  speed=    0.0 step/s
+  step= 33900  phase=   WIKI  loss=  1.1831  lr=1.00e-03  speed=    0.0 step/s
+  step= 34000  phase=   WIKI  loss=  1.0396  lr=1.00e-03  speed=    0.0 step/s
+  step= 34100  phase=   WIKI  loss=  1.1816  lr=1.00e-03  speed=    0.0 step/s
+  step= 34200  phase=   WIKI  loss=  1.2480  lr=1.00e-03  speed=    0.0 step/s
+  step= 34300  phase=   WIKI  loss=  1.2940  lr=1.00e-03  speed=    0.0 step/s
+  step= 34400  phase=   WIKI  loss=  1.1424  lr=1.00e-03  speed=    0.0 step/s
+  step= 34500  phase=   WIKI  loss=  1.1723  lr=1.00e-03  speed=    0.0 step/s
+  step= 34600  phase=   WIKI  loss=  1.1335  lr=1.00e-03  speed=    0.0 step/s
+  step= 34700  phase=   WIKI  loss=  1.1203  lr=1.00e-03  speed=    0.0 step/s
+  step= 34800  phase=   WIKI  loss=  1.2157  lr=1.00e-03  speed=    0.0 step/s
+  step= 34900  phase=   WIKI  loss=  0.9874  lr=1.00e-03  speed=    0.0 step/s
+  step= 35000  phase=   WIKI  loss=  1.0466  lr=1.00e-03  speed=    0.0 step/s
+  step= 35100  phase=   WIKI  loss=  1.2054  lr=1.00e-03  speed=    0.0 step/s
+  step= 35200  phase=   WIKI  loss=  1.1686  lr=1.00e-03  speed=    0.0 step/s
+  step= 35300  phase=   WIKI  loss=  1.1519  lr=1.00e-03  speed=    0.0 step/s
+  step= 35400  phase=   WIKI  loss=  1.2852  lr=1.00e-03  speed=    0.0 step/s
+  step= 35500  phase=   WIKI  loss=  1.1679  lr=1.00e-03  speed=    0.0 step/s
+  step= 35600  phase=   WIKI  loss=  1.3923  lr=1.00e-03  speed=    0.0 step/s
+  step= 35700  phase=   WIKI  loss=  1.1951  lr=1.00e-03  speed=    0.0 step/s
+  step= 35800  phase=   WIKI  loss=  1.1195  lr=1.00e-03  speed=    0.0 step/s
+  step= 35900  phase=   WIKI  loss=  1.1377  lr=1.00e-03  speed=    0.0 step/s
+  step= 36000  phase=   WIKI  loss=  1.0713  lr=1.00e-03  speed=    0.0 step/s
+  step= 36100  phase=   WIKI  loss=  1.2857  lr=1.00e-03  speed=    0.0 step/s
+  step= 36200  phase=   WIKI  loss=  1.0927  lr=1.00e-03  speed=    0.0 step/s
+  step= 36300  phase=   WIKI  loss=  1.1876  lr=1.00e-03  speed=    0.0 step/s
+  step= 36400  phase=   WIKI  loss=  1.1576  lr=1.00e-03  speed=    0.0 step/s
+  step= 36500  phase=   WIKI  loss=  1.2201  lr=1.00e-03  speed=    0.0 step/s
+  step= 36600  phase=   WIKI  loss=  1.2046  lr=1.00e-03  speed=    0.0 step/s
+  step= 36700  phase=   WIKI  loss=  1.0867  lr=1.00e-03  speed=    0.0 step/s
+  step= 36800  phase=   WIKI  loss=  1.2509  lr=1.00e-03  speed=    0.0 step/s
+  step= 36900  phase=   WIKI  loss=  0.9757  lr=1.00e-03  speed=    0.0 step/s
+  step= 37000  phase=   WIKI  loss=  1.1439  lr=1.00e-03  speed=    0.0 step/s
+  step= 37100  phase=   WIKI  loss=  1.1439  lr=1.00e-03  speed=    0.0 step/s
+  step= 37200  phase=   WIKI  loss=  1.1818  lr=1.00e-03  speed=    0.0 step/s
+  step= 37300  phase=   WIKI  loss=  1.2428  lr=1.00e-03  speed=    0.0 step/s
+  step= 37400  phase=   WIKI  loss=  1.1392  lr=1.00e-03  speed=    0.0 step/s
+  step= 37500  phase=   WIKI  loss=  1.1490  lr=1.00e-03  speed=    0.0 step/s
+  step= 37600  phase=   WIKI  loss=  1.2313  lr=1.00e-03  speed=    0.0 step/s
+  step= 37700  phase=   WIKI  loss=  1.1430  lr=1.00e-03  speed=    0.0 step/s
+  step= 37800  phase=   WIKI  loss=  1.2863  lr=1.00e-03  speed=    0.0 step/s
+  step= 37900  phase=   WIKI  loss=  1.1981  lr=1.00e-03  speed=    0.0 step/s
+  step= 38000  phase=   WIKI  loss=  1.1101  lr=1.00e-03  speed=    0.0 step/s
+  step= 38100  phase=   WIKI  loss=  1.0840  lr=1.00e-03  speed=    0.0 step/s
+  step= 38200  phase=   WIKI  loss=  1.1175  lr=1.00e-03  speed=    0.0 step/s
+  step= 38300  phase=   WIKI  loss=  1.1318  lr=1.00e-03  speed=    0.0 step/s
+  step= 38400  phase=   WIKI  loss=  1.1075  lr=1.00e-03  speed=    0.0 step/s
+  step= 38500  phase=   WIKI  loss=  1.1338  lr=1.00e-03  speed=    0.0 step/s
+  step= 38600  phase=   WIKI  loss=  1.0009  lr=1.00e-03  speed=    0.0 step/s
+  step= 38700  phase=   WIKI  loss=  1.0737  lr=1.00e-03  speed=    0.0 step/s
+  step= 38800  phase=   WIKI  loss=  1.1331  lr=1.00e-03  speed=    0.0 step/s
+  step= 38900  phase=   WIKI  loss=  1.0590  lr=1.00e-03  speed=    0.0 step/s
+  step= 39000  phase=   WIKI  loss=  1.1123  lr=1.00e-03  speed=    0.0 step/s
+  step= 39100  phase=   WIKI  loss=  1.1601  lr=1.00e-03  speed=    0.0 step/s
+  step= 39200  phase=   WIKI  loss=  1.2078  lr=1.00e-03  speed=    0.0 step/s
+  step= 39300  phase=   WIKI  loss=  1.0926  lr=1.00e-03  speed=    0.0 step/s
+  step= 39400  phase=   WIKI  loss=  1.2379  lr=1.00e-03  speed=    0.0 step/s
+  step= 39500  phase=   WIKI  loss=  1.1253  lr=1.00e-03  speed=    0.0 step/s
+  step= 39600  phase=   WIKI  loss=  1.1160  lr=1.00e-03  speed=    0.0 step/s
+  step= 39700  phase=   WIKI  loss=  1.1583  lr=1.00e-03  speed=    0.0 step/s
+  step= 39800  phase=   WIKI  loss=  1.2765  lr=1.00e-03  speed=    0.0 step/s
+  step= 39900  phase=   WIKI  loss=  1.2019  lr=1.00e-03  speed=    0.0 step/s
+  step= 40000  phase=   WIKI  loss=  1.1376  lr=1.00e-03  speed=    0.0 step/s
+  step= 40100  phase=   WIKI  loss=  1.1733  lr=1.00e-03  speed=    0.0 step/s
+  step= 40200  phase=   WIKI  loss=  1.0937  lr=1.00e-03  speed=    0.0 step/s
+  step= 40300  phase=   WIKI  loss=  1.1233  lr=1.00e-03  speed=    0.0 step/s
+  step= 40400  phase=   WIKI  loss=  1.0627  lr=1.00e-03  speed=    0.0 step/s
+  step= 40500  phase=   WIKI  loss=  1.0925  lr=1.00e-03  speed=    0.0 step/s
+  step= 40600  phase=   WIKI  loss=  1.1791  lr=1.00e-03  speed=    0.0 step/s
+  step= 40700  phase=   WIKI  loss=  1.0976  lr=1.00e-03  speed=    0.0 step/s
+  step= 40800  phase=   WIKI  loss=  1.1454  lr=1.00e-03  speed=    0.0 step/s
+  step= 40900  phase=   WIKI  loss=  1.0970  lr=1.00e-03  speed=    0.0 step/s
+  step= 41000  phase=   WIKI  loss=  1.0749  lr=1.00e-03  speed=    0.0 step/s
+  step= 41100  phase=   WIKI  loss=  1.0131  lr=1.00e-03  speed=    0.0 step/s
+  step= 41200  phase=   WIKI  loss=  1.1580  lr=1.00e-03  speed=    0.0 step/s
+  step= 41300  phase=   WIKI  loss=  1.2101  lr=1.00e-03  speed=    0.0 step/s
+  step= 41400  phase=   WIKI  loss=  1.0965  lr=1.00e-03  speed=    0.0 step/s
+  step= 41500  phase=   WIKI  loss=  1.2509  lr=1.00e-03  speed=    0.0 step/s
+  step= 41600  phase=   WIKI  loss=  1.0732  lr=1.00e-03  speed=    0.0 step/s
+  step= 41700  phase=   WIKI  loss=  1.1050  lr=1.00e-03  speed=    0.0 step/s
+  step= 41800  phase=   WIKI  loss=  1.1130  lr=1.00e-03  speed=    0.0 step/s
+  step= 41900  phase=   WIKI  loss=  1.0517  lr=1.00e-03  speed=    0.0 step/s
+  step= 42000  phase=   WIKI  loss=  1.0971  lr=1.00e-03  speed=    0.0 step/s
+  step= 42100  phase=   WIKI  loss=  1.1221  lr=1.00e-03  speed=    0.0 step/s
+  step= 42200  phase=   WIKI  loss=  1.0872  lr=1.00e-03  speed=    0.0 step/s
+  step= 42300  phase=   WIKI  loss=  1.0729  lr=1.00e-03  speed=    0.0 step/s
+  step= 42400  phase=   WIKI  loss=  1.2190  lr=1.00e-03  speed=    0.0 step/s
+  step= 42500  phase=   WIKI  loss=  1.1300  lr=1.00e-03  speed=    0.0 step/s
+  step= 42600  phase=   WIKI  loss=  1.2015  lr=1.00e-03  speed=    0.0 step/s
+  step= 42700  phase=   WIKI  loss=  0.9966  lr=1.00e-03  speed=    0.0 step/s
+  step= 42800  phase=   WIKI  loss=  1.1408  lr=1.00e-03  speed=    0.0 step/s
+  step= 42900  phase=   WIKI  loss=  1.0611  lr=1.00e-03  speed=    0.0 step/s
+  step= 43000  phase=   WIKI  loss=  1.2343  lr=1.00e-03  speed=    0.0 step/s
+  step= 43100  phase=   WIKI  loss=  0.9830  lr=1.00e-03  speed=    0.0 step/s
+  step= 43200  phase=   WIKI  loss=  1.0876  lr=1.00e-03  speed=    0.0 step/s
+  step= 43300  phase=   WIKI  loss=  1.1413  lr=1.00e-03  speed=    0.0 step/s
+  step= 43400  phase=   WIKI  loss=  1.2020  lr=1.00e-03  speed=    0.0 step/s
+  step= 43500  phase=   WIKI  loss=  1.1279  lr=1.00e-03  speed=    0.0 step/s
+  step= 43600  phase=   WIKI  loss=  1.1252  lr=1.00e-03  speed=    0.0 step/s
+  step= 43700  phase=   WIKI  loss=  1.0405  lr=1.00e-03  speed=    0.0 step/s
+  step= 43800  phase=   WIKI  loss=  1.0980  lr=1.00e-03  speed=    0.0 step/s
+  step= 43900  phase=   WIKI  loss=  1.0787  lr=1.00e-03  speed=    0.0 step/s
+  step= 44000  phase=   WIKI  loss=  1.1480  lr=1.00e-03  speed=    0.0 step/s
+  step= 44100  phase=   WIKI  loss=  1.1194  lr=1.00e-03  speed=    0.0 step/s
+  step= 44200  phase=   WIKI  loss=  1.0530  lr=1.00e-03  speed=    0.0 step/s
+  step= 44300  phase=   WIKI  loss=  1.1525  lr=1.00e-03  speed=    0.0 step/s
+  step= 44400  phase=   WIKI  loss=  1.1537  lr=1.00e-03  speed=    0.0 step/s
+  step= 44500  phase=   WIKI  loss=  1.1137  lr=1.00e-03  speed=    0.0 step/s
+  step= 44600  phase=   WIKI  loss=  1.0537  lr=1.00e-03  speed=    0.0 step/s
+  step= 44700  phase=   WIKI  loss=  1.0598  lr=1.00e-03  speed=    0.0 step/s
+  step= 44800  phase=   WIKI  loss=  1.2269  lr=1.00e-03  speed=    0.0 step/s
+  step= 44900  phase=   WIKI  loss=  1.1093  lr=1.00e-03  speed=    0.0 step/s
+  step= 45000  phase=   WIKI  loss=  1.0836  lr=1.00e-03  speed=    0.0 step/s
+  step= 45100  phase=   WIKI  loss=  1.0053  lr=1.00e-03  speed=    0.0 step/s
+  step= 45200  phase=   WIKI  loss=  1.1604  lr=1.00e-03  speed=    0.0 step/s
+  step= 45300  phase=   WIKI  loss=  1.1892  lr=1.00e-03  speed=    0.0 step/s
+  step= 45400  phase=   WIKI  loss=  1.1001  lr=1.00e-03  speed=    0.0 step/s
+  step= 45500  phase=   WIKI  loss=  1.1080  lr=1.00e-03  speed=    0.0 step/s
+  step= 45600  phase=   WIKI  loss=  1.1617  lr=1.00e-03  speed=    0.0 step/s
+  step= 45700  phase=   WIKI  loss=  1.0699  lr=1.00e-03  speed=    0.0 step/s
+  step= 45800  phase=   WIKI  loss=  1.1196  lr=1.00e-03  speed=    0.0 step/s
+  step= 45900  phase=   WIKI  loss=  1.1505  lr=1.00e-03  speed=    0.0 step/s
+  step= 46000  phase=   WIKI  loss=  1.0319  lr=1.00e-03  speed=    0.0 step/s
+  step= 46100  phase=   WIKI  loss=  1.0893  lr=1.00e-03  speed=    0.0 step/s
+  step= 46200  phase=   WIKI  loss=  1.0988  lr=1.00e-03  speed=    0.0 step/s
+  step= 46300  phase=   WIKI  loss=  1.0697  lr=1.00e-03  speed=    0.0 step/s
+  step= 46400  phase=   WIKI  loss=  1.1496  lr=1.00e-03  speed=    0.0 step/s
+  step= 46500  phase=   WIKI  loss=  1.0622  lr=1.00e-03  speed=    0.0 step/s
+  step= 46600  phase=   WIKI  loss=  1.2108  lr=1.00e-03  speed=    0.0 step/s
+  step= 46700  phase=   WIKI  loss=  1.1817  lr=1.00e-03  speed=    0.0 step/s
+  step= 46800  phase=   WIKI  loss=  1.1323  lr=1.00e-03  speed=    0.0 step/s
+  step= 46900  phase=   WIKI  loss=  1.1812  lr=1.00e-03  speed=    0.0 step/s
+  step= 47000  phase=   WIKI  loss=  1.0611  lr=1.00e-03  speed=    0.0 step/s
+  step= 47100  phase=   WIKI  loss=  1.1742  lr=1.00e-03  speed=    0.0 step/s
+  step= 47200  phase=   WIKI  loss=  1.0172  lr=1.00e-03  speed=    0.0 step/s
+  step= 47300  phase=   WIKI  loss=  1.1314  lr=1.00e-03  speed=    0.0 step/s
+  step= 47400  phase=   WIKI  loss=  1.1108  lr=1.00e-03  speed=    0.0 step/s
+  step= 47500  phase=   WIKI  loss=  1.0890  lr=1.00e-03  speed=    0.0 step/s
+  step= 47600  phase=   WIKI  loss=  1.0671  lr=1.00e-03  speed=    0.0 step/s
+  step= 47700  phase=   WIKI  loss=  1.1063  lr=1.00e-03  speed=    0.0 step/s
+  step= 47800  phase=   WIKI  loss=  0.9660  lr=1.00e-03  speed=    0.0 step/s
+  step= 47900  phase=   WIKI  loss=  1.1830  lr=1.00e-03  speed=    0.0 step/s
+  step= 48000  phase=   WIKI  loss=  1.1487  lr=1.00e-03  speed=    0.0 step/s
+  step= 48100  phase=   WIKI  loss=  0.9834  lr=1.00e-03  speed=    0.0 step/s
+  step= 48200  phase=   WIKI  loss=  1.1009  lr=1.00e-03  speed=    0.0 step/s
+  step= 48300  phase=   WIKI  loss=  1.1139  lr=1.00e-03  speed=    0.0 step/s
+  step= 48400  phase=   WIKI  loss=  1.2918  lr=1.00e-03  speed=    0.0 step/s
+  step= 48500  phase=   WIKI  loss=  1.0296  lr=1.00e-03  speed=    0.0 step/s
+  step= 48600  phase=   WIKI  loss=  1.1355  lr=1.00e-03  speed=    0.0 step/s
+  step= 48700  phase=   WIKI  loss=  1.1347  lr=1.00e-03  speed=    0.0 step/s
+  step= 48800  phase=   WIKI  loss=  1.0857  lr=1.00e-03  speed=    0.0 step/s
+  step= 48900  phase=   WIKI  loss=  1.1557  lr=1.00e-03  speed=    0.0 step/s
+  step= 49000  phase=   WIKI  loss=  1.2817  lr=1.00e-03  speed=    0.0 step/s
+  step= 49100  phase=   WIKI  loss=  1.1400  lr=1.00e-03  speed=    0.0 step/s
+  step= 49200  phase=   WIKI  loss=  1.1191  lr=1.00e-03  speed=    0.0 step/s
+  step= 49300  phase=   WIKI  loss=  1.0316  lr=1.00e-03  speed=    0.0 step/s
+  step= 49400  phase=   WIKI  loss=  1.0232  lr=1.00e-03  speed=    0.0 step/s
+  step= 49500  phase=   WIKI  loss=  1.1053  lr=1.00e-03  speed=    0.0 step/s
+  step= 49600  phase=   WIKI  loss=  1.1793  lr=1.00e-03  speed=    0.0 step/s
+  step= 49700  phase=   WIKI  loss=  1.1194  lr=1.00e-03  speed=    0.0 step/s
+  step= 49800  phase=   WIKI  loss=  1.0495  lr=1.00e-03  speed=    0.0 step/s
+  step= 49900  phase=   WIKI  loss=  1.1265  lr=1.00e-03  speed=    0.0 step/s
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  TRAINING COMPLETE  (50000 steps)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  [CKPT] Saved 25964 KB → checkpoint_final.bin
+
+[SUMMARY]
+  Total steps  : 50000
+  Total time   : 1320808.2 s
+  Avg speed    : 0.04 step/s
+  Final ckpt   : checkpoint_final.bin
+
