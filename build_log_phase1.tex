@@ -3797,4 +3797,11 @@ By precisely calculating the total delay (1.9s) and dividing it by the chunk siz
 \newline\newline
 \textbf{Interview Presentation Tip:} This is a classic example of using advanced frontend systems engineering (JavaScript Promises, asynchronous loops, and animation buffers) to solve backend hardware limitations. It proves you can identify compute bottlenecks and engineer creative architectural solutions that drastically improve UX without requiring more expensive cloud infrastructure.
 
+\subsection{Analysis: Catastrophic Forgetting in Sequential Curriculums}
+\textbf{The Phenomenon:} During final validation of the 50,000-step trained checkpoint, the model exhibited high proficiency in English grammar and Wikipedia-style factual structuring. However, it completely failed at generating basic Math equations, despite being explicitly trained on Math during Phase 0 (Steps 0 to 5,000). 
+\newline\newline
+\textbf{The Root Cause:} This is a textbook manifestation of \textbf{Catastrophic Forgetting}. Neural networks possess finite capacity (this architecture specifically has only 3.1 million parameters). Because the Curriculum DataLoader completely swapped datasets at rigid intervals without blending or rehearsing older data (i.e., Math was entirely absent from the training distribution for the final 45,000 steps), the optimizer ruthlessly overwrote the mathematical weight configurations to minimize the loss on the subsequent Stories and Wikipedia datasets. 
+\newline\newline
+\textbf{Interview Presentation Tip:} Choosing \textit{not} to "fix" this, but rather to document and analyze it, demonstrates senior-level ML Engineering maturity. You can explain that in production models (like ChatGPT), Catastrophic Forgetting is mitigated using \textbf{Data Blending} or \textbf{Experience Replay} (e.g., configuring the Dataloader to sample 10\% Math, 30\% Stories, 60\% Wikipedia simultaneously). Acknowledging the limitations of a rigid sequential curriculum proves a deep, theoretical understanding of neural network weight optimization and gradient descent dynamics.
+
 \end{document}
