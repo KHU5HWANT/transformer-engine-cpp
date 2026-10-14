@@ -29,3 +29,22 @@ Thumbs.db
 .vscode/
 .idea/
 *.swp
+
+# Antigravity Customizations
+.agents/
+
+# Resume & proof documents (local only)
+resume_*.md
+resume_*.tex
+resume_*.pdf
+resume_*.aux
+resume_*.tex.metadata.json
+informative_discussion.tex
+
+# LaTeX build artifacts
+*.aux
+*.toc
+*.out
+*.log
+!build_log_phase1.tex
+

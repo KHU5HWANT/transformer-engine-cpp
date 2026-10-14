@@ -4,7 +4,7 @@ import os
 OUTPUT_FILE = "codebase_for_gemini.md"
 
 # Folders to completely ignore (we don't want to upload compiled binaries or gigabytes of data)
-IGNORE_DIRS = {".git", "build", "data", "__pycache__", "_deps"}
+IGNORE_DIRS = {".git", "build", "data", "__pycache__", "_deps", "node_modules", "dist"}
 
 # File extensions we actually want to share with the AI
 ALLOWED_EXTENSIONS = {".cpp", ".hpp", ".h", ".py", ".txt", ".md"}
@@ -46,7 +46,7 @@ def export_codebase():
                     except Exception as e:
                         print(f"Skipped {filepath} due to error: {e}")
 
-    print(f"\n✅ Success! All code has been combined into: {OUTPUT_FILE}")
+    print(f"\n[SUCCESS] All code has been combined into: {OUTPUT_FILE}")
     print("Upload this single file to NotebookLM/Gemini!")
 
 if __name__ == "__main__":
